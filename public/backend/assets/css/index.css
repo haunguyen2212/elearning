@@ -1,0 +1,40 @@
+:root{
+    --main-color: #012970;
+    --color-dark: #1d2231;
+    --text-grey: #8390a2;
+    --main-font: 'Times New Roman', Times, serif;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--main-font);
+    font-size: 16px;
+}
+
+td{
+    line-height: 32px;
+}
+
+.btn-main{
+    color: #fff;
+    background-color: var(--main-color) !important;
+    border-color: var(--main-color) !important;
+}
+
+.text-main{
+    color: var(--main-color) !important;
+}
+
+.border-main{
+    border-color: var(--main-color) !important;
+}
+
+.btn-main:hover{
+    color: #fff;
+}
+
+.btn i{
+    font-size: 15px;
+}

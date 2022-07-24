@@ -21,4 +21,6 @@ Route::get('/', function () {
 Route::group(['prefix' => 'admin'], function(){
     Route::get('/', [Admin\HomeController::class, 'index'])->name('admin.home');
     Route::resource('student', Admin\StudentController::class);
+    Route::get('student/{id}/password', [Admin\StudentController::class, 'editPassword'])->name('student.pass.edit');
+    Route::patch('student/{id}/password', [Admin\StudentController::class, 'updatePassword'])->name('student.pass.update');
 });

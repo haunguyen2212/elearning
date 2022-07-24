@@ -29,6 +29,7 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/index.css">
   @yield('style')
 
 </head>
@@ -136,12 +137,12 @@
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+        <a class="nav-link collapsed" data-bs-target="#user-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-menu-button-wide"></i><span>Quản lý tài khoản</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <ul id="user-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="components-alerts.html">
+            <a id="student" href="{{ route('student.index') }}">
               <i class="bi bi-circle"></i><span>Tài khoản học sinh</span>
             </a>
           </li>
@@ -291,7 +292,7 @@
       <h1>@yield('pagetitle')</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="">Trang chủ</a></li>
+          <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Trang chủ</a></li>
           @yield('breadcrumb')
         </ol>
       </nav>
@@ -312,10 +313,11 @@
     </div>
   </footer><!-- End Footer -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="javascript:void()" onclick="topFunction()" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
   {{-- <script src="assets/vendor/apexcharts/apexcharts.min.js"></script> --}}
+  <script src="assets/js/jquery.min.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/chart.js/chart.min.js"></script>
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
@@ -327,6 +329,7 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+  <script src="assets/js/function.js"></script>
   @yield('script')
 
 </body>
