@@ -1,11 +1,11 @@
 @extends('template.admin')
 
-@section('title', 'Thêm mới học sinh')
+@section('title', 'Thêm mới giáo viên')
 
-@section('pagetitle', 'Thêm mới học sinh')
+@section('pagetitle', 'Thêm mới giáo viên')
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('student.index') }}">Tài khoản học sinh</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('teacher.index') }}">Tài khoản giáo viên</a></li>
     <li class="breadcrumb-item active">Thêm mới</li>
 @endsection
 
@@ -15,7 +15,21 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Thêm tài khoản</h5>
-                    <form action="{{ route('student.store') }}" method="post" class="row g-3">
+
+                    @if (session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+                    @if (session('error'))
+                        <div class="alert alert-error alert-dismissible fade show" role="alert">
+                            {{ session('error') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
+                    <form action="{{ route('teacher.store') }}" method="post" class="row g-3">
                       @csrf
 
                         <div class="col-12 col-md-6">
@@ -64,37 +78,30 @@
                             </fieldset>
                         </div>
                         <div class="col-12 col-md-6">
-                          <label for="place_of_birth" class="form-label">Nơi sinh (*)</label>
-                          <input type="text" class="form-control" name="place_of_birth" id="place_of_birth" value="{{ old('place_of_birth') }}">
-                          @error('place_of_birth')
-                            <div class="text-danger ps-1 pt-1">{!! $message !!}</div>
-                          @enderror
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <label for="class" class="form-label">Lớp (*)</label>
-                            <select name="class" id="class" class="form-select">
-                              <option value="" selected>Chưa chọn lớp</option>
+                            <label for="department" class="form-label">Đơn vị (*)</label>
+                            <select name="department" id="department" class="form-select">
+                              <option value="" selected>Chưa chọn đơn vị</option>
                               
-                                @foreach ($classes as $class)
-                                    <option value="{{ $class->id }}" {{ (old('class') == $class->id) ? 'selected' : '' }}>{{ $class->name }}</option>
+                                @foreach ($departments as $department)
+                                    <option value="{{ $department->id }}" {{ (old('department') == $department->id) ? 'selected' : '' }}>{{ $department->name }}</option>
                                 @endforeach
 
                             </select>
-                            @error('class')
+                            @error('department')
                               <div class="text-danger ps-1 pt-1">{!! $message !!}</div>
                             @enderror
                         </div>
+                        <div class="col-12 col-md-6">
+                            <label for="phone" class="form-label">Điện thoại</label>
+                            <input type="text" class="form-control" name="phone" id="phone" value="{{ old('phone') }}">
+                            @error('phone')
+                              <div class="text-danger ps-1 pt-1">{!! $message !!}</div>
+                            @enderror
+                          </div>
                         <div class="col-12">
                           <label for="address" class="form-label">Địa chỉ</label>
                           <input type="text" class="form-control" name="address" id="address" value="{{ old('address') }}">
                           @error('address')
-                            <div class="text-danger ps-1 pt-1">{!! $message !!}</div>
-                          @enderror
-                        </div>
-                        <div class="col-12 col-md-6">
-                          <label for="phone" class="form-label">Điện thoại</label>
-                          <input type="text" class="form-control" name="phone" id="phone" value="{{ old('phone') }}">
-                          @error('phone')
                             <div class="text-danger ps-1 pt-1">{!! $message !!}</div>
                           @enderror
                         </div>
@@ -105,7 +112,7 @@
                               <div class="text-danger ps-1 pt-1">{!! $message !!}</div>
                             @enderror
                         </div>
-                        <div class="col-12">
+                        <div class="col-12 col-md-6">
                             <label for="password" class="form-label">Mật khẩu (*)</label>
                             <input type="password" class="form-control" name="password" id="password">
                             @error('password')
@@ -115,7 +122,7 @@
                         
                         <div class="text-center">
                           <button type="submit" class="btn btn-sm btn-primary">Thêm mới</button>
-                          <a href="{{ route('student.index') }}" class="btn btn-sm btn-danger">Trở về</a>
+                          <a href="{{ route('teacher.index') }}" class="btn btn-sm btn-danger">Trở về</a>
                         </div>
                       </form>
                 </div>
@@ -127,6 +134,6 @@
 @section('script')
     <script>
         $('#user-nav').addClass('show');
-        $('#student').addClass('active');
+        $('#teacher').addClass('active');
     </script>
 @endsection

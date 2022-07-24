@@ -29,7 +29,7 @@
                             <strong class="text-main">Lớp:</strong> {{ $info->class_name }}
                         </div>
                         <div class="col-12 col-md-6 mb-1">
-                            <strong class="text-main">Ngày sinh:</strong> {{ $info->date_of_birth }}
+                            <strong class="text-main">Ngày sinh:</strong> {{ date('d/m/Y', strtotime($info->date_of_birth)) }}
                         </div>
                         <div class="col-12 col-md-6 mb-1">
                             <strong class="text-main">Nơi sinh:</strong> {{ $info->place_of_birth }}

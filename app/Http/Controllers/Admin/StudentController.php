@@ -27,13 +27,13 @@ class StudentController extends Controller
     {
         if(isset($request->search)){
             $key = $request->search;
-            $students = $this->studentRepository->getByKey($key);
+            $students = $this->studentRepository->getByKey($key, 20);
             $students->appends(['search' => $key]);
         }
         else{
-            $students = $this->studentRepository->getAll();
+            $students = $this->studentRepository->getAll(20);
         }
-        return view('admin.student', compact('students'));
+        return view('admin.student.index', compact('students'));
     }
 
 
@@ -41,7 +41,7 @@ class StudentController extends Controller
     {
         $offset = $this->classRepository->count();
         $classes = $this->classRepository->getAll($offset);
-        return view('admin.studentcreate', compact('classes'));
+        return view('admin.student.create', compact('classes'));
     }
 
     public function store(StoreStudentRequest $request)
@@ -49,17 +49,17 @@ class StudentController extends Controller
         $collection = $request->except(['_token']);
         $store = $this->studentRepository->create($collection);
         if($store){
-            return redirect()->route('student.index')->with('success', 'Thêm tài khoản thành công');
+            return back()->with('success', 'Thêm tài khoản thành công');
         }
         else{
-            return redirect()->route('student.index')->with('error', 'Thêm tài khoản thất bại');
+            return back()->with('error', 'Thêm tài khoản thất bại');
         }
     }
 
     public function show($id)
     {
         $info = $this->studentRepository->getById($id);
-        return view('admin.studentshow', compact('info'));
+        return view('admin.student.show', compact('info'));
     }
 
     public function edit($id)
@@ -67,7 +67,7 @@ class StudentController extends Controller
         $offset = $this->classRepository->count();
         $classes = $this->classRepository->getAll($offset);
         $info = $this->studentRepository->getById($id);
-        return view('admin.studentedit', compact('classes', 'info'));
+        return view('admin.student.edit', compact('classes', 'info'));
     }
 
     public function update(UpdateStudentRequest $request, $id)
@@ -75,10 +75,10 @@ class StudentController extends Controller
         $collection = $request->except(['_token', '_method']);
         $update = $this->studentRepository->update($id, $collection);
         if($update){
-            return redirect()->route('student.index')->with('success', 'Cập nhật thông tin thành công');
+            return back()->with('success', 'Cập nhật thông tin thành công');
         }
         else{
-            return redirect()->route('student.index')->with('error', 'Cập nhật thông tin thất bại');
+            return back()->with('error', 'Cập nhật thông tin thất bại');
         }
     }
 
@@ -95,17 +95,17 @@ class StudentController extends Controller
 
     public function editPassword($id){
         $studentName = $this->studentRepository->getNameById($id)->name;
-        return view('admin.studentpassword', compact('studentName'));
+        return view('admin.student.changePassword', compact('studentName'));
     }
 
     public function updatePassword($id, AdminChangePasswordRequest $request){
         $collection = $request->except(['_token', '_method']);
         $update = $this->studentRepository->updatePasswordById($id, $collection);
         if($update){
-            return redirect()->route('student.index')->with('success', 'Đổi mật khẩu thành công');
+            return back()->with('success', 'Đổi mật khẩu thành công');
         }
         else{
-            return redirect()->route('student.index')->with('error', 'Đổi mật khẩu thất bại');
+            return back()->with('error', 'Đổi mật khẩu thất bại');
         }
     }
 

@@ -1,11 +1,11 @@
 @extends('template.admin')
 
-@section('title', 'Chỉnh sửa thông tin học sinh')
+@section('title', 'Chỉnh sửa thông tin giáo viên')
 
-@section('pagetitle', 'Chỉnh sửa thông tin học sinh')
+@section('pagetitle', 'Chỉnh sửa thông tin giáo viên')
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('student.index') }}">Tài khoản học sinh</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('teacher.index') }}">Tài khoản giáo viên</a></li>
     <li class="breadcrumb-item active">Chỉnh sửa</li>
 @endsection
 
@@ -15,12 +15,26 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Chỉnh sửa tài khoản</h5>
-                    <form action="{{ route('student.update', ['student' => $info->id]) }}" method="post" class="row g-3">
+
+                    @if (session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+                    @if (session('error'))
+                        <div class="alert alert-error alert-dismissible fade show" role="alert">
+                            {{ session('error') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+                    
+                    <form action="{{ route('teacher.update',['teacher'=>$info->id]) }}" method="post" class="row g-3">
                       @csrf
                       @method('patch')
                         <div class="col-12 col-md-6">
                           <label for="username" class="form-label">Mã số (*)</label>
-                          <input type="text" class="form-control" name="username" id="username" value="{{ (old('username')) ? old('username') : $info->username }}">
+                          <input type="text" class="form-control" name="username" id="username" value="{{ (old('username'))?old('username') : $info->username }}">
                           @error('username')
                             <div class="text-danger ps-1 pt-1">{!! $message !!}</div>
                           @enderror
@@ -28,7 +42,7 @@
 
                         <div class="col-12 col-md-6">
                           <label for="name" class="form-label">Họ và tên (*)</label>
-                          <input type="text" class="form-control" name="name" id="name" value="{{ (old('name')) ? old('name') : $info->name }}">
+                          <input type="text" class="form-control" name="name" id="name" value="{{ (old('name'))?old('name') : $info->name }}">
                           @error('name')
                             <div class="text-danger ps-1 pt-1">{!! $message !!}</div>
                           @enderror
@@ -36,7 +50,7 @@
 
                         <div class="col-12 col-md-6">
                             <label for="date_of_birth" class="form-label">Ngày sinh (*)</label>
-                            <input type="text" class="form-control" name="date_of_birth" id="date_of_birth" value="{{ (old('date_of_birth')) ? old('date_of_birth') : date('d-m-Y', strtotime($info->date_of_birth)) }}">
+                            <input type="text" class="form-control" name="date_of_birth" id="date_of_birth" value="{{ (old('date_of_birth'))?old('date_of_birth') : date('d-m-Y',strtotime($info->date_of_birth)) }}">
                             @error('date_of_birth')
                               <div class="text-danger ps-1 pt-1">{!! $message !!}</div>
                             @enderror
@@ -80,60 +94,53 @@
                             </fieldset>
                         </div>
                         <div class="col-12 col-md-6">
-                          <label for="place_of_birth" class="form-label">Nơi sinh (*)</label>
-                          <input type="text" class="form-control" name="place_of_birth" id="place_of_birth" value="{{ (old('place_of_birth')) ? old('place_of_birth') :  $info->place_of_birth }}">
-                          @error('place_of_birth')
-                            <div class="text-danger ps-1 pt-1">{!! $message !!}</div>
-                          @enderror
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <label for="class" class="form-label">Lớp (*)</label>
-                            <select name="class" id="class" class="form-select">
-                              <option value="">Chưa chọn lớp</option>
+                            <label for="department" class="form-label">Đơn vị (*)</label>
+                            <select name="department" id="department" class="form-select">
+                              <option value="">Chưa chọn đơn vị</option>
                               
-                                @foreach ($classes as $class)
-                                    <option value="{{ $class->id }}" 
+                                @foreach ($departments as $department)
+                                    <option value="{{ $department->id }}" 
 
-                                      @if (old('class') !== NULL)
-                                        {{ (old('class') == $class->id) ? 'selected' : '' }}
+                                      @if (old('department') !== NULL)
+                                        {{ (old('department') == $department->id) ? 'selected' : '' }}
                                       @else
-                                        {{ ($info->class_id == $class->id) ? 'selected' : '' }}
+                                        {{ ($info->department_id == $department->id) ? 'selected' : '' }}
                                       @endif
                                     >
                                       
-                                      {{ $class->name }}
+                                      {{ $department->name }}
                                     </option>
                                 @endforeach
 
                             </select>
-                            @error('class')
+                            @error('department')
                               <div class="text-danger ps-1 pt-1">{!! $message !!}</div>
                             @enderror
                         </div>
-                        <div class="col-12">
+                        <div class="col-12 col-md-6">
                           <label for="address" class="form-label">Địa chỉ</label>
-                          <input type="text" class="form-control" name="address" id="address" value="{{ (old('address')) ? old('address') :  $info->address }}">
+                          <input type="text" class="form-control" name="address" id="address" value="{{ (old('address'))?old('address') : $info->address }}">
                           @error('address')
                             <div class="text-danger ps-1 pt-1">{!! $message !!}</div>
                           @enderror
                         </div>
                         <div class="col-12 col-md-6">
                           <label for="phone" class="form-label">Điện thoại</label>
-                          <input type="text" class="form-control" name="phone" id="phone" value="{{ (old('phone')) ? old('phone') :  $info->phone }}">
+                          <input type="text" class="form-control" name="phone" id="phone" value="{{ (old('phone'))?old('phone') : $info->phone }}">
                           @error('phone')
                             <div class="text-danger ps-1 pt-1">{!! $message !!}</div>
                           @enderror
                         </div>
                         <div class="col-12 col-md-6">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" name="email" id="email" value="{{ (old('email')) ? old('email') :  $info->email }}">
+                            <input type="email" class="form-control" name="email" id="email" value="{{ (old('email'))?old('email') : $info->email }}">
                             @error('email')
                               <div class="text-danger ps-1 pt-1">{!! $message !!}</div>
                             @enderror
                         </div> 
                         <div class="text-center">
                           <button type="submit" class="btn btn-sm btn-success">Cập nhật</button>
-                          <a href="{{ route('student.index') }}" class="btn btn-sm btn-danger">Trở về</a>
+                          <a href="{{ route('teacher.index') }}" class="btn btn-sm btn-danger">Trở về</a>
                         </div>
                       </form>
                 </div>
@@ -145,6 +152,6 @@
 @section('script')
     <script>
         $('#user-nav').addClass('show');
-        $('#student').addClass('active');
+        $('#teacher').addClass('active');
     </script>
 @endsection

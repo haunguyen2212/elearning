@@ -147,7 +147,7 @@
             </a>
           </li>
           <li>
-            <a href="components-accordion.html">
+            <a id="teacher" href="{{ route('teacher.index') }}">
               <i class="bi bi-circle"></i><span>Tài khoản giáo viên</span>
             </a>
           </li>
