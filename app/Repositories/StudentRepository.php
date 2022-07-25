@@ -2,22 +2,29 @@
 
 namespace App\Repositories;
 
-use App\Models\User;
+use App\Models\Student;
 use App\Repositories\Interfaces\StudentRepositoryInterface;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class StudentRepository implements StudentRepositoryInterface{
 
+    private $student;
+
+    public function __construct(Student $student)
+    {
+        $this->student = $student;
+    }
+
     public function getAll($offset = 10)
     {
-        return User::join('classes', 'class_id', 'classes.id')
+        return $this->student->join('classes', 'class_id', 'classes.id')
         ->select('students.id', 'username', 'students.name', 'date_of_birth', 'gender', 'place_of_birth', 'address', 'phone', 'email', DB::raw('classes.id as class_id, classes.name as class_name'))
         ->paginate($offset);
     }
 
     public function getById($id){
-        return User::join('classes', 'class_id', 'classes.id')
+        return $this->student->join('classes', 'class_id', 'classes.id')
         ->where('students.id', $id)
         ->select('students.id', 'username', 'students.name', 'date_of_birth', 'gender', 'place_of_birth', 'address', 'phone', 'email', DB::raw('classes.id as class_id, classes.name as class_name'))
         ->first();
@@ -25,7 +32,7 @@ class StudentRepository implements StudentRepositoryInterface{
 
     public function getByKey($key, $offset = 10)
     {
-        return User::join('classes', 'class_id', 'classes.id')
+        return $this->student->join('classes', 'class_id', 'classes.id')
             ->where('username', 'like', '%'.$key.'%')
             ->orWhere('students.name', 'like', '%'.$key.'%')
             ->select('students.id', 'username', 'students.name', 'date_of_birth', 'gender', 'place_of_birth', DB::raw('classes.id as class_id, classes.name as class_name'))
@@ -34,12 +41,12 @@ class StudentRepository implements StudentRepositoryInterface{
 
     public function getNameById($id)
     {
-        return User::select('name')->find($id);
+        return $this->student->select('name')->find($id);
     }
 
     public function create($collection = [])
     {
-        return User::create([
+        return $this->student->create([
             'username' => $collection['username'],
             'name' => $collection['name'],
             'date_of_birth' => date('Y-m-d', strtotime($collection['date_of_birth'])),
@@ -55,7 +62,7 @@ class StudentRepository implements StudentRepositoryInterface{
 
     public function update($id, $collection = [])
     {
-        return User::find($id)->update([
+        return $this->student->find($id)->update([
             'username' => $collection['username'],
             'name' => $collection['name'],
             'date_of_birth' => date('Y-m-d', strtotime($collection['date_of_birth'])),
@@ -70,12 +77,12 @@ class StudentRepository implements StudentRepositoryInterface{
 
     public function delete($id)
     {
-        return User::find($id)->delete();
+        return $this->student->find($id)->delete();
     }
 
     public function updatePasswordById($id, $collection = [])
     {
-        return User::find($id)->update([
+        return $this->student->find($id)->update([
             'password' => Hash::make($collection['password']),
         ]);
     }

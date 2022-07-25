@@ -8,17 +8,24 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class TeacherRepository implements TeacherRepositoryInterface{
+
+    private $teacher;
+
+    public function __construct(Teacher $teacher)
+    {
+        $this->teacher = $teacher;
+    }
     
     public function getAll($offset = 10)
     {
-        return Teacher::join('departments', 'department_id', 'departments.id')
+        return $this->teacher->join('departments', 'department_id', 'departments.id')
             ->select('teachers.id', 'username', 'teachers.name', 'department_id', 'gender', 'date_of_birth', 'address', 'phone', 'email', DB::raw('departments.name as department_name'))
             ->paginate($offset);
     }
 
     public function getByKey($key, $offset = 10)
     {
-        return Teacher::join('departments', 'department_id', 'departments.id')
+        return $this->teacher->join('departments', 'department_id', 'departments.id')
             ->where('username', 'like', '%'.$key.'%')
             ->orWhere('teachers.name', 'like', '%'.$key.'%')
             ->select('teachers.id', 'username', 'teachers.name', 'department_id', 'gender', 'date_of_birth', 'address', 'phone', 'email', DB::raw('departments.name as department_name'))
@@ -27,7 +34,7 @@ class TeacherRepository implements TeacherRepositoryInterface{
 
     public function getById($id)
     {
-        return Teacher::join('departments', 'department_id', 'departments.id')
+        return $this->teacher->join('departments', 'department_id', 'departments.id')
             ->where('teachers.id', $id)
             ->select('teachers.id', 'username', 'teachers.name', 'department_id', 'gender', 'date_of_birth', 'address', 'phone', 'email', DB::raw('departments.name as department_name'))
             ->first();
@@ -35,12 +42,12 @@ class TeacherRepository implements TeacherRepositoryInterface{
 
     public function getNameById($id)
     {
-        return Teacher::select('name')->find($id);
+        return $this->teacher->select('name')->find($id);
     }
 
     public function create($collection = [])
     {
-        return Teacher::create([
+        return $this->teacher->create([
             'username' => $collection['username'],
             'name' => $collection['name'],
             'date_of_birth' => date('Y-m-d', strtotime($collection['date_of_birth'])),
@@ -55,7 +62,7 @@ class TeacherRepository implements TeacherRepositoryInterface{
 
     public function update($id, $collection = [])
     {
-        return Teacher::find($id)->update([
+        return $this->teacher->find($id)->update([
             'username' => $collection['username'],
             'name' => $collection['name'],
             'date_of_birth' => date('Y-m-d', strtotime($collection['date_of_birth'])),
@@ -69,12 +76,12 @@ class TeacherRepository implements TeacherRepositoryInterface{
 
     public function delete($id)
     {
-        return Teacher::find($id)->delete();
+        return $this->teacher->find($id)->delete();
     }
 
     public function updatePasswordById($id, $collection = [])
     {
-        return Teacher::find($id)->update([
+        return $this->teacher->find($id)->update([
             'password' => Hash::make($collection['password']),
         ]);
     }

@@ -13,99 +13,113 @@ use Illuminate\Http\Request;
 class TeacherController extends Controller
 {
 
-    private $teacherRepository, $departmentRepository;
+    private $teacher, $department;
 
     public function __construct(
         TeacherRepositoryInterface $teacherRepository,
         DepartmentRepositoryInterface $departmentRepository
         )
     {
-        $this->teacherRepository = $teacherRepository;
-        $this->departmentRepository = $departmentRepository;
+        $this->teacher = $teacherRepository;
+        $this->department = $departmentRepository;
     }
     
     public function index(Request $request)
     {
         if(isset($request->search)){
             $key = $request->search;
-            $teachers = $this->teacherRepository->getByKey($key);
+            $teachers = $this->teacher->getByKey($key);
             $teachers->appends(['search' => $key]);
         }
         else{
-            $teachers = $this->teacherRepository->getAll();
+            $teachers = $this->teacher->getAll();
         }
         return view('admin.teacher.index', compact('teachers'));
     }
 
+    public function countNumberDepartment(){
+        return $this->department->count();
+    }
+
     public function create()
     {
-        $offset = $this->departmentRepository->count();
-        $departments = $this->departmentRepository->getAll($offset);
+        $offset = $this->countNumberDepartment();
+        $departments = $this->department->getAll($offset);
         return view('admin.teacher.create', compact('departments'));
     }
 
     public function store(StoreTeacherRequest $request)
     {
         $collection = $request->except(['_token']);
-        $create = $this->teacherRepository->create($collection);
+        $create = $this->teacher->create($collection);
         if($create){
-            return back()->with('success', 'Thêm tài khoản thành công');
+            return back()->with('success', __('message.create_success', ['name' => 'tài khoản'] ));
         }
         else{
-            return back()->with('error', 'Thêm tài khoản thất bại');
+            return back()->with('error', __('message.create_error', ['name' => 'tài khoản']));
         }
     }
 
     public function show($id)
     {
-        $info = $this->teacherRepository->getById($id);
+        $info = $this->teacher->getById($id);
+        if(empty($info)){
+            abort(404);
+        }
         return view('admin.teacher.show', compact('info'));
     }
 
     public function edit($id)
     {
-        $collection = $this->departmentRepository->count();
-        $departments = $this->departmentRepository->getAll($collection);
-        $info = $this->teacherRepository->getById($id);
+        $collection = $this->countNumberDepartment();
+        $departments = $this->department->getAll($collection);
+        $info = $this->teacher->getById($id);
+        if(empty($info)){
+            abort(404);
+        }
         return view('admin.teacher.edit', compact('departments', 'info'));
     }
 
     public function update(UpdateTeacherRequest $request, $id)
     {
         $collection = $request->except(['_token', '_method']);
-        $update = $this->teacherRepository->update($id, $collection);
+        $update = $this->teacher->update($id, $collection);
         if($update){
-            return back()->with('success', 'Cập nhật thông tin thành công');
+            return back()->with('success', __('message.update_success', ['name' => 'thông tin tài khoản']));
         }
         else{
-            return back()->with('error', 'Cập nhật thông tin thất bại');
+            return back()->with('error', __('message.update_error', ['name' => 'thông tin tài khoản']));
         }
     }
 
     public function destroy($id)
     {
-        $delete = $this->teacherRepository->delete($id);
+        $delete = $this->teacher->delete($id);
         if($delete){
-            return redirect()->route('teacher.index')->with('success', 'Xóa tài khoản thành công');
+            return redirect()->route('teacher.index')->with('success', __('message.delete_success', ['name' => 'tài khoản']));
         }
         else{
-            return redirect()->route('teacher.index')->with('error', 'Xóa tài khoản thất bại');
+            return redirect()->route('teacher.index')->with('error', __('message.delete_error', ['name' => 'tài khoản']));
         }
     }
 
     public function editPassword($id){
-        $teacherName = $this->teacherRepository->getNameById($id)->name;
+        $teacher = $this->teacher->getNameById($id);
+        if(empty($teacher)){
+            abort(404);
+        }
+        $teacherName = $teacher->name;
         return view('admin.teacher.changePassword', compact('teacherName'));
     }
 
     public function updatePassword($id, AdminChangePasswordRequest $request){
         $collection = $request->except(['_token', '_method']);
-        $update = $this->teacherRepository->updatePasswordById($id, $collection);
+        $update = $this->teacher->updatePasswordById($id, $collection);
         if($update){
-            return back()->with('success', 'Đổi mật khẩu thành công');
+            return back()->with('success', __('message.change_password_success'));
         }
         else{
-            return back()->with('error', 'Đổi mật khẩu thất bại');
+            return back()->with('error', __('message.change_password_error'));
         }
     }
 }

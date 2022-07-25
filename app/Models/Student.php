@@ -2,18 +2,27 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class Student extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $table = 'students';
+    protected $primaryKey = 'id';
     protected $fillable = [
         'username',
+        'name',
+        'class_id',
+        'gender',
+        'date_of_birth',
+        'place_of_birth',
+        'address',
+        'phone',
+        'email',
         'password',
     ];
 
