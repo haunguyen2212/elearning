@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminChangePasswordRequest;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
-use App\Repositories\Interfaces\ClassRepositoryInterface;
-use App\Repositories\Interfaces\StudentRepositoryInterface;
+use App\Services\Interfaces\ClassManagementServiceInterface;
+use App\Services\Interfaces\StudentManagementServiceInterface;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -15,42 +15,37 @@ class StudentController extends Controller
     private $student, $class;
 
     public function __construct(
-        StudentRepositoryInterface $studentRepository,
-        ClassRepositoryInterface $classRepository
+        StudentManagementServiceInterface $studentService,
+        ClassManagementServiceInterface $classService
         )
     {
-        $this->student = $studentRepository;
-        $this->class = $classRepository;
+        $this->student = $studentService;
+        $this->class = $classService;
     }
 
     public function index(Request $request)
     {
         if(isset($request->search)){
             $key = $request->search;
-            $students = $this->student->getByKey($key, 20);
+            $students = $this->student->search($key);
             $students->appends(['search' => $key]);
         }
         else{
-            $students = $this->student->getAll(20);
+            $students = $this->student->index();
         }
         return view('admin.student.index', compact('students'));
     }
 
-    public function countNumberClass(){
-        return $this->class->count();
-    }
-
     public function create()
     {
-        $offset = $this->countNumberClass();
-        $classes = $this->class->getAll($offset);
+        $classes = $this->class->getAll();
         return view('admin.student.create', compact('classes'));
     }
 
     public function store(StoreStudentRequest $request)
     {
         $collection = $request->except(['_token']);
-        $store = $this->student->create($collection);
+        $store = $this->student->store($collection);
         if($store){
             return back()->with('success', __('message.create_success', ['name' => 'tài khoản']));
         }
@@ -70,8 +65,8 @@ class StudentController extends Controller
 
     public function edit($id)
     {
-        $offset = $this->countNumberClass();
-        $classes = $this->class->getAll($offset);
+        
+        $classes = $this->class->getAll();
         $info = $this->student->getById($id);
         if(empty($info)){
             abort(404);
@@ -113,7 +108,7 @@ class StudentController extends Controller
 
     public function updatePassword($id, AdminChangePasswordRequest $request){
         $collection = $request->except(['_token', '_method']);
-        $update = $this->student->updatePasswordById($id, $collection);
+        $update = $this->student->updatePassword($id, $collection);
         if($update){
             return back()->with('success', __('message.change_password_success'));
         }

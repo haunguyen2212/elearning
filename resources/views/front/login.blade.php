@@ -1,9 +1,9 @@
 @extends('template.login')
 
 @section('content')
-  <div class="pt-2 pb-2">
+<div class="pt-2 pb-2">
     <h5 class="card-title text-center pb-0 fs-4">ĐĂNG NHẬP</h5>
-    <p class="text-center text-main">Tài khoản quản trị hệ thống</p>
+    <p class="text-center text-main">Tài khoản học sinh - giáo viên</p>
   </div>
 
   @if (session('error'))
@@ -13,7 +13,7 @@
         </div>
   @endif
 
-  <form action="{{ route('admin.login.check') }}" method="post" class="row g-3">
+  <form action="{{ route('login.check') }}" method="post" class="row g-3">
     @csrf
     <div class="col-12">
       <label for="username" class="form-label">Tài khoản (*)</label>

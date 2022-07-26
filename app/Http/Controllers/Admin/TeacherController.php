@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Repositories\Interfaces\TeacherRepositoryInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminChangePasswordRequest;
 use App\Http\Requests\StoreTeacherRequest;
 use App\Http\Requests\UpdateTeacherRequest;
-use App\Repositories\Interfaces\DepartmentRepositoryInterface;
+use App\Services\Interfaces\DepartmentManagementServiceInterface;
+use App\Services\Interfaces\TeacherManagementServiceInterface;
 use Illuminate\Http\Request;
 
 class TeacherController extends Controller
@@ -16,8 +16,8 @@ class TeacherController extends Controller
     private $teacher, $department;
 
     public function __construct(
-        TeacherRepositoryInterface $teacherRepository,
-        DepartmentRepositoryInterface $departmentRepository
+        TeacherManagementServiceInterface $teacherRepository,
+        DepartmentManagementServiceInterface $departmentRepository
         )
     {
         $this->teacher = $teacherRepository;
@@ -28,30 +28,25 @@ class TeacherController extends Controller
     {
         if(isset($request->search)){
             $key = $request->search;
-            $teachers = $this->teacher->getByKey($key);
+            $teachers = $this->teacher->search($key);
             $teachers->appends(['search' => $key]);
         }
         else{
-            $teachers = $this->teacher->getAll();
+            $teachers = $this->teacher->index();
         }
         return view('admin.teacher.index', compact('teachers'));
     }
 
-    public function countNumberDepartment(){
-        return $this->department->count();
-    }
-
     public function create()
     {
-        $offset = $this->countNumberDepartment();
-        $departments = $this->department->getAll($offset);
+        $departments = $this->department->getAll();
         return view('admin.teacher.create', compact('departments'));
     }
 
     public function store(StoreTeacherRequest $request)
     {
         $collection = $request->except(['_token']);
-        $create = $this->teacher->create($collection);
+        $create = $this->teacher->store($collection);
         if($create){
             return back()->with('success', __('message.create_success', ['name' => 'tài khoản'] ));
         }
@@ -71,8 +66,7 @@ class TeacherController extends Controller
 
     public function edit($id)
     {
-        $collection = $this->countNumberDepartment();
-        $departments = $this->department->getAll($collection);
+        $departments = $this->department->getAll();
         $info = $this->teacher->getById($id);
         if(empty($info)){
             abort(404);
@@ -114,7 +108,7 @@ class TeacherController extends Controller
 
     public function updatePassword($id, AdminChangePasswordRequest $request){
         $collection = $request->except(['_token', '_method']);
-        $update = $this->teacher->updatePasswordById($id, $collection);
+        $update = $this->teacher->updatePassword($id, $collection);
         if($update){
             return back()->with('success', __('message.change_password_success'));
         }

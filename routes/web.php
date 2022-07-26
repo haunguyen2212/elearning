@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin;
+use App\Http\Controllers\Front;
 use Illuminate\Support\Facades\Route;
 
 
@@ -8,9 +9,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['prefix' => 'admin'], function(){
-    Route::get('login', [Admin\LoginController::class, 'index'])->name('admin.login');
-    Route::post('login', [Admin\LoginController::class, 'checkLogin'])->name('admin.login.check');
+Route::get('login', [Front\LoginController::class, 'index'])->name('login');
+Route::post('login', [Front\LoginController::class, 'checkLogin'])->name('login.check');
+Route::get('admin/login', [Admin\LoginController::class, 'index'])->name('admin.login');
+Route::post('admin/login', [Admin\LoginController::class, 'checkLogin'])->name('admin.login.check');
+
+Route::group(['prefix' => 'admin', 'middleware' => 'isAdmin'], function(){
     Route::get('logout', [Admin\LoginController::class, 'logout'])->name('admin.logout');
     Route::get('/', [Admin\HomeController::class, 'index'])->name('admin.home');
     Route::resource('student', Admin\StudentController::class);
@@ -19,7 +23,8 @@ Route::group(['prefix' => 'admin'], function(){
     Route::resource('teacher', Admin\TeacherController::class);
     Route::get('teacher/{id}/password', [Admin\TeacherController::class, 'editPassword'])->name('teacher.pass.edit');
     Route::patch('teacher/{id}/password', [Admin\TeacherController::class, 'updatePassword'])->name('teacher.pass.update');
-    Route::get('model', function(){
-        return \App\Models\Student::find(1);
-    });
+});
+
+Route::get('model', function(){
+    return \App\Models\Student::find(1);
 });
