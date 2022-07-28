@@ -18,25 +18,30 @@ class StudentRepository implements StudentRepositoryInterface{
 
     public function getAll($offset = 10)
     {
-        return $this->student->join('classes', 'class_id', 'classes.id')
-        ->select('students.id', 'username', 'students.name', 'date_of_birth', 'gender', 'place_of_birth', 'address', 'phone', 'email', DB::raw('classes.id as class_id, classes.name as class_name'))
+        return $this->student->leftJoin('classes', 'class_id', 'classes.id')
+        ->select('students.id', 'username', 'students.name', 'date_of_birth', 'gender', 'place_of_birth', 'address', 'active', 'phone', 'email', DB::raw('classes.id as class_id, classes.name as class_name'))
         ->paginate($offset);
     }
 
     public function getById($id){
-        return $this->student->join('classes', 'class_id', 'classes.id')
+        return $this->student->leftJoin('classes', 'class_id', 'classes.id')
         ->where('students.id', $id)
-        ->select('students.id', 'username', 'students.name', 'date_of_birth', 'gender', 'place_of_birth', 'address', 'phone', 'email', DB::raw('classes.id as class_id, classes.name as class_name'))
+        ->select('students.id', 'username', 'students.name', 'date_of_birth', 'gender', 'place_of_birth', 'address', 'active', 'phone', 'email', DB::raw('classes.id as class_id, classes.name as class_name'))
         ->first();
     }
 
     public function getByKey($key, $offset = 10)
     {
-        return $this->student->join('classes', 'class_id', 'classes.id')
+        return $this->student->leftJoin('classes', 'class_id', 'classes.id')
             ->where('username', 'like', '%'.$key.'%')
             ->orWhere('students.name', 'like', '%'.$key.'%')
-            ->select('students.id', 'username', 'students.name', 'date_of_birth', 'gender', 'place_of_birth', DB::raw('classes.id as class_id, classes.name as class_name'))
+            ->select('students.id', 'username', 'students.name', 'date_of_birth', 'gender', 'place_of_birth', 'active', DB::raw('classes.id as class_id, classes.name as class_name'))
             ->paginate($offset);
+    }
+
+    public function getStatusAccount($username)
+    {
+        return $this->student->where('username', $username)->first()->active;
     }
 
     public function getNameById($id)
@@ -84,6 +89,18 @@ class StudentRepository implements StudentRepositoryInterface{
     {
         return $this->student->find($id)->update([
             'password' => Hash::make($collection['password']),
+        ]);
+    }
+
+    public function lock($id){
+        return $this->student->find($id)->update([
+            'active' => 0,
+        ]);
+    }
+
+    public function unlock($id){
+        return $this->student->find($id)->update([
+            'active' => 1,
         ]);
     }
     

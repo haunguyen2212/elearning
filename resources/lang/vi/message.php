@@ -10,4 +10,7 @@ return [
     'change_password_success' => 'Đổi mật khẩu thành công',
     'change_password_error' => 'Đổi mật khẩu thất bại',
     'login_error' => 'Tài khoản hoặc mật khẩu không chính xác',
+    'account_locked' => 'Tài khoản đã bị khóa',
+    'lock_success' => 'Khóa tài khoản thành công',
+    'unlock_success' => 'Mở khóa tài khoản thành công',
 ];

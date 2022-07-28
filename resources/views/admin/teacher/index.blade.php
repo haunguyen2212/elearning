@@ -53,12 +53,12 @@
                           <tr>
                             <th width="5%">STT</th>
                             <th width="10%">Mã số</th>
-                            <th width="15%">Họ và tên</th>
+                            <th width="20%">Họ và tên</th>
                             <th width="10%">Ngày sinh</th>
                             <th width="10%">Phái</th>
                             <th width="10%">Đơn vị</th>
                             <th width="10%">Điện thoại</th>
-                            <th width="15%">Email</th>
+                            <th width="10%">Trạng thái</th>
                             <th width="15%">Tùy chỉnh</th>
                           </tr>
                         </thead>
@@ -73,12 +73,26 @@
                                 <td>{{ ($teacher->gender) ? 'Nữ' : 'Nam' }}</td>
                                 <td>{{ $teacher->department_name }}</td>
                                 <td>{{ $teacher->phone }}</td>
-                                <td>{{ $teacher->email }}</td>
                                 <td>
-                                    <a href="{{ route('teacher.show', ['teacher' => $teacher->id]) }}" class="btn btn-sm btn-info"><i class="bi bi-eye"></i></a>
-                                    <a href="{{ route('teacher.edit', ['teacher' => $teacher->id]) }}" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i></a>
-                                    <button class="btn btn-sm btn-danger btn-delete" data-id="{{ $teacher->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="bi bi-x-lg"></i></button>
-                                    <a href="{{ route('teacher.pass.edit', ['id' => $teacher->id]) }}" class="btn btn-sm btn-success"><i class="bi bi-lock"></i></a>
+                                  @if ($teacher->active)
+                                    <span class="badge bg-success">active</span>
+                                  @else
+                                    <span class="badge bg-danger">locked</span>
+                                  @endif
+                                </td>
+                                <td>
+                                    <a href="{{ route('teacher.show', ['teacher' => $teacher->id]) }}" class="btn btn-sm btn-info">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <a href="{{ route('teacher.edit', ['teacher' => $teacher->id]) }}" class="btn btn-sm btn-warning">
+                                      <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    <button class="btn btn-sm btn-danger btn-delete" data-id="{{ $teacher->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                      <i class="bi bi-x-lg"></i>
+                                    </button>
+                                    <a href="{{ route('teacher.pass.edit', ['id' => $teacher->id]) }}" class="btn btn-sm btn-success">
+                                      <i class="bi bi-lock"></i>
+                                    </a>
                                 </td>
                             </tr>
                             @endforeach

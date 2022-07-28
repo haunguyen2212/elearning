@@ -23,5 +23,6 @@ class Teacher extends Authenticatable
         'phone',
         'email',
         'password',
+        'active',
     ];
 }

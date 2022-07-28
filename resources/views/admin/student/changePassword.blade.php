@@ -14,7 +14,44 @@
         <div class="col-12 col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Đổi mật khẩu</h5>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="bd-highlight">
+                            <h5 class="card-title">Đổi mật khẩu</h5>
+                        </div>
+                        
+                        @if ($student->active == '0')
+                            <div class="bd-highlight">
+                                <form action="{{ route('student.lock', ['id' => $student->id]) }}" method="post">
+                                    @csrf
+                                    @method('patch')
+                                    <button
+                                    type="submit" 
+                                    class="btn btn-sm btn-main" 
+                                    data-bs-toggle="tooltip" 
+                                    title="Mở khóa tài khoản"
+                                    >
+                                    <i class="bi bi-unlock"></i>
+                                    </button>
+                                </form>    
+                            </div>
+                        @else
+                            <div class="bd-highlight">
+                                <form action="{{ route('student.lock', ['id' => $student->id]) }}" method="post">
+                                    @csrf
+                                    @method('patch')
+                                    <button 
+                                    class="btn btn-sm btn-main" 
+                                    data-bs-toggle="tooltip" 
+                                    title="Khóa tài khoản"
+                                    >
+                                        <i class="bi bi-lock"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        @endif
+
+                      </div>
 
                     @if (session('success'))
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -29,11 +66,11 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('student.pass.update', ['id' => request()->id ]) }}" method="post" class="row g-3">
+                    <form action="{{ route('student.pass.update', ['id' => $student->id ]) }}" method="post" class="row g-3">
                         @csrf
                         @method('patch')
                         <div class="col-12">
-                            <label for="password" class="form-label">Mật khẩu mới cho {{ $studentName }} (*)</label>
+                            <label for="password" class="form-label">Mật khẩu mới cho {{ $student->name }} (*)</label>
                             <input type="password" class="form-control" name="password" id="password">
                             @error('password')
                               <div class="text-danger ps-1 pt-1">{!! $message !!}</div>

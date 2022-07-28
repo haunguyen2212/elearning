@@ -53,11 +53,11 @@
                           <tr>
                             <th width="5%">STT</th>
                             <th width="10%">Mã số</th>
-                            <th width="20%">Họ và tên</th>
+                            <th width="22.5%">Họ và tên</th>
                             <th width="15%">Ngày sinh</th>
-                            <th width="10%">Lớp</th>
+                            <th width="12.5%">Lớp</th>
                             <th width="10%">Phái</th>
-                            <th width="15%">Nơi sinh</th>
+                            <th width="10%">Trạng thái</th>
                             <th width="15%">Tùy chỉnh</th>
                           </tr>
                         </thead>
@@ -71,7 +71,13 @@
                                 <td>{{ date('d/m/Y', strtotime($student->date_of_birth)) }}</td>
                                 <td>{{ $student->class_name }}</td>
                                 <td>{{ ($student->gender) ? 'Nữ' : 'Nam' }}</td>
-                                <td>{{ $student->place_of_birth }}</td>
+                                <td>
+                                  @if ($student->active)
+                                    <span class="badge bg-success">active</span>
+                                  @else
+                                    <span class="badge bg-danger">locked</span>
+                                  @endif
+                                </td>
                                 <td>
                                     <a href="{{ route('student.show', ['student' => $student->id]) }}" class="btn btn-sm btn-info"><i class="bi bi-eye"></i></a>
                                     <a href="{{ route('student.edit', ['student' => $student->id]) }}" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i></a>

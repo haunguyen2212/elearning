@@ -25,6 +25,7 @@ class CreateTeachersTable extends Migration
             $table->string('email', 100)->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->char('active', 1)->default('1');
             $table->rememberToken();
             $table->timestamps();
             $table->foreign('department_id')->references('id')->on('departments')->onUpdate('cascade')->onDelete('cascade');

@@ -40,6 +40,14 @@
                         <div class="col-12 col-md-6 mb-1">
                             <strong class="text-main">Địa chỉ:</strong> {{ $info->address }}
                         </div>
+                        <div class="col-12 col-md-6 mb-1">
+                            <strong class="text-main">Trạng thái:</strong> 
+                            @if ($info->active)
+                                <strong class="text-success">Hoạt động</strong> 
+                            @else
+                                <strong class="text-danger">Bị khóa</strong>  
+                            @endif
+                        </div>
                         <div class="text-center mt-2">
                             <a href="{{ route('teacher.edit',['teacher'=>$info->id]) }}" class="btn btn-sm btn-success">Chỉnh sửa</a>
                             <a href="{{ route('teacher.index') }}" class="btn btn-sm btn-danger">Trở về</a>

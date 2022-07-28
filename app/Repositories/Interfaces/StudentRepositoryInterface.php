@@ -8,9 +8,12 @@ interface StudentRepositoryInterface{
     public function getById($id);
     public function getByKey($key, $offset = 10);
     public function getNameById($id);
+    public function getStatusAccount($username);
     public function create($collection = []);
     public function update($id, $collection = []);
     public function delete($id);
     public function updatePasswordById($id, $collection = []);
+    public function lock($id);
+    public function unlock($id);
 
 }

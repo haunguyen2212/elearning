@@ -17,7 +17,7 @@ class CreateStudentsTable extends Migration
             $table->id();
             $table->string('username', 20)->unique();
             $table->string('name', 50);
-            $table->bigInteger('class_id')->unsigned();
+            $table->bigInteger('class_id')->unsigned()->nullable();
             $table->char('gender', 1)->default('0');
             $table->date('date_of_birth');
             $table->string('place_of_birth', 200)->nullable();
@@ -25,9 +25,10 @@ class CreateStudentsTable extends Migration
             $table->string('phone', 10)->unique()->nullable();
             $table->string('email', 100)->unique()->nullable();
             $table->string('password');
+            $table->char('active', 1)->default('1');
             $table->rememberToken();
             $table->timestamps();
-            $table->foreign('class_id')->references('id')->on('classes')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('class_id')->references('id')->on('classes')->onUpdate('cascade')->onDelete('set null');
         });
     }
 

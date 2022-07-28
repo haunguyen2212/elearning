@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminChangePasswordRequest;
 use App\Http\Requests\StoreTeacherRequest;
 use App\Http\Requests\UpdateTeacherRequest;
-use App\Services\Interfaces\DepartmentManagementServiceInterface;
-use App\Services\Interfaces\TeacherManagementServiceInterface;
+use App\Repositories\Interfaces\DepartmentRepositoryInterface;
+use App\Repositories\Interfaces\TeacherRepositoryInterface;
 use Illuminate\Http\Request;
 
 class TeacherController extends Controller
@@ -16,8 +16,8 @@ class TeacherController extends Controller
     private $teacher, $department;
 
     public function __construct(
-        TeacherManagementServiceInterface $teacherRepository,
-        DepartmentManagementServiceInterface $departmentRepository
+        TeacherRepositoryInterface $teacherRepository,
+        DepartmentRepositoryInterface $departmentRepository
         )
     {
         $this->teacher = $teacherRepository;
@@ -28,13 +28,21 @@ class TeacherController extends Controller
     {
         if(isset($request->search)){
             $key = $request->search;
-            $teachers = $this->teacher->search($key);
+            $teachers = $this->teacher->getByKey($key);
             $teachers->appends(['search' => $key]);
         }
         else{
-            $teachers = $this->teacher->index();
+            $teachers = $this->teacher->getAll(20);
         }
         return view('admin.teacher.index', compact('teachers'));
+    }
+
+    public function checkIssetTeacher($id){
+        $info = $this->teacher->getById($id);
+        if(empty($info)){
+            abort(404);
+        }
+        return true;
     }
 
     public function create()
@@ -46,7 +54,7 @@ class TeacherController extends Controller
     public function store(StoreTeacherRequest $request)
     {
         $collection = $request->except(['_token']);
-        $create = $this->teacher->store($collection);
+        $create = $this->teacher->create($collection);
         if($create){
             return back()->with('success', __('message.create_success', ['name' => 'tài khoản'] ));
         }
@@ -57,25 +65,22 @@ class TeacherController extends Controller
 
     public function show($id)
     {
+        $this->checkIssetTeacher($id);
         $info = $this->teacher->getById($id);
-        if(empty($info)){
-            abort(404);
-        }
         return view('admin.teacher.show', compact('info'));
     }
 
     public function edit($id)
     {
+        $this->checkIssetTeacher($id);
         $departments = $this->department->getAll();
         $info = $this->teacher->getById($id);
-        if(empty($info)){
-            abort(404);
-        }
         return view('admin.teacher.edit', compact('departments', 'info'));
     }
 
     public function update(UpdateTeacherRequest $request, $id)
     {
+        $this->checkIssetTeacher($id);
         $collection = $request->except(['_token', '_method']);
         $update = $this->teacher->update($id, $collection);
         if($update){
@@ -88,6 +93,7 @@ class TeacherController extends Controller
 
     public function destroy($id)
     {
+        $this->checkIssetTeacher($id);
         $delete = $this->teacher->delete($id);
         if($delete){
             return redirect()->route('teacher.index')->with('success', __('message.delete_success', ['name' => 'tài khoản']));
@@ -98,22 +104,33 @@ class TeacherController extends Controller
     }
 
     public function editPassword($id){
-        $teacher = $this->teacher->getNameById($id);
-        if(empty($teacher)){
-            abort(404);
-        }
-        $teacherName = $teacher->name;
-        return view('admin.teacher.changePassword', compact('teacherName'));
+        $this->checkIssetTeacher($id);
+        $teacher = $this->teacher->getById($id);
+        return view('admin.teacher.changePassword', compact('teacher'));
     }
 
     public function updatePassword($id, AdminChangePasswordRequest $request){
+        $this->checkIssetTeacher($id);
         $collection = $request->except(['_token', '_method']);
-        $update = $this->teacher->updatePassword($id, $collection);
+        $update = $this->teacher->updatePasswordById($id, $collection);
         if($update){
             return back()->with('success', __('message.change_password_success'));
         }
         else{
             return back()->with('error', __('message.change_password_error'));
+        }
+    }
+
+    public function changeStatus($id){
+        $this->checkIssetTeacher($id);
+        $status = $this->teacher->getById($id)->active;
+        if($status == 0){
+            $this->teacher->unlock($id);
+            return back()->with('success', __('message.unlock_success'));
+        }
+        else{
+            $this->teacher->lock($id);
+            return back()->with('success', __('message.lock_success'));
         }
     }
 }
