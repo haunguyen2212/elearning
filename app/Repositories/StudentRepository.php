@@ -20,6 +20,7 @@ class StudentRepository implements StudentRepositoryInterface{
     {
         return $this->student->leftJoin('classes', 'class_id', 'classes.id')
         ->select('students.id', 'username', 'students.name', 'date_of_birth', 'gender', 'place_of_birth', 'address', 'active', 'phone', 'email', DB::raw('classes.id as class_id, classes.name as class_name'))
+        ->orderBy('students.id', 'asc')
         ->paginate($offset);
     }
 

@@ -126,7 +126,7 @@
         </a>
         <ul id="departments-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a id="departments" href="">
+            <a id="departments" href="{{ route('department.index') }}">
               <i class="bi bi-circle"></i><span>Quản lý đơn vị</span>
             </a>
           </li>

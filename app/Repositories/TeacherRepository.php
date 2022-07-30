@@ -20,6 +20,7 @@ class TeacherRepository implements TeacherRepositoryInterface{
     {
         return $this->teacher->join('departments', 'department_id', 'departments.id')
             ->select('teachers.id', 'username', 'teachers.name', 'department_id', 'gender', 'date_of_birth', 'address', 'phone', 'email', 'active', DB::raw('departments.name as department_name'))
+            ->orderBy('teachers.id', 'asc')
             ->paginate($offset);
     }
 

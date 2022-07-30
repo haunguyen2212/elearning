@@ -37,8 +37,8 @@ class StudentController extends Controller
     }
 
     public function checkIssetStudent($id){
-        $info = $this->student->getById($id);
-        if(empty($info)){
+        $student = $this->student->getById($id);
+        if(empty($student)){
             abort(404);
         }
         return true;

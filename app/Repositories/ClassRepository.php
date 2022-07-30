@@ -34,15 +34,16 @@ class ClassRepository implements ClassRepositoryInterface{
             ->groupBy('classes.id', 'classes.name', 'teacher_name')
             ->having('total', 0);
 
-        return $this->class->leftJoin('students', 'students.class_id', 'classes.id')
+        $classes = $this->class->leftJoin('students', 'students.class_id', 'classes.id')
             ->leftJoin('homeroom_teachers', 'homeroom_teachers.class_id', 'classes.id')
             ->leftJoin('teachers', 'teacher_id', 'teachers.id')
             ->where('students.active', '1')
             ->whereNull('end_date')
             ->select('classes.id', 'classes.name', DB::raw('teachers.name as teacher_name, COUNT(students.id) as total'))
             ->groupBy('classes.id', 'classes.name', 'teacher_name')
-            ->union($classNoneStudent)
-            ->paginate($offset);
+            ->union($classNoneStudent);
+
+            return $classes->orderBy('id', 'asc')->paginate($offset);
     }
     
 
@@ -81,5 +82,38 @@ class ClassRepository implements ClassRepositoryInterface{
             'name' => $collection['name'],
         ]);
     }
+
+    public function getByKey($key, $offset = 10)
+    {
+        $classNoneStudent = $this->class->leftJoin('students', 'students.class_id', 'classes.id')
+            ->leftJoin('homeroom_teachers', 'homeroom_teachers.class_id', 'classes.id')
+            ->leftJoin('teachers', 'teacher_id', 'teachers.id')
+            ->where('classes.name', 'like', '%'.$key.'%')
+            ->select('classes.id', 'classes.name', DB::raw('teachers.name as teacher_name, COUNT(students.id) as total'))
+            ->groupBy('classes.id', 'classes.name', 'teacher_name')
+            ->having('total', 0);
+
+        return $this->class->leftJoin('students', 'students.class_id', 'classes.id')
+            ->leftJoin('homeroom_teachers', 'homeroom_teachers.class_id', 'classes.id')
+            ->leftJoin('teachers', 'teacher_id', 'teachers.id')
+            ->where('students.active', '1')
+            ->whereNull('end_date')
+            ->where('classes.name', 'like', '%'.$key.'%')
+            ->select('classes.id', 'classes.name', DB::raw('teachers.name as teacher_name, COUNT(students.id) as total'))
+            ->groupBy('classes.id', 'classes.name', 'teacher_name')
+            ->union($classNoneStudent)
+            ->paginate($offset);
+    }
+
+    public function update($id, $collection = [])
+    {
+        return $this->class->find($id)->update([
+            'name' => $collection['name'],
+        ]);
+    }
     
+    public function delete($id)
+    {
+        return $this->class->find($id)->delete();
+    }
 }

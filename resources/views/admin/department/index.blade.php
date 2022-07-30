@@ -1,21 +1,21 @@
 @extends('template.admin')
 
-@section('title', 'Quản lý lớp học')
+@section('title', 'Quản lý đơn vị')
 
-@section('pagetitle', 'Quản lý lớp học')
+@section('pagetitle', 'Quản lý đơn vị')
 
 @section('breadcrumb')
-    <li class="breadcrumb-item active">Lớp học</li>
+    <li class="breadcrumb-item active">Đơn vị</li>
 @endsection
 
 @section('content')
     <div class="row">
-        <div class="col-12 col-md-8">
+        <div class="col-12 col-md-6">
             <div class="card">
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="bd-highlight">
-                      <h5 class="card-title">Lớp học</h5>
+                      <h5 class="card-title">Đơn vị</h5>
                     </div>
                     <div class="bd-highlight">
                       <h5 class="card-title">
@@ -29,7 +29,7 @@
                     </div>
                     <div class="bd-highlight">
                       <h5 class="card-title">
-                        <a class="btn btn-sm btn-main" href="{{ route('class.create') }}">
+                        <a class="btn btn-sm btn-main" href="{{-- route('class.create') --}}">
                           <i class="bi bi-plus"></i><span class="text-white"> Thêm mới</span> 
                         </a>
                       </h5>
@@ -51,24 +51,22 @@
                     <table class="table table-striped" style="min-width: 100px">
                         <thead>
                           <tr>
-                            <th width="10%">ID</th>
-                            <th width="15%">Lớp</th>
-                            <th width="35%">Chủ nhiệm</th>
-                            <th width="15%">Sỉ số</th>
-                            <th width="25%">Tùy chỉnh</th>
+                            <th width="15%">ID</th>
+                            <th width="30%">Đơn vị</th>
+                            <th width="25%">Thành viên</th>
+                            <th width="30%">Tùy chỉnh</th>
                           </tr>
                         </thead>
                         <tbody>
 
-                            @foreach ($classes as $class)
+                            @foreach ($departments as $department)
                                 <tr>
-                                    <td>{{ $class->id }}</td>
-                                    <td>{{ $class->name }}</td>
-                                    <td>{{ $class->teacher_name }}</td>
-                                    <td>{{ $class->total }}</td>
+                                    <td>{{ $department->id }}</td>
+                                    <td>{{ $department->name }}</td>
+                                    <td class="ps-3">{{ $department->total }}</td>
                                     <td>
                                         <a 
-                                          href="{{ route('class.show', ['class' => $class->id]) }}" 
+                                          href="{{ route('department.show' , ['department' => $department->id]) }}" 
                                           class="btn btn-sm btn-info"
                                           data-bs-toggle="tooltip"
                                           title="Xem"
@@ -76,7 +74,7 @@
                                           <i class="bi bi-eye"></i>
                                         </a>
                                         <a 
-                                          href="{{ route('class.edit', ['class' => $class->id]) }}" 
+                                          href="{{ route('department.edit', ['department' => $department->id]) }}" 
                                           class="btn btn-sm btn-warning"
                                           data-bs-toggle="tooltip"
                                           title="Sửa"
@@ -85,21 +83,13 @@
                                         </a>
                                         <button 
                                           class="btn btn-sm btn-danger btn-delete" 
-                                          data-id="{{ $class->id }}" 
+                                          data-id="{{ $department->id }}" 
                                           data-bs-toggle="modal" 
                                           data-bs-target="#deleteModal"
                                           title="Xóa"
                                         >
                                           <i class="bi bi-x-lg"></i>
                                         </button>
-                                        <a 
-                                          href="{{ route('class.homeroomTeacher.edit', ['id' => $class->id]) }}"
-                                          class="btn btn-sm btn-success"
-                                          data-bs-toggle="tooltip"
-                                          title="Thay chủ nhiệm"
-                                        >
-                                        <i class="bi bi-person-fill"></i>
-                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -107,14 +97,14 @@
                         </tbody>
                       </table>
                   </div>
-                  {{ $classes->links() }}
+                  {{ $departments->links() }}
                 </div>
                 
               </div>
         </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    {{-- <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -133,25 +123,25 @@
             <button type="button" class="btn btn-sm btn-danger btn-submit">Đồng ý</button>
           </div>
         </div>
-      </div>
+      </div> --}}
 @endsection
 
 
 @section('script')
     <script>
         $('#departments-nav').addClass('show');
-        $('#classrooms').addClass('active');
+        $('#departments').addClass('active');
 
-        $('.btn-delete').click(function(e){
-            e.preventDefault();
-            let id = $(this).attr('data-id');
-            let url = "{{ asset('/admin/class') }}/"+id;
-            $('#deleteModal form').attr('action', url);
-        });
+        // $('.btn-delete').click(function(e){
+        //     e.preventDefault();
+        //     let id = $(this).attr('data-id');
+        //     let url = "{{ asset('/admin/class') }}/"+id;
+        //     $('#deleteModal form').attr('action', url);
+        // });
 
-        $('.btn-submit').click(function(e){
-            e.preventDefault();
-            $('#deleteModal form').submit();
-        });
+        // $('.btn-submit').click(function(e){
+        //     e.preventDefault();
+        //     $('#deleteModal form').submit();
+        // });
     </script>
 @endsection

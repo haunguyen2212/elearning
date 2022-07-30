@@ -38,8 +38,8 @@ class TeacherController extends Controller
     }
 
     public function checkIssetTeacher($id){
-        $info = $this->teacher->getById($id);
-        if(empty($info)){
+        $teacher = $this->teacher->getById($id);
+        if(empty($teacher)){
             abort(404);
         }
         return true;
