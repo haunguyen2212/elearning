@@ -18,7 +18,7 @@ class TeacherRepository implements TeacherRepositoryInterface{
     
     public function getAll($offset = 10)
     {
-        return $this->teacher->join('departments', 'department_id', 'departments.id')
+        return $this->teacher->leftJoin('departments', 'department_id', 'departments.id')
             ->select('teachers.id', 'username', 'teachers.name', 'department_id', 'gender', 'date_of_birth', 'address', 'phone', 'email', 'active', DB::raw('departments.name as department_name'))
             ->orderBy('teachers.id', 'asc')
             ->paginate($offset);
@@ -26,7 +26,7 @@ class TeacherRepository implements TeacherRepositoryInterface{
 
     public function getByKey($key, $offset = 10)
     {
-        return $this->teacher->join('departments', 'department_id', 'departments.id')
+        return $this->teacher->leftJoin('departments', 'department_id', 'departments.id')
             ->where('username', 'like', '%'.$key.'%')
             ->orWhere('teachers.name', 'like', '%'.$key.'%')
             ->select('teachers.id', 'username', 'teachers.name', 'department_id', 'gender', 'date_of_birth', 'address', 'phone', 'email', 'active', DB::raw('departments.name as department_name'))
@@ -35,7 +35,7 @@ class TeacherRepository implements TeacherRepositoryInterface{
 
     public function getById($id)
     {
-        return $this->teacher->join('departments', 'department_id', 'departments.id')
+        return $this->teacher->leftJoin('departments', 'department_id', 'departments.id')
             ->where('teachers.id', $id)
             ->select('teachers.id', 'username', 'teachers.name', 'department_id', 'gender', 'date_of_birth', 'address', 'phone', 'email', 'active', DB::raw('departments.name as department_name'))
             ->first();

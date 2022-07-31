@@ -33,7 +33,7 @@
                       @csrf
                       @method('patch')
                         <div class="col-12">
-                          <label for="name" class="form-label">Mã số (*)</label>
+                          <label for="name" class="form-label">Tên lớp (*)</label>
                           <input type="text" class="form-control" name="name" id="name" value="{{ (old('name')) ? old('name') : $info['name'] }}">
                           @error('name')
                             <div class="text-danger ps-1 pt-1">{!! $message !!}</div>

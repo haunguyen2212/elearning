@@ -13,4 +13,6 @@ return [
     'account_locked' => 'Tài khoản đã bị khóa',
     'lock_success' => 'Khóa tài khoản thành công',
     'unlock_success' => 'Mở khóa tài khoản thành công',
+    'import_success' => 'Import thành công',
+    'import_error' => 'Import thất bại',
 ];

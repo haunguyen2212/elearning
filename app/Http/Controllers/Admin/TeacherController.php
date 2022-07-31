@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminChangePasswordRequest;
+use App\Http\Requests\StoreImportRequest;
 use App\Http\Requests\StoreTeacherRequest;
 use App\Http\Requests\UpdateTeacherRequest;
+use App\Imports\TeachersImport;
 use App\Repositories\Interfaces\DepartmentRepositoryInterface;
 use App\Repositories\Interfaces\TeacherRepositoryInterface;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TeacherController extends Controller
 {
@@ -17,7 +20,8 @@ class TeacherController extends Controller
 
     public function __construct(
         TeacherRepositoryInterface $teacherRepository,
-        DepartmentRepositoryInterface $departmentRepository
+        DepartmentRepositoryInterface $departmentRepository,
+        TeachersImport $teacherImport
         )
     {
         $this->teacher = $teacherRepository;
@@ -132,5 +136,21 @@ class TeacherController extends Controller
             $this->teacher->lock($id);
             return back()->with('success', __('message.lock_success'));
         }
+    }
+
+    public function createImport(){
+        return view('admin.teacher.import');
+    }
+
+    public function storeImport(StoreImportRequest $request){
+            //$import = Excel::import(new TeachersImport, $request->file);
+            $import = new TeachersImport();
+            $store = $import->import($request->file('file'));
+            if($store){
+                return back()->with('success' , __('message.import_success'));
+            }
+            else{
+                return back()->with('error', __('message.import_error'));
+            }
     }
 }

@@ -29,7 +29,7 @@
                     </div>
                     <div class="bd-highlight">
                       <h5 class="card-title">
-                        <a class="btn btn-sm btn-main" href="{{-- route('class.create') --}}">
+                        <a class="btn btn-sm btn-main" href="{{ route('department.create') }}">
                           <i class="bi bi-plus"></i><span class="text-white"> Thêm mới</span> 
                         </a>
                       </h5>
@@ -104,7 +104,7 @@
         </div>
     </div>
     <!-- Modal -->
-    {{-- <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -115,7 +115,7 @@
             <form method="post">
               @csrf
               @method('delete')
-              <h6>Các học sinh trong lớp học này sẽ không còn trong lớp học nữa. Bạn có chắc muốn xóa lớp học này không ?</h6>
+              <h6>Các giáo viên trong đơn vị này sẽ không còn trong đơn vị nữa. Bạn có chắc muốn xóa đơn vị này không ?</h6>
             </form>    
           </div>
           <div class="modal-footer">
@@ -123,7 +123,7 @@
             <button type="button" class="btn btn-sm btn-danger btn-submit">Đồng ý</button>
           </div>
         </div>
-      </div> --}}
+      </div>
 @endsection
 
 
@@ -132,16 +132,16 @@
         $('#departments-nav').addClass('show');
         $('#departments').addClass('active');
 
-        // $('.btn-delete').click(function(e){
-        //     e.preventDefault();
-        //     let id = $(this).attr('data-id');
-        //     let url = "{{ asset('/admin/class') }}/"+id;
-        //     $('#deleteModal form').attr('action', url);
-        // });
+        $('.btn-delete').click(function(e){
+            e.preventDefault();
+            let id = $(this).attr('data-id');
+            let url = "{{ asset('/admin/department') }}/"+id;
+            $('#deleteModal form').attr('action', url);
+        });
 
-        // $('.btn-submit').click(function(e){
-        //     e.preventDefault();
-        //     $('#deleteModal form').submit();
-        // });
+        $('.btn-submit').click(function(e){
+            e.preventDefault();
+            $('#deleteModal form').submit();
+        });
     </script>
 @endsection

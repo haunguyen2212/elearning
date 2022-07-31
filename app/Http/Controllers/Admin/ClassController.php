@@ -125,7 +125,7 @@ class ClassController extends Controller
             $updateHomeroomTeacher = $this->homeroomTeacher->create($collectionHomeroomTeacher);
         }
         
-        if($updateHomeroomTeacher){
+        if($updateClass && $updateHomeroomTeacher){
             return back()->with('success', __('message.update_success', ['name' => 'lớp học']));
         }
         else{

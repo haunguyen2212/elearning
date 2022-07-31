@@ -17,7 +17,7 @@ class CreateTeachersTable extends Migration
             $table->id();
             $table->string('username', 20);
             $table->string('name', 50);
-            $table->bigInteger('department_id')->unsigned();
+            $table->bigInteger('department_id')->unsigned()->nullable();
             $table->char('gender', 1)->default('0');
             $table->date('date_of_birth');
             $table->string('address', 200);
@@ -28,7 +28,7 @@ class CreateTeachersTable extends Migration
             $table->char('active', 1)->default('1');
             $table->rememberToken();
             $table->timestamps();
-            $table->foreign('department_id')->references('id')->on('departments')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('department_id')->references('id')->on('departments')->onUpdate('cascade')->onDelete('set null');
         });
     }
 
