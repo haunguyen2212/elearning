@@ -34,8 +34,8 @@ class StoreImportRequest extends FormRequest
     public function messages()
     {
         return [
-            'file.required' => 'Chưa chọn file',
-            'file.mimetypes' => 'Chỉ có thể chọn file excel',
+            'file.required' => '<i class="bi bi-exclamation-circle"></i> Chưa chọn file',
+            'file.mimetypes' => '<i class="bi bi-exclamation-circle"></i> Chỉ có thể chọn file excel',
         ];
     }
 }

@@ -22,6 +22,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'isAdmin'], function(){
     Route::get('student/{id}/password', [Admin\StudentController::class, 'editPassword'])->name('student.pass.edit');
     Route::patch('student/{id}/password', [Admin\StudentController::class, 'updatePassword'])->name('student.pass.update');
     Route::patch('student/{id}/lock', [Admin\StudentController::class, 'changeStatus'])->name('student.lock');
+    Route::get('student/import/excel', [Admin\StudentController::class, 'createImport'])->name('student.import.create');
+    Route::post('student/import/excel', [Admin\StudentController::class, 'storeImport'])->name('student.import.store');
     
     Route::resource('teacher', Admin\TeacherController::class);
     Route::get('teacher/{id}/password', [Admin\TeacherController::class, 'editPassword'])->name('teacher.pass.edit');

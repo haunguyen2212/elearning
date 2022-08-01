@@ -143,14 +143,14 @@ class TeacherController extends Controller
     }
 
     public function storeImport(StoreImportRequest $request){
-            //$import = Excel::import(new TeachersImport, $request->file);
             $import = new TeachersImport();
-            $store = $import->import($request->file('file'));
-            if($store){
-                return back()->with('success' , __('message.import_success'));
+            $import->import($request->file('file'));
+
+            if($import->failures()->isNotEmpty()){
+                return back()->withFailures($import->failures());
             }
-            else{
-                return back()->with('error', __('message.import_error'));
-            }
+
+            return back()->with('success' , __('message.import_success'));
+
     }
 }

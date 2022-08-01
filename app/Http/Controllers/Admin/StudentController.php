@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminChangePasswordRequest;
+use App\Http\Requests\StoreImportRequest;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
+use App\Imports\StudentsImport;
 use App\Repositories\Interfaces\ClassRepositoryInterface;
 use App\Repositories\Interfaces\StudentRepositoryInterface;
 use Illuminate\Http\Request;
@@ -132,5 +134,21 @@ class StudentController extends Controller
             return back()->with('success', __('message.lock_success'));
         }
     }
+
+    public function createImport(){
+        return view('admin.student.import');
+    }
+
+    public function storeImport(StoreImportRequest $request){
+        $import = new StudentsImport();
+        $import->import($request->file('file'));
+
+        if($import->failures()->isNotEmpty()){
+            return back()->withFailures($import->failures());
+        }
+
+        return back()->with('success' , __('message.import_success'));
+
+}
 
 }

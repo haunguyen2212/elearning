@@ -1,11 +1,11 @@
 @extends('template.admin')
 
-@section('title', 'Import tài khoản giáo viên')
+@section('title', 'Import tài khoản học sinh')
 
-@section('pagetitle', 'Import tài khoản giáo viên')
+@section('pagetitle', 'Import tài khoản học sinh')
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('teacher.index') }}">Tài khoản giáo viên</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('student.index') }}">Tài khoản học sinh</a></li>
     <li class="breadcrumb-item active">Import Excel</li>
 @endsection
 
@@ -50,7 +50,7 @@
                     </div> 
                     @endif
                     
-                    <form action="{{ route('teacher.import.store') }}" method="post" class="row g-3" enctype="multipart/form-data">
+                    <form action="{{ route('student.import.store') }}" method="post" class="row g-3" enctype="multipart/form-data">
                       @csrf
                         <div class="col-12">
                           <label for="file" class="form-label">Chọn file (xlsx)</label>
@@ -63,7 +63,7 @@
 
                         <div class="text-center">
                           <button type="submit" class="btn btn-sm btn-success">Import</button>
-                          <a href="{{ route('teacher.index') }}" class="btn btn-sm btn-danger">Trở về</a>
+                          <a href="{{ route('student.index') }}" class="btn btn-sm btn-danger">Trở về</a>
                         </div>
                       </form>
                 </div>
@@ -75,6 +75,6 @@
 @section('script')
     <script>
         $('#user-nav').addClass('show');
-        $('#teacher').addClass('active');
+        $('#student').addClass('active');
     </script>
 @endsection

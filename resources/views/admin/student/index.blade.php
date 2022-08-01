@@ -90,7 +90,21 @@
                         </tbody>
                       </table>
                   </div>
-                  {{ $students->links() }}
+
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="bd-highlight">
+                      <div class="pt-3">
+                        {{ $students->links() }}
+                      </div>
+                    </div>
+                    <div class="bd-highlight">
+                      <a href="{{ route('student.import.create') }}" class="btn btn-sm btn-main">
+                        <i class="bi bi-box-arrow-in-left"></i>
+                        <span>Import</span> 
+                      </a>
+                    </div>
+                  </div>
+                  
                 </div>
                 
               </div>
