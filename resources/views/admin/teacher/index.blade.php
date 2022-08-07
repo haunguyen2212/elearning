@@ -108,7 +108,7 @@
                       </div>
                     </div>
                     <div class="bd-highlight">
-                      <a href="{{ route('teacher.import.create') }}" class="btn btn-sm btn-main">
+                      <a href="{{ route('teacher.import.create') }}" class="btn btn-sm btn-primary">
                         <i class="bi bi-box-arrow-in-left"></i>
                         <span>Import</span> 
                       </a>

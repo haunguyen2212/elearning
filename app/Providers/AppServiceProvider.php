@@ -6,10 +6,12 @@ use App\Repositories\Interfaces\StudentRepositoryInterface;
 use App\Repositories\StudentRepository;
 use App\Repositories\Interfaces\ClassRepositoryInterface;
 use App\Repositories\ClassRepository;
+use App\Repositories\CourseRepository;
 use App\Repositories\Interfaces\TeacherRepositoryInterface;
 use App\Repositories\Interfaces\DepartmentRepositoryInterface;
 use App\Repositories\DepartmentRepository;
 use App\Repositories\HomeroomTeacherRepository;
+use App\Repositories\Interfaces\CourseRepositoryInterface;
 use App\Repositories\Interfaces\HomeroomTeacherRepositoryInterface;
 use App\Repositories\TeacherRepository;
 use Illuminate\Pagination\Paginator;
@@ -29,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(TeacherRepositoryInterface::class, TeacherRepository::class);
         $this->app->bind(DepartmentRepositoryInterface::class, DepartmentRepository::class);
         $this->app->bind(HomeroomTeacherRepositoryInterface::class, HomeroomTeacherRepository::class);
+        $this->app->bind(CourseRepositoryInterface::class, CourseRepository::class);
     }
 
     /**

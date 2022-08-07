@@ -16,8 +16,38 @@ class DepartmentSeeder extends Seeder
     {
         DB::table('departments')->insert([
             [
-                'name' => 'Tổ Toán',
+                'name' => 'Tổ Toán Học',
+            ],
+            [
+                'name' => 'Tổ Ngữ Văn',
+            ],
+            [
+                'name' => 'Tổ Vật Lý',
+            ],
+            [
+                'name' => 'Tổ Hóa Học',
+            ],
+            [
+                'name' => 'Tổ Lịch Sử',
+            ],
+            [
+                'name' => 'Tổ Địa Lý',
+            ],
+            [
+                'name' => 'Tổ Sinh Học',
+            ],
+            [
+                'name' => 'Tổ Ngoại Ngữ',
+            ],
+            [
+                'name' => 'Tổ Thể Dục - Quốc Phòng',
+            ],
+            [
+                'name' => 'Tổ Tin Học',
+            ],
+            [
+                'name' => 'Tổ Văn Phòng',
             ]
-            ]);
+        ]);
     }
 }

@@ -5,14 +5,16 @@ use App\Http\Controllers\Front;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [Front\HomeController::class, 'index'])->name('home');
 
 Route::get('login', [Front\LoginController::class, 'index'])->name('login');
 Route::post('login', [Front\LoginController::class, 'checkLogin'])->name('login.check');
 Route::get('admin/login', [Admin\LoginController::class, 'index'])->name('admin.login');
 Route::post('admin/login', [Admin\LoginController::class, 'checkLogin'])->name('admin.login.check');
+
+Route::group(['prefix' => 'teacher'], function(){
+    Route::get('/', [Front\TeacherHomeController::class, 'index'])->name('teacher.home');
+});
 
 Route::group(['prefix' => 'admin', 'middleware' => 'isAdmin'], function(){
     Route::get('logout', [Admin\LoginController::class, 'logout'])->name('admin.logout');

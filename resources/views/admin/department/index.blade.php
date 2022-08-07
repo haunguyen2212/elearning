@@ -52,8 +52,8 @@
                         <thead>
                           <tr>
                             <th width="15%">ID</th>
-                            <th width="30%">Đơn vị</th>
-                            <th width="25%">Thành viên</th>
+                            <th width="40%">Đơn vị</th>
+                            <th width="15%">SL</th>
                             <th width="30%">Tùy chỉnh</th>
                           </tr>
                         </thead>
