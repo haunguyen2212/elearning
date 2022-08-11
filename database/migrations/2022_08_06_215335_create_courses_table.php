@@ -21,6 +21,7 @@ class CreateCoursesTable extends Migration
             $table->string('introduce', 1000)->nullable();
             $table->char('is_enrol', 1)->default('1');
             $table->timestamps();
+            $table->foreign('teacher_id')->references('id')->on('teachers')->onUpdate('cascade')->onDelete('set null');
         });
     }
 

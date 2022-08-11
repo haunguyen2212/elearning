@@ -21,6 +21,9 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             HomeroomTeacherSeeder::class,
             CourseSeeder::class,
+            CourseInvolvementSeeder::class,
+            QuizSeeder::class,
+            QuestionSeeder::class,
        ]);
     }
 }

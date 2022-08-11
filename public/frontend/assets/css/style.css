@@ -289,3 +289,12 @@ a{
     width: 100px;
     margin-top: 10px;
 }
+
+.information>div{
+    margin-top: 10px;
+    margin-top: 10px;
+}
+
+.text-main{
+    color: var(--main-color) !important;
+}

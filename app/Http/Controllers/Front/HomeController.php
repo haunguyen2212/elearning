@@ -19,4 +19,17 @@ class HomeController extends Controller
         $courses = $this->course->getFullInfo(15);
         return view('home', compact('courses'));
     }
+
+    public function detail($id){
+        $course = $this->getCourseById($id);
+        return view('front.student.course_enrol', compact('course'));
+    }
+
+    public function getCourseById($id){
+        $course = $this->course->getFullById($id);
+        if(empty($course)){
+            abort(404);
+        }
+        return $course;
+    }
 }

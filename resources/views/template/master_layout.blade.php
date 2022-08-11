@@ -60,14 +60,45 @@
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('home') }}">Trang chủ</a></li>
             @yield('breadcrumb')
-            
           </ol>
         </nav>
       </div>
 
       <div class="wrapper">
-
-        @yield('content')
+        <div class="row">
+            <div class="col-12 col-md-8">
+              @yield('content')              
+            </div>
+              <div class="col-12 col-md-4">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="card">
+                      <div class="card-body pb-0">
+                        <h5 class="card-title">Khóa học của tôi</h5>
+                        <ul class="list-item">
+                          <li>
+                            <a href=""><i class="bi bi-caret-right-fill"></i> CT174 - Toán 12 (Võ Huỳnh Trâm) </a>
+                          </li>
+                          <li>
+                            <a href=""><i class="bi bi-caret-right-fill"></i> CT174 - Toán 12 (Võ Huỳnh Trâm) </a>
+                          </li>
+                        </ul> 
+                      </div>
+                    </div>
+                    
+                  </div>
+                  <div class="col-12">
+                    <div class="card">
+                      <div class="card-body pt-0">
+                        <h5 class="card-title">Thông báo</h5>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+                
+              </div>
+            </div>
         
       </div>
 

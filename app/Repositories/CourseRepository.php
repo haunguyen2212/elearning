@@ -27,6 +27,13 @@ class CourseRepository implements CourseRepositoryInterface
             ->paginate($offset);
     }
 
+    public function getFullById($id){
+        return $this->course->leftJoin('teachers', 'teacher_id', 'teachers.id')
+            ->where('courses.id', $id)
+            ->select('courses.id', 'courses.name', 'code', 'introduce', 'is_enrol', 'teacher_id' ,DB::raw('teachers.name as teacher_name'))
+            ->first();
+    }
+
     public function count()
     {
         return $this->course->count();
