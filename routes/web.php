@@ -13,6 +13,10 @@ Route::post('login', [Front\LoginController::class, 'checkLogin'])->name('login.
 Route::get('admin/login', [Admin\LoginController::class, 'index'])->name('admin.login');
 Route::post('admin/login', [Admin\LoginController::class, 'checkLogin'])->name('admin.login.check');
 
+Route::group(['prefix' => 'course'], function(){
+    Route::get('view/{id}', [Front\CourseStudentController::class, 'index'])->name('course.index');
+});
+
 Route::group(['prefix' => 'teacher'], function(){
     Route::get('/', [Front\TeacherHomeController::class, 'index'])->name('teacher.home');
 });
