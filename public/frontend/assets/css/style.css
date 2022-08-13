@@ -207,6 +207,7 @@ a{
     transition: all 0.3s;
     border-top: 2px solid #cddfff;
     background-color: transparent;
+    margin-top: 20px;
 }
 
 .footer .copyright {

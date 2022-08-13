@@ -75,22 +75,25 @@
             </div>
               <div class="col-12 col-md-4">
                 <div class="row">
-                  <div class="col-12">
-                    <div class="card">
-                      <div class="card-body pb-0">
-                        <h5 class="card-title">Khóa học của tôi</h5>
-                        <ul class="list-item">
-                          <li>
-                            <a href=""><i class="bi bi-caret-right-fill"></i> CT174 - Toán 12 (Võ Huỳnh Trâm) </a>
-                          </li>
-                          <li>
-                            <a href=""><i class="bi bi-caret-right-fill"></i> CT174 - Toán 12 (Võ Huỳnh Trâm) </a>
-                          </li>
-                        </ul> 
+
+                  @if (isset($myCourses))
+                    <div class="col-12">
+                      <div class="card">
+                        <div class="card-body pb-0">
+                          <h5 class="card-title">Khóa học của tôi</h5>
+                          <ul class="list-item">
+                            @foreach ($myCourses as $myCourse)
+                              <li>
+                                <a href="{{ route('course.index', $myCourse->course_id) }}"><i class="bi bi-caret-right-fill"></i> {{ $myCourse->code .' - '. $myCourse->course_name }}</a>
+                              </li>
+                            @endforeach
+                            
+                          </ul> 
+                        </div>
                       </div>
                     </div>
-                    
-                  </div>
+                  @endif
+
                   <div class="col-12">
                     <div class="card">
                       <div class="card-body pt-0">
