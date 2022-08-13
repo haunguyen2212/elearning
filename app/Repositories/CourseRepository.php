@@ -23,14 +23,14 @@ class CourseRepository implements CourseRepositoryInterface
     public function getFullInfo($offset = 10)
     {
         return $this->course->leftJoin('teachers', 'teacher_id', 'teachers.id')
-            ->select('courses.id', 'courses.name', 'code', 'introduce', 'is_enrol', 'teacher_id' ,DB::raw('teachers.name as teacher_name'))
+            ->select('courses.id', 'courses.name', 'code', 'introduce', 'is_enrol', 'notice', 'teacher_id' ,DB::raw('teachers.name as teacher_name'))
             ->paginate($offset);
     }
 
     public function getFullById($id){
         return $this->course->leftJoin('teachers', 'teacher_id', 'teachers.id')
             ->where('courses.id', $id)
-            ->select('courses.id', 'courses.name', 'code', 'introduce', 'is_enrol', 'teacher_id' ,DB::raw('teachers.name as teacher_name'))
+            ->select('courses.id', 'courses.name', 'code', 'introduce', 'is_enrol', 'notice', 'teacher_id' ,DB::raw('teachers.name as teacher_name'))
             ->first();
     }
 

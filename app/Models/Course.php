@@ -17,5 +17,6 @@ class Course extends Model
         'introduce',
         'is_enrol',
         'code',
+        'notice',
     ];
 }

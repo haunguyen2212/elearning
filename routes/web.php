@@ -5,11 +5,12 @@ use App\Http\Controllers\Front;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/', [Front\HomeController::class, 'index'])->name('home');
+Route::get('/', [Front\HomeController::class, 'index'])->middleware('isLogin')->name('home');
 Route::get('enrol/{id}', [Front\HomeController::class, 'detail'])->name('course.detail');
 
 Route::get('login', [Front\LoginController::class, 'index'])->name('login');
 Route::post('login', [Front\LoginController::class, 'checkLogin'])->name('login.check');
+Route::get('logout', [Front\LoginController::class, 'logout'])->name('logout');
 Route::get('admin/login', [Admin\LoginController::class, 'index'])->name('admin.login');
 Route::post('admin/login', [Admin\LoginController::class, 'checkLogin'])->name('admin.login.check');
 
