@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Notice;
 use App\Repositories\Interfaces\StudentRepositoryInterface;
 use App\Repositories\StudentRepository;
 use App\Repositories\Interfaces\ClassRepositoryInterface;
@@ -15,12 +16,15 @@ use App\Repositories\HomeroomTeacherRepository;
 use App\Repositories\Interfaces\CourseInvolvementRepositoryInterface;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
 use App\Repositories\Interfaces\HomeroomTeacherRepositoryInterface;
+use App\Repositories\Interfaces\NoticeRepositoryInterface;
 use App\Repositories\Interfaces\TopicDocumentRepositoryInterface;
 use App\Repositories\Interfaces\TopicRepositoryInterface;
+use App\Repositories\NoticeRepository;
 use App\Repositories\TeacherRepository;
 use App\Repositories\TopicDocumentRepository;
 use App\Repositories\TopicRepository;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -41,6 +45,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(TopicRepositoryInterface::class, TopicRepository::class);
         $this->app->bind(TopicDocumentRepositoryInterface::class, TopicDocumentRepository::class);
         $this->app->bind(CourseInvolvementRepositoryInterface::class, CourseInvolvementRepository::class);
+        $this->app->bind(NoticeRepositoryInterface::class, NoticeRepository::class);
     }
 
     /**
@@ -51,5 +56,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Paginator::useBootstrap();
+        if(!$this->app->runningInConsole()){
+            $notices = Notice::where('is_show', '1')->get();
+            View::share(compact('notices'));
+        }
     }
 }

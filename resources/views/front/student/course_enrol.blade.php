@@ -11,6 +11,12 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
+                    @if (session('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ session('error') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="card-title">Thông tin lớp học</div>
                     </div>
@@ -22,10 +28,7 @@
                         <div><strong class="text-main">Giáo viên: </strong>{{ $course->teacher_name }}</div>
                     </div>
                     <div class="d-flex justify-content-center mt-3">
-                        <a href="" class="btn-slide01">Ghi danh tôi</a>
-                    </div>
-                    <div>
-                        <a href="{{ url()->previous() }}"><i class="bi bi-box-arrow-up-left"></i> Trang trước</a>
+                        <a href="{{ route('course.enrol', $course->id) }}" class="btn-slide01">Ghi danh tôi</a>
                     </div>
                 </div>
             </div>

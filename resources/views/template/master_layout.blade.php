@@ -76,32 +76,63 @@
               <div class="col-12 col-md-4">
                 <div class="row">
 
-                  @if (isset($myCourses))
+                  @if (auth()->guard('teacher')->check())
+                    @if (isset($myCourses))
+                      <div class="col-12">
+                        <div class="card">
+                          <div class="card-body pb-0">
+                            <h5 class="card-title">Khóa học của tôi</h5>
+                            <ul class="list-item">
+                              @foreach ($myCourses as $myCourse)
+                                <li>
+                                  <a href="{{ route('course.index', $myCourse->id) }}"><i class="bi bi-caret-right-fill"></i> {{ $myCourse->code .' - '. $myCourse->name }}</a>
+                                </li>
+                              @endforeach
+                            </ul> 
+                          </div>
+                        </div>
+                      </div>
+                    @endif
+                  @endif
+
+                  @if (auth()->guard('student')->check())
+
+                    @if (isset($myCourses))
+                      <div class="col-12">
+                        <div class="card">
+                          <div class="card-body pb-0">
+                            <h5 class="card-title">Khóa học của tôi</h5>
+                            <ul class="list-item">
+                              @foreach ($myCourses as $myCourse)
+                                <li>
+                                  <a href="{{ route('course.index', $myCourse->course_id) }}"><i class="bi bi-caret-right-fill"></i> {{ $myCourse->code .' - '. $myCourse->course_name }}</a>
+                                </li>
+                              @endforeach
+                            </ul> 
+                          </div>
+                        </div>
+                      </div>
+                    @endif
+
+                  @endif
+
+                  @if (isset($notices))
                     <div class="col-12">
                       <div class="card">
-                        <div class="card-body pb-0">
-                          <h5 class="card-title">Khóa học của tôi</h5>
+                        <div class="card-body pt-0">
+                          <h5 class="card-title">Thông báo</h5>
                           <ul class="list-item">
-                            @foreach ($myCourses as $myCourse)
+                            @foreach ($notices as $key => $notice)
                               <li>
-                                <a href="{{ route('course.index', $myCourse->course_id) }}"><i class="bi bi-caret-right-fill"></i> {{ $myCourse->code .' - '. $myCourse->course_name }}</a>
+                                <a href="{{ $notice->link }}"> {{ $key+1 .'. '. $notice->name ?? $notice->link }}</a>
                               </li>
                             @endforeach
-                            
-                          </ul> 
+                          </ul>
                         </div>
                       </div>
                     </div>
                   @endif
-
-                  <div class="col-12">
-                    <div class="card">
-                      <div class="card-body pt-0">
-                        <h5 class="card-title">Thông báo</h5>
-                      </div>
-                    </div>
-                    
-                  </div>
+                  
                 </div>
                 
               </div>
@@ -113,7 +144,7 @@
 
     <footer id="footer" class="footer">
       <div class="copyright">
-        <span>Elearning</span></strong> - Hệ thống hỗ trợ dạy và học trực tuyến
+        <strong><span>Elearning</span></strong> - Hệ thống hỗ trợ dạy và học trực tuyến
       </div>
       <div class="credits">Hỗ trợ: contact172837@gmail.com
       </div>

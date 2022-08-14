@@ -8,5 +8,6 @@ interface CourseRepositoryInterface{
     public function count();
     public function getFullInfo($offset = 10);
     public function getFullById($id);
+    public function getCourseOfTeacher($orderBy = 'asc');
 
 }

@@ -15,4 +15,7 @@ return [
     'unlock_success' => 'Mở khóa tài khoản thành công',
     'import_success' => 'Import thành công',
     'import_error' => 'Import thất bại',
+    'enrol_expired' => 'Đã hết hạn ghi danh vào khóa học này',
+    'enrolled' => 'Bạn đã ghi danh vào khóa học này rồi',
+    'error' => 'Có lỗi xảy ra, thử lại sau',
 ];

@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Course;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CourseRepository implements CourseRepositoryInterface
@@ -37,5 +38,10 @@ class CourseRepository implements CourseRepositoryInterface
     public function count()
     {
         return $this->course->count();
+    }
+
+    public function getCourseOfTeacher($orderBy = 'asc')
+    {
+        return $this->course->where('teacher_id', Auth::guard('teacher')->id())->orderBy('id', $orderBy)->get();
     }
 }
