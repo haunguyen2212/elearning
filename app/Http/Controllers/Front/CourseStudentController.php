@@ -27,13 +27,13 @@ class CourseStudentController extends Controller
 
     public function index($id){
         $course = $this->getCourseById($id);
-        $myCourses = $this->myCourse->getCourseOfStudent();
+        $myStudentCourses = $this->myCourse->getCourseOfStudent();
         $topics = $this->topic->getActive($id);
         $documents = [];
         foreach($topics as $key => $topic){
             $documents[$key] = $this->topicDocument->getActive($topic->id);
         }
-        return view('front.student.course', compact('course', 'topics', 'documents', 'myCourses'));
+        return view('front.student.course', compact('course', 'topics', 'documents', 'myStudentCourses'));
     }
 
     public function getCourseById($id){

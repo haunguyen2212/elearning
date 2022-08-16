@@ -51,3 +51,5 @@ Route::group(['prefix' => 'admin', 'middleware' => 'isAdmin'], function(){
 Route::get('model', function(){
     return \App\Models\Classes::find(2)->students;
 });
+
+Route::get('test', [Front\ScheduleController::class, 'schedule']);

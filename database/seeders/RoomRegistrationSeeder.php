@@ -58,6 +58,46 @@ class RoomRegistrationSeeder extends Seeder
                 'period_end_id' => 5,
                 'amount' => 24,
             ],
+            [
+                'purpose' => 'Dạy môn Văn lớp 11A1',
+                'date' => $now,
+                'teacher_id' => 7,
+                'period_start_id' => 1,
+                'period_end_id' => 4,
+                'amount' => 20,
+            ],
+            [
+                'purpose' => 'Dạy môn Văn lớp 11A2',
+                'date' => $now,
+                'teacher_id' => 6,
+                'period_start_id' => 6,
+                'period_end_id' => 9,
+                'amount' => 20,
+            ],
+            [
+                'purpose' => 'Dạy môn Vật Lý lớp 11A3',
+                'date' => $now,
+                'teacher_id' => 14,
+                'period_start_id' => 8,
+                'period_end_id' => 10,
+                'amount' => 20,
+            ],
+            [
+                'purpose' => 'Dạy môn Vật Lý lớp 12A1',
+                'date' => $now,
+                'teacher_id' => 15,
+                'period_start_id' => 7,
+                'period_end_id' => 8,
+                'amount' => 30,
+            ],
+            [
+                'purpose' => 'Dạy môn Vật Lý lớp 10A4',
+                'date' => $now,
+                'teacher_id' => 13,
+                'period_start_id' => 8,
+                'period_end_id' => 9,
+                'amount' => 22,
+            ],
         ]);
     }
 }

@@ -77,13 +77,13 @@
                 <div class="row">
 
                   @if (auth()->guard('teacher')->check())
-                    @if (isset($myCourses))
+                    @if (isset($myTeacherCourses))
                       <div class="col-12">
                         <div class="card">
                           <div class="card-body pb-0">
                             <h5 class="card-title">Khóa học của tôi</h5>
                             <ul class="list-item">
-                              @foreach ($myCourses as $myCourse)
+                              @foreach ($myTeacherCourses as $myCourse)
                                 <li>
                                   <a href="{{ route('course.index', $myCourse->id) }}"><i class="bi bi-caret-right-fill"></i> {{ $myCourse->code .' - '. $myCourse->name }}</a>
                                 </li>
@@ -97,13 +97,13 @@
 
                   @if (auth()->guard('student')->check())
 
-                    @if (isset($myCourses))
+                    @if (isset($myStudentCourses))
                       <div class="col-12">
                         <div class="card">
                           <div class="card-body pb-0">
                             <h5 class="card-title">Khóa học của tôi</h5>
                             <ul class="list-item">
-                              @foreach ($myCourses as $myCourse)
+                              @foreach ($myStudentCourses as $myCourse)
                                 <li>
                                   <a href="{{ route('course.index', $myCourse->course_id) }}"><i class="bi bi-caret-right-fill"></i> {{ $myCourse->code .' - '. $myCourse->course_name }}</a>
                                 </li>

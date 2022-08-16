@@ -25,24 +25,24 @@ class HomeController extends Controller
 
     public function index(){
         if(Auth::guard('student')->check()){
-            $myCourses = $this->myCourse->getCourseOfStudent();
+            $data['myStudentCourses'] = $this->myCourse->getCourseOfStudent();
         }
         else{
-            $myCourses = $this->myCourse->getCourseOfTeacher();
+            $data['myTeacherCourses'] = $this->myCourse->getCourseOfTeacher();
         }
-        $courses = $this->course->getFullInfo(15);
-        return view('home', compact('courses', 'myCourses'));
+        $data['courses'] = $this->course->getFullInfo(15);
+        return view('home', $data);
     }
 
     public function detail($id){
         if(Auth::guard('student')->check()){
-            $myCourses = $this->myCourse->getCourseOfStudent();
+            $data['myStudentCourses'] = $this->myCourse->getCourseOfStudent();
         }
         else{
-            $myCourses = $this->myCourse->getCourseOfTeacher();
+            $data['myTeacherCourses'] = $this->myCourse->getCourseOfTeacher();
         }
-        $course = $this->getCourseById($id);
-        return view('front.student.course_enrol', compact('course', 'myCourses'));
+        $data['course'] = $this->getCourseById($id);
+        return view('front.student.course_enrol', $data);
     }
 
     public function enrol($id){
