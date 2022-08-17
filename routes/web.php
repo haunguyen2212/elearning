@@ -53,3 +53,4 @@ Route::get('model', function(){
 });
 
 Route::get('test', [Front\ScheduleController::class, 'schedule']);
+Route::get('test2', [Front\ScheduleController::class, 'dynamicProgramming']);

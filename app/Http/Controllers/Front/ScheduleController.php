@@ -23,13 +23,35 @@ class ScheduleController extends Controller
     }
 
     public function schedule(){
-        $now = Carbon::now()->format('Y-m-d');
+        $now = Carbon::now()->subDay()->format('Y-m-d');
         $registrations = $this->getData($now);
         $collection = collect();
-        $collection->push($registrations[8]);
-        $collection->push($registrations[1]);
-        dd($collection);
-        //dd($registrations->toArray());
+        //dd($collection);
+        dd($registrations->toArray());
+    }
+
+    public function dynamicProgramming(){
+        $now = Carbon::now()->subDay()->format('Y-m-d');
+        $registrations = $this->getData($now);
+        $n = 10;
+        $L[0] = 1;
+        $T[0] = 0;
+        for($i = 1; $i < $n; $i++){
+            $LMax = 0;
+            $jMax = $i;
+            for($j = 0; $j < $i; $j++){
+                if((int)$registrations[$j]->period_end_id <= (int)$registrations[$i]->period_start_id && $LMax < $L[$j]){
+                    $LMax = $L[$j];
+                    $jMax = $j;
+                }   
+            }
+            $L[$i] = $LMax + 1;
+            $T[$i] = $jMax;
+        }
+        
+      dd($L);
+      
+
     }
 
 }
