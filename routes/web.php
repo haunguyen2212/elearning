@@ -52,5 +52,5 @@ Route::get('model', function(){
     return \App\Models\Classes::find(2)->students;
 });
 
-Route::get('test', [Front\ScheduleController::class, 'schedule']);
+Route::get('test', [Front\ScheduleController::class, 'main']);
 Route::get('test2', [Front\ScheduleController::class, 'dynamicProgramming']);

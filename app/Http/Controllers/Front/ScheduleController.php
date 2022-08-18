@@ -19,38 +19,48 @@ class ScheduleController extends Controller
     }
 
     public function getData($date){
-        return $this->roomRegistration->getForDate($date);
+        return $this->roomRegistration->getForDate($date)->toArray();
     }
 
-    public function schedule(){
-        $now = Carbon::now()->subDay()->format('Y-m-d');
-        $registrations = $this->getData($now);
-        $collection = collect();
-        //dd($collection);
-        dd($registrations->toArray());
-    }
-
-    public function dynamicProgramming(){
-        $now = Carbon::now()->subDay()->format('Y-m-d');
-        $registrations = $this->getData($now);
-        $n = 10;
-        $L[0] = 1;
-        $T[0] = 0;
+    public function dynamicProgramming($registrations = []){
+        $n = count($registrations);
+        $num[0] = 1;
+        $des[0] = 0;
         for($i = 1; $i < $n; $i++){
-            $LMax = 0;
-            $jMax = $i;
+            $num_max = 0;
+            $key_max = $i;
             for($j = 0; $j < $i; $j++){
-                if((int)$registrations[$j]->period_end_id <= (int)$registrations[$i]->period_start_id && $LMax < $L[$j]){
-                    $LMax = $L[$j];
-                    $jMax = $j;
+                if(($registrations[$j]['period_end_id'] <= $registrations[$i]['period_start_id']) && ($num_max < $num[$j])){
+                    $num_max = $num[$j];
+                    $key_max = $j;
                 }   
             }
-            $L[$i] = $LMax + 1;
-            $T[$i] = $jMax;
+            $num[$i] = $num_max + 1;
+            $des[$i] = $key_max;
         }
         
-      dd($L);
-      
+        return [$num, $des];
+    }
+
+    public function trace($destination = [], $max, $last_index){
+            $result = [];
+            $max_index = $last_index;
+            for($i = $max; $i > 0; $i--){
+                array_push($result, $max_index);
+                $max_index = $destination[$max_index];
+            }
+        return $result;
+    }
+
+    public function getSchedule($registrations = [], $arr = []){
+
+    }
+
+    public function main(){
+        $registrations = $this->getData('2022-08-17');
+        [$num, $des] = $this->dynamicProgramming($registrations);
+        dd($registrations);
+        dd($this->trace($des, max($num), array_search(max($num), $num)));
 
     }
 
