@@ -64,6 +64,6 @@
 @section('script')
     <script>
         $('#departments-nav').addClass('show');
-        $('#classrooms').addClass('active');
+        $('#departments').addClass('active');
     </script>
 @endsection

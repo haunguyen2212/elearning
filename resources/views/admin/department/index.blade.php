@@ -10,7 +10,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-7">
             <div class="card">
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center">
@@ -52,9 +52,9 @@
                         <thead>
                           <tr>
                             <th width="15%">ID</th>
-                            <th width="40%">Đơn vị</th>
+                            <th width="50%">Đơn vị</th>
                             <th width="15%">SL</th>
-                            <th width="30%">Tùy chỉnh</th>
+                            <th width="20%">Tùy chỉnh</th>
                           </tr>
                         </thead>
                         <tbody>

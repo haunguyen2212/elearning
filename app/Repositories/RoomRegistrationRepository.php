@@ -17,9 +17,9 @@ class RoomRegistrationRepository implements RoomRegistrationRepositoryInterface{
     public function getForDate($date)
     {
         return $this->room_registration->whereDate('date', $date)
-            ->select('id', 'purpose', 'teacher_id', 'period_start_id', 'period_end_id', 'amount')
-            ->orderBy('period_end_id', 'asc')
-            ->orderBy('period_start_id', 'asc')
+            ->select('id', 'purpose', 'teacher_id', 'start_time', 'end_time', 'amount')
+            ->orderBy('end_time', 'asc')
+            ->orderBy('start_time', 'asc')
             ->get();
     }
 

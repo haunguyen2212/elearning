@@ -2,8 +2,6 @@
 
 namespace App\Libraries;
 
-use App\Repositories\Interfaces\CourseInvolvementRepositoryInterface;
-
 class MyCourse{
 
     protected $courseInvolvement, $course;

@@ -18,13 +18,11 @@ class CreateRoomRegistrationsTable extends Migration
             $table->string('purpose');
             $table->date('date');
             $table->bigInteger('teacher_id')->unsigned();
-            $table->bigInteger('period_start_id')->unsigned();
-            $table->bigInteger('period_end_id')->unsigned();
+            $table->time('start_time');
+            $table->time('end_time');
             $table->integer('amount');
             $table->timestamps();
             $table->foreign('teacher_id')->references('id')->on('teachers')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('period_start_id')->references('id')->on('periods')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('period_end_id')->references('id')->on('periods')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

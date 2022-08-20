@@ -27,7 +27,6 @@ class DatabaseSeeder extends Seeder
             TopicSeeder::class,
             TopicDocumentSeeder::class,
             NoticeSeeder::class,
-            PeriodSeeder::class,
             RoomRegistrationSeeder::class,
        ]);
     }
