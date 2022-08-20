@@ -141,6 +141,7 @@
 @section('script')
     <script>
         $('#user-nav').addClass('show');
+        $('#user-link').removeClass('collapsed');
         $('#student').addClass('active');
     </script>
 @endsection

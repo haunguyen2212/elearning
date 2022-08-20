@@ -46,11 +46,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'isAdmin'], function(){
     Route::patch('class/{id}/homeroom_teacher/update', [Admin\ClassController::class, 'updateHomeroomTeacher'])->name('class.homeroomTeacher.update');
     
     Route::resource('department', Admin\DepartmentController::class);
+    Route::get('room-registration', [Admin\ScheduleController::class, 'index'])->name('schedule.list');
 });
 
-Route::get('model', function(){
-    return \App\Models\Classes::find(2)->students;
-});
-
-Route::get('test', [Front\ScheduleController::class, 'main']);
-Route::get('test2', [Front\ScheduleController::class, 'dynamicProgramming']);
+Route::get('test', [Admin\ScheduleController::class, 'main']);

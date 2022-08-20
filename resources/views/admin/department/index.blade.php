@@ -130,6 +130,7 @@
 @section('script')
     <script>
         $('#departments-nav').addClass('show');
+        $('#department-link').removeClass('collapsed');
         $('#departments').addClass('active');
 
         $('.btn-delete').click(function(e){

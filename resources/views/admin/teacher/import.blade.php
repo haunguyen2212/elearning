@@ -75,6 +75,7 @@
 @section('script')
     <script>
         $('#user-nav').addClass('show');
+        $('#user-link').removeClass('collapsed');
         $('#teacher').addClass('active');
     </script>
 @endsection

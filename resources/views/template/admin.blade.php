@@ -41,7 +41,7 @@
 
     <div class="d-flex align-items-center justify-content-between">
       <a href="index.html" class="logo d-flex align-items-center">
-        <img src="assets/img/logo.png" alt="">
+        {{-- <img src="assets/img/logo.png" alt=""> --}}
         <span class="d-none d-lg-block">E-Learning</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -114,14 +114,14 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="index.html">
+        <a class="nav-link " href="javascript:void()">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#departments-nav" data-bs-toggle="collapse" href="#">
+        <a id="department-link" class="nav-link collapsed" data-bs-target="#departments-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-journal-text"></i><span>Quản lý đơn vị</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="departments-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
@@ -139,7 +139,7 @@
       </li><!-- End Forms Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#user-nav" data-bs-toggle="collapse" href="#">
+        <a id="user-link" class="nav-link collapsed" data-bs-target="#user-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-menu-button-wide"></i><span>Quản lý tài khoản</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="user-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
@@ -154,7 +154,14 @@
             </a>
           </li>
         </ul>
-      </li><!-- End Components Nav -->
+      </li>
+
+      <li class="nav-item">
+        <a id="room-registration-nav" class="nav-link collapsed" href="{{ route('schedule.list') }}">
+          <i class="bi bi-card-list"></i>
+          <span>Đăng ký phòng</span>
+        </a>
+      </li>
 
       <li class="nav-heading">Pages</li>
 
@@ -178,13 +185,6 @@
           <span>Contact</span>
         </a>
       </li><!-- End Contact Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-register.html">
-          <i class="bi bi-card-list"></i>
-          <span>Register</span>
-        </a>
-      </li><!-- End Register Page Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route('admin.logout') }}">

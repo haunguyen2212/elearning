@@ -136,6 +136,7 @@
 @section('script')
   <script>
     $('#user-nav').addClass('show');
+    $('#user-link').removeClass('collapsed');
     $('#student').addClass('active');
 
     $('.btn-delete').click(function(e){
