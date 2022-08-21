@@ -39,7 +39,7 @@
                         </div>
                     @endif
 
-                    <form action="" method="post" class="row g-3">
+                    <form action="{{ route('schedule.handle') }}" method="post" class="row g-3">
                         @csrf
 
                         <div class="col-12">

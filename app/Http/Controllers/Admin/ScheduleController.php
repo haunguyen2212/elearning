@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ScheduleRequest;
 use App\Libraries\Schedule;
 use App\Repositories\Interfaces\RoomRegistrationRepositoryInterface;
 use Illuminate\Http\Request;
@@ -28,7 +29,12 @@ class ScheduleController extends Controller
         return view('admin.room_registration.schedule');
     }
 
-    public function main(){
-        dd($this->schedule->getSchedule('2022-08-19', '2022-08-21'));
+    public function error(){
+        return view('errors.404');
+    }
+
+    public function main(ScheduleRequest $request){
+        $schedule = $this->schedule->getSchedule($request->from_date, $request->to_date);
+        print_r($schedule);
     }
 }

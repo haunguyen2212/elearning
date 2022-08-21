@@ -6,10 +6,11 @@ use Carbon\CarbonPeriod;
 
 class Schedule{
 
-    protected $roomRegistration;
+    protected $room, $roomRegistration;
 
     public function __construct()
     {
+        $this->room = app('App\Repositories\Interfaces\RoomRepositoryInterface');
         $this->roomRegistration = app('App\Repositories\Interfaces\RoomRegistrationRepositoryInterface');
     }
 
@@ -65,23 +66,68 @@ class Schedule{
         return $info;
     }
 
+    public function filterByAmount($arr = [], $amount){
+        foreach($arr as $key => $value){
+            if($arr[$key]['amount'] > $amount)
+                unset($arr[$key]);
+        }
+        return $arr;
+    }
+
+    public function deleteKey($arr = [], $values = []){
+        if(empty($values))
+            return $arr;
+        foreach($values as $value){   
+            unset($arr[array_search($value, $arr)]);
+        }
+        $result = array_values($arr);
+        return $result;
+    }
+
     public function getSchedule($from_date,  $to_date){
         $schedule = [];
+        $rooms = $this->room->getDropDown();
         $period = CarbonPeriod::create($from_date, $to_date);
-        foreach($period as $key => $date){
+        foreach($period as $key_date => $date){
             $registrations = $this->getData($date);
-            if(empty($registrations)){
-                $schedule[$key] = [];
-                continue;
+            foreach($rooms as $key_room => $room){
+                $arr = [];
+                $filter = array_values($this->filterByAmount($registrations, $room->capacity));
+                if(empty($filter)){
+                    $schedule[$key_date][$key_room] = [];
+                    continue;
+                }
+                [$total, $des] = $this->dynamicProgramming($filter);
+                $last_index = $this->findMaxKey($total, max($total));
+                $trace = $this->trace($des, max($total), $last_index);
+                $arr[$key_room] = $this->getFullInfo($filter, $trace);
+                $schedule[$key_date][$key_room] = $arr[$key_room];
+                $registrations = $this->deleteKey($registrations, $arr[$key_room]);
             }
-            [$total, $des] = $this->dynamicProgramming($registrations);
-            $last_index = $this->findMaxKey($total, max($total));
-            $trace = $this->trace($des, max($total), $last_index);
-            $schedule[$key] = $this->getFullInfo($registrations, $trace);
+            
         }
         
-        return $schedule;
-
+        dd($schedule);
     }
+
+    // public function getSchedule($from_date,  $to_date){
+    //     $schedule = [];
+        
+    //     $period = CarbonPeriod::create($from_date, $to_date);
+    //     foreach($period as $key => $date){
+    //         $registrations = $this->getData($date);
+    //         if(empty($registrations)){
+    //             $schedule[$key] = [];
+    //             continue;
+    //         }
+    //         [$total, $des] = $this->dynamicProgramming($registrations);
+    //         $last_index = $this->findMaxKey($total, max($total));
+    //         $trace = $this->trace($des, max($total), $last_index);
+    //         $schedule[$key] = $this->getFullInfo($registrations, $trace);
+    //     }
+        
+    //     dd($schedule);
+
+    // }
 
 }

@@ -48,6 +48,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'isAdmin'], function(){
     Route::resource('department', Admin\DepartmentController::class);
     Route::get('room-registration', [Admin\ScheduleController::class, 'index'])->name('schedule.list');
     Route::get('schedule/create', [Admin\ScheduleController::class, 'create'])->name('schedule.create');
+    Route::get('schedule/show', [Admin\ScheduleController::class, 'error'])->name('schedule.error');
+    Route::post('schedule/show', [Admin\ScheduleController::class, 'main'])->name('schedule.handle');
 });
-
-Route::get('test', [Admin\ScheduleController::class, 'main']);
