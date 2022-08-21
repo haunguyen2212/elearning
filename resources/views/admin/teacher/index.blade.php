@@ -149,6 +149,7 @@
     $('#user-nav').addClass('show');
     $('#user-link').removeClass('collapsed');
     $('#teacher').addClass('active');
+    $('#teacher').attr('href', 'javascript:void(0)');
 
     $('.btn-delete').click(function(e){
       e.preventDefault();

@@ -122,7 +122,7 @@
 
       <li class="nav-item">
         <a id="department-link" class="nav-link collapsed" data-bs-target="#departments-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Quản lý đơn vị</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-building"></i><span>Quản lý đơn vị</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="departments-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
@@ -140,7 +140,7 @@
 
       <li class="nav-item">
         <a id="user-link" class="nav-link collapsed" data-bs-target="#user-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-menu-button-wide"></i><span>Quản lý tài khoản</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-people"></i><span>Quản lý tài khoản</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="user-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
@@ -157,10 +157,21 @@
       </li>
 
       <li class="nav-item">
-        <a id="room-registration-nav" class="nav-link collapsed" href="{{ route('schedule.list') }}">
-          <i class="bi bi-card-list"></i>
-          <span>Đăng ký phòng</span>
+        <a id="room-registration-link" class="nav-link collapsed" data-bs-target="#room-registration-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-card-list"></i><span>Đăng ký phòng</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
+        <ul id="room-registration-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+          <li>
+            <a id="list-registration" href="{{ route('schedule.list') }}">
+              <i class="bi bi-circle"></i><span>Danh sách đăng ký</span>
+            </a>
+          </li>
+          <li>
+            <a id="list-schedule" href="{{ route('schedule.create') }}">
+              <i class="bi bi-circle"></i><span>Xếp lịch</span>
+            </a>
+          </li>
+        </ul>
       </li>
 
       <li class="nav-heading">Pages</li>

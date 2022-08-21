@@ -16,6 +16,7 @@ class RoomRegistrationSeeder extends Seeder
     public function run()
     {
         $now = Carbon::now()->format('Y-m-d');
+        $dateTime = Carbon::now()->format('Y-m-d H:i:s');
 
         DB::table('room_registrations')->insert([
             [
@@ -25,6 +26,8 @@ class RoomRegistrationSeeder extends Seeder
                 'start_time' => '07:00:00',
                 'end_time' => '08:30:00',
                 'amount' => 30,
+                'created_at' => $dateTime,
+                'updated_at' => $dateTime,
             ],
             [
                 'purpose' => 'Dạy môn Toán lớp 10A2',
@@ -33,6 +36,8 @@ class RoomRegistrationSeeder extends Seeder
                 'start_time' => '07:00:00',
                 'end_time' => '09:35:00',
                 'amount' => 30,
+                'created_at' => $dateTime,
+                'updated_at' => $dateTime,
             ],
             [
                 'purpose' => 'Dạy môn Toán lớp 10A3',
@@ -41,6 +46,8 @@ class RoomRegistrationSeeder extends Seeder
                 'start_time' => '09:35:00',
                 'end_time' => '10:50:00',
                 'amount' => 35,
+                'created_at' => $dateTime,
+                'updated_at' => $dateTime,
             ],
             [
                 'purpose' => 'Dạy môn Toán lớp 10A4',
@@ -49,6 +56,8 @@ class RoomRegistrationSeeder extends Seeder
                 'start_time' => '09:35:00',
                 'end_time' => '11:30:00',
                 'amount' => 25,
+                'created_at' => $dateTime,
+                'updated_at' => $dateTime,
             ],
             [
                 'purpose' => 'Dạy môn Toán lớp 10A5',
@@ -57,6 +66,8 @@ class RoomRegistrationSeeder extends Seeder
                 'start_time' => '10:30:00',
                 'end_time' => '11:30:00',
                 'amount' => 24,
+                'created_at' => $dateTime,
+                'updated_at' => $dateTime,
             ],
             [
                 'purpose' => 'Dạy môn Văn lớp 11A1',
@@ -65,6 +76,8 @@ class RoomRegistrationSeeder extends Seeder
                 'start_time' => '07:00:00',
                 'end_time' => '10:30:00',
                 'amount' => 20,
+                'created_at' => $dateTime,
+                'updated_at' => $dateTime,
             ],
             [
                 'purpose' => 'Dạy môn Văn lớp 11A2',
@@ -73,6 +86,8 @@ class RoomRegistrationSeeder extends Seeder
                 'start_time' => '12:00:00',
                 'end_time' => '16:00:00',
                 'amount' => 20,
+                'created_at' => $dateTime,
+                'updated_at' => $dateTime,
             ],
             [
                 'purpose' => 'Dạy môn Vật Lý lớp 11A3',
@@ -81,6 +96,8 @@ class RoomRegistrationSeeder extends Seeder
                 'start_time' => '15:50:00',
                 'end_time' => '16:40:00',
                 'amount' => 20,
+                'created_at' => $dateTime,
+                'updated_at' => $dateTime,
             ],
             [
                 'purpose' => 'Dạy môn Vật Lý lớp 12A1',
@@ -89,6 +106,8 @@ class RoomRegistrationSeeder extends Seeder
                 'start_time' => '13:15:00',
                 'end_time' => '14:50:00',
                 'amount' => 30,
+                'created_at' => $dateTime,
+                'updated_at' => $dateTime,
             ],
             [
                 'purpose' => 'Dạy môn Vật Lý lớp 10A4',
@@ -97,6 +116,8 @@ class RoomRegistrationSeeder extends Seeder
                 'start_time' => '15:00:00',
                 'end_time' => '15:15:00',
                 'amount' => 22,
+                'created_at' => $dateTime,
+                'updated_at' => $dateTime,
             ],
         ]);
     }

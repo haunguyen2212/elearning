@@ -19,6 +19,8 @@ class RoomRegistrationRepository implements RoomRegistrationRepositoryInterface{
     {
         return $this->room_registration->leftJoin('teachers', 'teacher_id', 'teachers.id')
             ->select('room_registrations.*', DB::raw('teachers.name as teacher_name'))
+            ->orderBy('date', 'desc')
+            ->orderBy('start_time', 'asc')
             ->paginate($offset);
     }
 

@@ -142,6 +142,7 @@
         $('#departments-nav').addClass('show');
         $('#department-link').removeClass('collapsed');
         $('#classrooms').addClass('active');
+        $('#classrooms').attr('href', 'javascript:void(0)');
 
         $('.btn-delete').click(function(e){
             e.preventDefault();

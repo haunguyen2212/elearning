@@ -21,8 +21,11 @@ class ScheduleController extends Controller
 
     public function index(){
         $data['list_registration'] = $this->roomRegistration->getAll(20);
-        dd($data['list_registration']);
         return view('admin.room_registration.index', $data);
+    }
+
+    public function create(){
+        return view('admin.room_registration.schedule');
     }
 
     public function main(){
