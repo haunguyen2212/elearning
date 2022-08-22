@@ -5,7 +5,6 @@
 - [Composer](https://www.npmjs.com/)
 ## 2. Installation
 ### 2.1. Setup project 
-```
 - Inside the container, execute these commands:
 ```
 composer install
