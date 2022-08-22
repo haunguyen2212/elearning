@@ -5,28 +5,26 @@
 - [Composer](https://www.npmjs.com/)
 ## 2. Installation
 ### 2.1. Setup project 
-```
 - Inside the container, execute these commands:
 ```
 composer install
 ```
-execute the following command to copy the .env file:
+- Execute the following command to copy the .env file:
 ```
 cp .env.example .env
 ```
+- Generate key for the project:
 ```
 php artisan key:generate
 ```
-```
-create database `elearning`;
-```
 ### 2.2. Import database
+- Create database `elearning`.
+- Create tables and sample data for the database:
 ```
 php artisan migrate
 ```
 ```
 php artisan db:seed
-```
 ```
 ### 2.3. Serving Laravel
 ```
