@@ -21,7 +21,7 @@ class RoomSeeder extends Seeder
             ],
             [
                 'name' => 'Phòng 2',
-                'capacity' => 50,
+                'capacity' => 40,
             ],
             [
                 'name' => 'Phòng 3',
@@ -32,8 +32,8 @@ class RoomSeeder extends Seeder
                 'capacity' => 25,
             ],
             [
-                'name' => 'Phòng 1',
-                'capacity' => 40,
+                'name' => 'Phòng 5',
+                'capacity' => 50,
             ],
         ]);
     }

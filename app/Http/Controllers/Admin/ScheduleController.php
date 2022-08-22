@@ -6,16 +6,20 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ScheduleRequest;
 use App\Libraries\Schedule;
 use App\Repositories\Interfaces\RoomRegistrationRepositoryInterface;
+use App\Repositories\Interfaces\RoomRepositoryInterface;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 
 class ScheduleController extends Controller
 {
-    private $schedule, $roomRegistration;
+    private $schedule, $room ,$roomRegistration;
 
     public function __construct(
+        RoomRepositoryInterface $roomRepository,
         RoomRegistrationRepositoryInterface $roomRegistrationRepository
     )
     {
+        $this->room = $roomRepository;
         $this->roomRegistration = $roomRegistrationRepository;
         $this->schedule = new Schedule();
     }
@@ -34,7 +38,11 @@ class ScheduleController extends Controller
     }
 
     public function main(ScheduleRequest $request){
+        $period = CarbonPeriod::create($request->from_date, $request->to_date);
+        $rooms = $this->room->getDropDown()->toArray();
+        asort($rooms);
         $schedule = $this->schedule->getSchedule($request->from_date, $request->to_date);
-        print_r($schedule);
+        return view('admin.room_registration.result', compact('period', 'rooms', 'schedule'));
+        
     }
 }

@@ -71,7 +71,8 @@ class Schedule{
             if($arr[$key]['amount'] > $amount)
                 unset($arr[$key]);
         }
-        return $arr;
+        $result = array_values($arr);
+        return $result;
     }
 
     public function deleteKey($arr = [], $values = []){
@@ -88,26 +89,26 @@ class Schedule{
         $schedule = [];
         $rooms = $this->room->getDropDown();
         $period = CarbonPeriod::create($from_date, $to_date);
-        foreach($period as $key_date => $date){
+        foreach($period as $date_index => $date){
             $registrations = $this->getData($date);
-            foreach($rooms as $key_room => $room){
+            foreach($rooms as $room_index => $room){
                 $arr = [];
-                $filter = array_values($this->filterByAmount($registrations, $room->capacity));
+                $filter = $this->filterByAmount($registrations, $room->capacity);
                 if(empty($filter)){
-                    $schedule[$key_date][$key_room] = [];
+                    $schedule[$date_index][$room_index] = [];
                     continue;
                 }
                 [$total, $des] = $this->dynamicProgramming($filter);
                 $last_index = $this->findMaxKey($total, max($total));
                 $trace = $this->trace($des, max($total), $last_index);
-                $arr[$key_room] = $this->getFullInfo($filter, $trace);
-                $schedule[$key_date][$key_room] = $arr[$key_room];
-                $registrations = $this->deleteKey($registrations, $arr[$key_room]);
+                $arr[$room_index] = $this->getFullInfo($filter, $trace);
+                $schedule[$date_index][$room_index] = $arr[$room_index];
+                $registrations = $this->deleteKey($registrations, $arr[$room_index]);
             }
             
         }
         
-        dd($schedule);
+        return $schedule;
     }
 
     // public function getSchedule($from_date,  $to_date){
