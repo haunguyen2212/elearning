@@ -22,6 +22,7 @@
                                 <th>Ngày</th>
                                 <th>Nội dung</th>
                                 <th>Thời gian</th>
+                                <th>Số lượng</th>
                                 <th>Người đăng ký</th>
                                 <th>Thời gian đăng ký</th>
                               </tr>
@@ -33,14 +34,17 @@
                                         <td>{{ date('d/m/Y', strtotime($registration->date)) }}</td>
                                         <td>{{ $registration->purpose }}</td>
                                         <td>{{ date('H:i', strtotime($registration->start_time)).' - '.date('H:i', strtotime($registration->end_time)) }}</td>
+                                        <td>{{ $registration->amount }}</td>
                                         <td>{{ $registration->teacher_name }}</td>
                                         <td>{{ date('d/m/Y H:i', strtotime($registration->updated_at)) }}</td>
                                     </tr>
                                 @endforeach 
                             </tbody>
-                          </table>
+                          </table>  
                     </div>
+                    {{ $list_registration->links() }}
                 </div>
+                
             </div>
         </div>
     </div>
