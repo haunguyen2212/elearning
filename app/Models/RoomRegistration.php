@@ -15,8 +15,8 @@ class RoomRegistration extends Model
         'purpose',
         'teacher_id',
         'date',
-        'period_start_time',
-        'period_end_time',
+        'start_time',
+        'end_time',
         'amount',
     ];
 }

@@ -34,5 +34,28 @@ class RoomRegistrationRepository implements RoomRegistrationRepositoryInterface{
             ->get();
     }
 
+    public function create($collection = [], $is_admin = false)
+    {
+        if($is_admin){
+            return $this->room_registration->create([
+                'purpose' => $collection['purpose'],
+                'teacher_id' => $collection['teacher_id'],
+                'amount' => $collection['amount'],
+                'date' => $collection['date'],
+                'start_time' => $collection['start_time'],
+                'end_time' => $collection['end_time'],
+            ]);
+        }
+        else{
+            return $this->room_registration->create([
+                'purpose' => $collection['purpose'],
+                'teacher_id' => auth()->guard('teacher')->id(),
+                'amount' => $collection['amount'],
+                'date' => $collection['date'],
+                'start_time' => $collection['start_time'],
+                'end_time' => $collection['end_time'],
+            ]);
+        }
+    }
     
 }

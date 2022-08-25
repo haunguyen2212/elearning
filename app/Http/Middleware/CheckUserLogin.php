@@ -20,6 +20,7 @@ class CheckUserLogin
         if(Auth::guard('student')->check() || Auth::guard('teacher')->check()){
             return $next($request);
         }
+        Auth::guard('admin')->logout();
         return redirect()->route('login');
     }
 }

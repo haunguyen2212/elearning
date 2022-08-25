@@ -18,4 +18,5 @@ return [
     'enrol_expired' => 'Đã hết hạn ghi danh vào khóa học này',
     'enrolled' => 'Bạn đã ghi danh vào khóa học này rồi',
     'error' => 'Có lỗi xảy ra, thử lại sau',
+    'registration_success' => 'Đăng ký thành công',
 ];

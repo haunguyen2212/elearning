@@ -21,6 +21,8 @@ class TeacherMiddleware
             return $next($request);
         }
         else{
+            auth()->guard('admin')->logout();
+            auth()->guard('student')->logout();
             return redirect()->route('login');
         }
     }

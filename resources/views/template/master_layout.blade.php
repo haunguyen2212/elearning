@@ -32,9 +32,16 @@
                   <li class="nav-item">
                     <a class="nav-link" href="#"><span>Điểm số</span></a>
                   </li>
+
+                  @if (auth()->guard('teacher')->check())
+                    <li class="nav-item">
+                      <a class="nav-link" href="{{ route('teacher.registration.create') }}"><span>Đăng ký phòng</span></a>
+                    </li>
+                  @endif
                   <li class="nav-item">
-                    <a class="nav-link" href="#"><span>Phòng thực hành</span></a>
+                    <a class="nav-link" href="#"><span>Liên hệ</span></a>
                   </li>
+                  
                 </ul>
                 <ul class="navbar-nav ms-auto dropdown">
                   

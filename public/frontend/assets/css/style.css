@@ -201,6 +201,17 @@ a{
     left: 0;
 }
 
+.btn-main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .275rem .75rem;
+    background: var(--main-color);
+    color: #fff;
+    border: 1px solid var(--main-color);
+    border-radius: 3px;
+}
+
 .footer {
     padding: 20px 0;
     font-size: 14px;
