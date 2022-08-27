@@ -52,4 +52,5 @@ Route::group(['prefix' => 'admin', 'middleware' => 'isAdmin'], function(){
     Route::get('schedule/create', [Admin\ScheduleController::class, 'create'])->name('schedule.create');
     Route::get('schedule/show', [Admin\ScheduleController::class, 'error'])->name('schedule.error');
     Route::post('schedule/show', [Admin\ScheduleController::class, 'main'])->name('schedule.handle');
+    Route::post('down', [Admin\ScheduleController::class, 'printDocx'])->name('download');
 });

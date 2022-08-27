@@ -41,8 +41,18 @@ class ScheduleController extends Controller
         $period = CarbonPeriod::create($request->from_date, $request->to_date);
         $rooms = $this->room->getDropDown()->toArray();
         asort($rooms);
-        $schedule = $this->schedule->getSchedule($request->from_date, $request->to_date);
-        return view('admin.room_registration.result', compact('period', 'rooms', 'schedule'));
+        [$schedule, $deny] = $this->schedule->getSchedule($request->from_date, $request->to_date);
+        return view('admin.room_registration.result', compact('period', 'rooms', 'schedule', 'deny'));
         
+    }
+
+    public function printDocx(Request $request){
+        if(isset($request->content)){
+            header('Content-type: application/vnd.ms-word');
+            header('Content-Disposition: attachment;Filename=Xep-lich-'.rand().".docx");
+            header('Pragma: no-cache');
+            header('Expires: 0');
+            echo $request->content;
+        }
     }
 }

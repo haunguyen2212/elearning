@@ -86,7 +86,7 @@ class Schedule{
     }
 
     public function getSchedule($from_date,  $to_date){
-        $schedule = [];
+        $schedule = []; $deny = [];
         $rooms = $this->room->getDropDown();
         $period = CarbonPeriod::create($from_date, $to_date);
         foreach($period as $date_index => $date){
@@ -105,10 +105,9 @@ class Schedule{
                 $schedule[$date_index][$room_index] = $arr[$room_index];
                 $registrations = $this->deleteKey($registrations, $arr[$room_index]);
             }
-            
+            array_push($deny, $registrations);
         }
-        
-        return $schedule;
+        return [$schedule, $deny];
     }
 
     // public function getSchedule($from_date,  $to_date){
