@@ -167,6 +167,11 @@
             </a>
           </li>
           <li>
+            <a id="create-registration" href="{{ route('admin.registration.create') }}">
+              <i class="bi bi-circle"></i><span>Đăng ký phòng</span>
+            </a>
+          </li>
+          <li>
             <a id="list-schedule" href="{{ route('schedule.create') }}">
               <i class="bi bi-circle"></i><span>Xếp lịch</span>
             </a>
@@ -208,7 +213,7 @@
 
   </aside><!-- End Sidebar-->
 
-  <main id="main" class="main">
+  <main id="main" class="main" style="min-height: 80vh">
     <div class="pagetitle">
       <h1>@yield('pagetitle')</h1>
       <nav>

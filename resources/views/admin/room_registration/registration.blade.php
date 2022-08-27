@@ -1,4 +1,4 @@
-@extends('template.master_layout')
+@extends('template.admin')
 
 @section('title', 'Đăng ký phòng')
 
@@ -8,12 +8,12 @@
 @endsection
 
 @section('breadcrumb')
-     <li class="breadcrumb-item active">Đăng ký phòng</li>
+    <li class="breadcrumb-item active">Đăng ký phòng</li>
 @endsection
 
 @section('content')
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 col-md-7">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Đăng ký sử dụng phòng</h5>
@@ -31,12 +31,25 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('teacher.registration.store') }}" method="post" class="row g-3 px-2">
+                    <form action="{{ route('admin.registration.store') }}" method="post" class="row g-3 px-2">
                     @csrf
-                        <div class="col-12">
+                        <div class="col-12 col-md-6">
                             <label for="purpose" class="form-label">Mục đích sử dụng (*)</label>
-                            <textarea class="form-control" id="purpose" name="purpose" rows="3">{{ old('purpose') }}</textarea>
+                            <input type="text" class="form-control" id="purpose" name="purpose" value="{{ old('purpose') }}">
                             @error('purpose')
+                                <div class="text-danger ps-1 pt-1">{!! $message !!}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label for="teacher_id" class="form-label">Người đăng ký (*)</label>
+                            <select class="form-select" id="teacher_id" name="teacher_id">
+                                <option selected>Chọn tên giáo viên</option>
+                                @foreach ($teachers as $teacher)
+                                    <option value="{{ $teacher->id }}" {{ old('teacher_id') == $teacher->id ? 'selected' : '' }}>{{ $teacher->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('teacher_id')
                                 <div class="text-danger ps-1 pt-1">{!! $message !!}</div>
                             @enderror
                         </div>
@@ -73,8 +86,8 @@
                             @enderror
                         </div>
                         
-                        <div class="text-center my-4 d-flex justify-content-center">
-                            <button type="submit" class="btn-main">Đăng ký</button>
+                        <div class="text-center mt-4 d-flex justify-content-center">
+                            <button type="submit" class="btn btn-sm btn-main">Đăng ký</button>
                         </div>
                     </form>
                 </div>
@@ -84,6 +97,12 @@
 @endsection
 
 @section('script')
+    <script>
+        $('#room-registration-link').removeClass('collapsed');
+        $('#room-registration-nav').addClass('show');
+        $('#create-registration').addClass('active');
+        $('#create-registration').attr('href', 'javascript:void(0)');
+    </script>
     <script src="{{ asset('backend/assets/vendor/jquery-ui/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('backend/assets/vendor/jquery-ui/timepicker.js') }}"></script>
     <script>

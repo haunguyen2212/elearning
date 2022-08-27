@@ -5,7 +5,7 @@
 @section('pagetitle', 'Danh sách đăng ký phòng')
 
 @section('breadcrumb')
-    <li class="breadcrumb-item active">Đăng ký phòng</li>
+    <li class="breadcrumb-item active">Danh sách đăng ký</li>
 @endsection
 
 @section('content')

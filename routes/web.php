@@ -48,9 +48,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'isAdmin'], function(){
     Route::patch('class/{id}/homeroom_teacher/update', [Admin\ClassController::class, 'updateHomeroomTeacher'])->name('class.homeroomTeacher.update');
     
     Route::resource('department', Admin\DepartmentController::class);
+
     Route::get('room-registration', [Admin\ScheduleController::class, 'index'])->name('schedule.list');
     Route::get('schedule/create', [Admin\ScheduleController::class, 'create'])->name('schedule.create');
     Route::get('schedule/show', [Admin\ScheduleController::class, 'error'])->name('schedule.error');
     Route::post('schedule/show', [Admin\ScheduleController::class, 'main'])->name('schedule.handle');
-    Route::post('down', [Admin\ScheduleController::class, 'printDocx'])->name('download');
+    Route::post('download/docx', [Admin\ScheduleController::class, 'printDocx'])->name('schedule.download.docx');
+    Route::get('registration/create', [Admin\ScheduleController::class, 'createRegistration'])->name('admin.registration.create');
+    Route::post('registration/store', [Admin\ScheduleController::class, 'storeRegistration'])->name('admin.registration.store');
 });

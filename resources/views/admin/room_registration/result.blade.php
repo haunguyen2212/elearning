@@ -85,7 +85,7 @@
         $('.btn-download').click(function(e){
             e.preventDefault();
             content = $('.table-responsive').html();
-            url = '{{ route('download') }}';
+            url = '{{ route('schedule.download.docx') }}';
             $('#download-doc').attr('action', url);
             $('#content-download').val(content);
             $(this).attr('type', 'submit');
