@@ -30,7 +30,7 @@ class HomeController extends Controller
         else{
             $data['myTeacherCourses'] = $this->myCourse->getCourseOfTeacher();
         }
-        $data['courses'] = $this->course->getFullInfo(15);
+        $data['courses'] = $this->course->getAllActive(15);
         return view('home', $data);
     }
 
@@ -60,7 +60,7 @@ class HomeController extends Controller
         $enrol = $this->courseInvolvement->create($collection);
 
         if($enrol){
-            return redirect()->route('course.index', $id);
+            return redirect()->route('course.view.student', $id);
         }
         else{
             return back()->with('error', __('message.error'));

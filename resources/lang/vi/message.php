@@ -19,4 +19,6 @@ return [
     'enrolled' => 'Bạn đã ghi danh vào khóa học này rồi',
     'error' => 'Có lỗi xảy ra, thử lại sau',
     'registration_success' => 'Đăng ký thành công',
+    'course_lock' => 'Khóa học đã khóa thành công',
+    'course_unlock' => 'Khóa học đã được mở khóa',
 ];

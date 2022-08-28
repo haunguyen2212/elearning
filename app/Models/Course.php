@@ -16,6 +16,7 @@ class Course extends Model
         'teacher_id',
         'introduce',
         'is_enrol',
+        'is_show',
         'code',
         'notice',
     ];

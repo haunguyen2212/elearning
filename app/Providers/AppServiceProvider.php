@@ -27,6 +27,7 @@ use App\Repositories\RoomRepository;
 use App\Repositories\TeacherRepository;
 use App\Repositories\TopicDocumentRepository;
 use App\Repositories\TopicRepository;
+use Carbon\Carbon;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -63,7 +64,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrap();
         if(!$this->app->runningInConsole()){
-            $notices = Notice::where('is_show', '1')->get();
+            $now = Carbon::now()->format('Y-m-d H:i:s');
+            $notices = Notice::where('start_time', '<=', $now)->where('end_time', '>=', $now)->get();
             View::share(compact('notices'));
         }
     }

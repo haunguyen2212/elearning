@@ -15,7 +15,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Danh sách đăng ký</h5>
                     <div class="table-responsive">
-                        <table class="table table-striped">
+                        <table class="table table-hover">
                             <thead>
                               <tr>
                                 <th>STT</th>

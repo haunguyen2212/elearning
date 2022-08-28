@@ -21,18 +21,32 @@ class CourseRepository implements CourseRepositoryInterface
         return $this->course->paginate($offset);
     }
 
+    public function getAllActive($offset = 10){
+        return $this->course->leftJoin('teachers', 'teacher_id', '=', 'teachers.id')
+            ->where('is_show', 1)->select('courses.*', DB::raw('teachers.name as teacher_name'))->paginate($offset);
+    }
+
     public function getFullInfo($offset = 10)
     {
         return $this->course->leftJoin('teachers', 'teacher_id', 'teachers.id')
-            ->select('courses.id', 'courses.name', 'code', 'introduce', 'is_enrol', 'notice', 'teacher_id' ,DB::raw('teachers.name as teacher_name'))
+            ->select('courses.id', 'courses.name', 'code', 'introduce', 'is_enrol', 'courses.is_show', 'notice', 'teacher_id' ,DB::raw('teachers.name as teacher_name'))
             ->paginate($offset);
     }
 
     public function getFullById($id){
         return $this->course->leftJoin('teachers', 'teacher_id', 'teachers.id')
             ->where('courses.id', $id)
-            ->select('courses.id', 'courses.name', 'code', 'introduce', 'is_enrol', 'notice', 'teacher_id' ,DB::raw('teachers.name as teacher_name'))
+            ->select('courses.id', 'courses.name', 'code', 'introduce', 'is_enrol', 'is_show', 'notice', 'teacher_id' ,DB::raw('teachers.name as teacher_name'))
             ->first();
+    }
+
+    public function getByKey($key, $offset = 10)
+    {
+        return $this->course->leftJoin('teachers', 'teacher_id', 'teachers.id')
+            ->where('code', 'like', '%'.$key.'%')
+            ->orWhere('courses.name', 'like', '%'.$key.'%')
+            ->select('courses.*', DB::raw('teachers.name as teacher_name'))
+            ->paginate($offset);
     }
 
     public function count()
@@ -43,5 +57,24 @@ class CourseRepository implements CourseRepositoryInterface
     public function getCourseOfTeacher($orderBy = 'asc')
     {
         return $this->course->where('teacher_id', Auth::guard('teacher')->id())->orderBy('id', $orderBy)->get();
+    }
+
+    public function delete($id)
+    {
+        return $this->course->find($id)->delete();
+    }
+
+    public function hide($id)
+    {
+        return $this->course->find($id)->update([
+            'is_show' => 0,
+        ]);
+    }
+
+    public function show($id)
+    {
+        return $this->course->find($id)->update([
+            'is_show' => 1,
+        ]);
     }
 }

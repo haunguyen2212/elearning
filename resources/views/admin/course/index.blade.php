@@ -1,26 +1,26 @@
 @extends('template.admin')
 
-@section('title', 'Quản lý lớp học')
+@section('title', 'Quản lý khóa học')
 
-@section('pagetitle', 'Quản lý lớp học')
+@section('pagetitle', 'Quản lý khóa học')
 
 @section('breadcrumb')
-    <li class="breadcrumb-item active">Lớp học</li>
+    <li class="breadcrumb-item active">Khóa học</li>
 @endsection
 
 @section('content')
     <div class="row">
-        <div class="col-12 col-md-8">
+        <div class="col-12">
             <div class="card">
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="bd-highlight">
-                      <h5 class="card-title">Lớp học</h5>
+                      <h5 class="card-title">Khóa học</h5>
                     </div>
                     <div class="bd-highlight">
                       <h5 class="card-title">
                         <form class="d-flex">
-                          <input class="form-control form-control-sm rounded-0 border-main" name="search" placeholder="Tìm kiếm ..."  value="{{ request()->search }}">
+                          <input class="form-control form-control-sm rounded-0 border-main" name="search" placeholder="Tìm kiếm ..." value="{{ request()->search }}">
                           <button class="btn btn-sm btn-main rounded-0" type="submit">
                             <i class="bi bi-search"></i>
                           </button>
@@ -29,7 +29,7 @@
                     </div>
                     <div class="bd-highlight">
                       <h5 class="card-title">
-                        <a class="btn btn-sm btn-main" href="{{ route('class.create') }}">
+                        <a class="btn btn-sm btn-main" href="{{-- route('department.create') --}}">
                           <i class="bi bi-plus"></i><span class="text-white"> Thêm mới</span> 
                         </a>
                       </h5>
@@ -51,24 +51,34 @@
                     <table class="table table-hover" style="min-width: 100px">
                         <thead>
                           <tr>
-                            <th width="10%">ID</th>
-                            <th width="15%">Lớp</th>
-                            <th width="35%">Chủ nhiệm</th>
-                            <th width="15%">Sỉ số</th>
-                            <th width="25%">Tùy chỉnh</th>
+                            <th width="5%">ID</th>
+                            <th width="10%">Mã số</th>
+                            <th width="25%">Tên khóa học</th>
+                            <th width="15%">Giáo viên</th>
+                            <th width="20%">Giới thiệu</th>
+                            <th width="10%">Trạng thái</th>
+                            <th width="15%">Tùy chỉnh</th>
                           </tr>
                         </thead>
                         <tbody>
 
-                            @foreach ($classes as $class)
+                            @foreach ($courses as $course)
                                 <tr>
-                                    <td>{{ $class->id }}</td>
-                                    <td>{{ $class->name }}</td>
-                                    <td>{{ $class->teacher_name }}</td>
-                                    <td>{{ $class->total }}</td>
+                                    <td>{{ $course->id }}</td>
+                                    <td>{{ $course->code }}</td>
+                                    <td>{{ $course->name }}</td>
+                                    <td>{{ $course->teacher_name }}</td>
+                                    <td>{{ $course->introduce }}</td>
+                                    <td>
+                                        @if ($course->is_show)
+                                            <span class="badge bg-success">show</span>
+                                        @else
+                                            <span class="badge bg-danger">hide</span>
+                                        @endif
+                                    </td>
                                     <td>
                                         <a 
-                                          href="{{ route('class.show', ['class' => $class->id]) }}" 
+                                          href="{{-- route('course.show',['course'=>$course->id]) --}}" 
                                           class="btn btn-sm btn-info"
                                           data-bs-toggle="tooltip"
                                           title="Xem"
@@ -76,7 +86,7 @@
                                           <i class="bi bi-eye"></i>
                                         </a>
                                         <a 
-                                          href="{{ route('class.edit', ['class' => $class->id]) }}" 
+                                          href="{{-- route('course.edit',['course'=>$course->id]) --}}" 
                                           class="btn btn-sm btn-warning"
                                           data-bs-toggle="tooltip"
                                           title="Sửa"
@@ -85,21 +95,32 @@
                                         </a>
                                         <button 
                                           class="btn btn-sm btn-danger btn-delete" 
-                                          data-id="{{ $class->id }}" 
+                                          data-id="{{ $course->id }}" 
                                           data-bs-toggle="modal" 
                                           data-bs-target="#deleteModal"
                                           title="Xóa"
                                         >
                                           <i class="bi bi-x-lg"></i>
                                         </button>
-                                        <a 
-                                          href="{{ route('class.homeroomTeacher.edit', ['id' => $class->id]) }}"
-                                          class="btn btn-sm btn-success"
-                                          data-bs-toggle="tooltip"
-                                          title="Thay chủ nhiệm"
-                                        >
-                                        <i class="bi bi-person-fill"></i>
-                                        </a>
+                                        @if ($course->is_show)
+                                            <a 
+                                                href="{{ route('course.lock', $course->id) }}" 
+                                                class="btn btn-sm btn-success"
+                                                data-bs-toggle="tooltip"
+                                                title="Ẩn"
+                                            >
+                                                <i class="bi bi-slash-circle"></i>
+                                            </a>
+                                        @else
+                                            <a 
+                                                href="{{ route('course.unlock', $course->id) }}" 
+                                                class="btn btn-sm btn-success"
+                                                data-bs-toggle="tooltip"
+                                                title="Hiện"
+                                            >
+                                                <i class="bi bi-circle"></i>
+                                            </a>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -107,7 +128,7 @@
                         </tbody>
                       </table>
                   </div>
-                  {{ $classes->links() }}
+                  {{ $courses->links() }}
                 </div>
                 
               </div>
@@ -118,14 +139,14 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title text-main" id="deleteModalLabel">Xoá lớp học</h5>
+            <h5 class="modal-title text-main" id="deleteModalLabel">Xoá khóa học</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <form method="post">
               @csrf
               @method('delete')
-              <h6>Các học sinh trong lớp học này sẽ không còn trong lớp học nữa. Bạn có chắc muốn xóa lớp học này không ?</h6>
+              <h6>Tất cả dữ liệu của khóa học sẽ xóa, bạn có chắc muốn xóa khóa học này không ?</h6>
             </form>    
           </div>
           <div class="modal-footer">
@@ -139,15 +160,15 @@
 
 @section('script')
     <script>
-        $('#departments-nav').addClass('show');
-        $('#department-link').removeClass('collapsed');
-        $('#classrooms').addClass('active');
-        $('#classrooms').attr('href', 'javascript:void(0)');
+        $('#course-nav').addClass('show');
+        $('#course-link').removeClass('collapsed');
+        $('#list-course').addClass('active');
+        $('#list-course').attr('href', 'javascript:void(0)');
 
         $('.btn-delete').click(function(e){
             e.preventDefault();
             let id = $(this).attr('data-id');
-            let url = "{{ asset('/admin/class') }}/"+id;
+            let url = "{{ asset('/admin/course') }}/"+id;
             $('#deleteModal form').attr('action', url);
         });
 

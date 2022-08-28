@@ -20,7 +20,7 @@
                     <div class="bd-highlight">
                       <h5 class="card-title">
                         <form class="d-flex">
-                          <input class="form-control form-control-sm rounded-0 border-main" name="search" placeholder="Tìm kiếm ..." >
+                          <input class="form-control form-control-sm rounded-0 border-main" name="search" placeholder="Tìm kiếm ..."  value="{{ request()->search }}">
                           <button class="btn btn-sm btn-main rounded-0" type="submit">
                             <i class="bi bi-search"></i>
                           </button>
@@ -48,10 +48,10 @@
                     </div>
                   @endif
                   <div class="table-responsive">
-                    <table class="table table-striped" style="min-width: 1100px">
+                    <table class="table table-hover" style="min-width: 1100px">
                         <thead>
                           <tr>
-                            <th width="5%">STT</th>
+                            <th width="5%">ID</th>
                             <th width="10%">Mã số</th>
                             <th width="20%">Họ và tên</th>
                             <th width="10%">Ngày sinh</th>
@@ -66,7 +66,7 @@
                           
                             @foreach ($teachers as $key => $teacher)
                             <tr>
-                                <td>{{ $key + 1 }}</td>
+                                <td>{{ $teacher->id }}</td>
                                 <td>{{ $teacher->username }}</td>
                                 <td>{{ $teacher->name }}</td>
                                 <td>{{ date('d/m/Y', strtotime($teacher->date_of_birth)) }}</td>
@@ -81,16 +81,32 @@
                                   @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('teacher.show', ['teacher' => $teacher->id]) }}" class="btn btn-sm btn-info">
+                                    <a href="{{ route('teacher.show', ['teacher' => $teacher->id]) }}" 
+                                      class="btn btn-sm btn-info"
+                                      data-bs-toggle="tooltip"
+                                      title="Xem"
+                                    >
                                         <i class="bi bi-eye"></i>
                                     </a>
-                                    <a href="{{ route('teacher.edit', ['teacher' => $teacher->id]) }}" class="btn btn-sm btn-warning">
+                                    <a href="{{ route('teacher.edit', ['teacher' => $teacher->id]) }}" 
+                                      class="btn btn-sm btn-warning"
+                                      data-bs-toggle="tooltip"
+                                      title="Sửa"
+                                    >
                                       <i class="bi bi-pencil-square"></i>
                                     </a>
-                                    <button class="btn btn-sm btn-danger btn-delete" data-id="{{ $teacher->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                    <button class="btn btn-sm btn-danger btn-delete" data-id="{{ $teacher->id }}" 
+                                      data-bs-toggle="modal" 
+                                      data-bs-target="#deleteModal"
+                                      title="Xóa"
+                                      >
                                       <i class="bi bi-x-lg"></i>
                                     </button>
-                                    <a href="{{ route('teacher.pass.edit', ['id' => $teacher->id]) }}" class="btn btn-sm btn-success">
+                                    <a href="{{ route('teacher.pass.edit', ['id' => $teacher->id]) }}" 
+                                      class="btn btn-sm btn-success"
+                                      data-bs-toggle="tooltip"
+                                      title="Đổi mật khẩu"
+                                    >
                                       <i class="bi bi-lock"></i>
                                     </a>
                                 </td>

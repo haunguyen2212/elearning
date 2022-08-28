@@ -16,7 +16,7 @@ Route::post('admin/login', [Admin\LoginController::class, 'checkLogin'])->name('
 
 Route::group(['prefix' => 'course', 'middleware' => 'isStudent'], function(){
     Route::get('enrol/{id}/', [Front\HomeController::class, 'enrol'])->name('course.enrol');
-    Route::get('view/{id}', [Front\CourseStudentController::class, 'index'])->name('course.index');
+    Route::get('view/{id}', [Front\CourseStudentController::class, 'index'])->name('course.view.student');
 });
 
 Route::group(['prefix' => 'teacher', 'middleware' => 'isTeacher'], function(){
@@ -48,6 +48,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'isAdmin'], function(){
     Route::patch('class/{id}/homeroom_teacher/update', [Admin\ClassController::class, 'updateHomeroomTeacher'])->name('class.homeroomTeacher.update');
     
     Route::resource('department', Admin\DepartmentController::class);
+
+    Route::resource('course', Admin\CourseController::class);
+    Route::get('course/{id}/lock', [Admin\CourseController::class, 'lock'])->name('course.lock');
+    Route::get('course/{id}/unlock', [Admin\CourseController::class, 'unlock'])->name('course.unlock');
 
     Route::get('room-registration', [Admin\ScheduleController::class, 'index'])->name('schedule.list');
     Route::get('schedule/create', [Admin\ScheduleController::class, 'create'])->name('schedule.create');

@@ -14,6 +14,7 @@ class Notice extends Model
     protected $fillable = [
         'name',
         'link',
-        'is_show',
+        'start_time',
+        'end_time',
     ];
 }

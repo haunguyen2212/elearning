@@ -20,7 +20,7 @@
                     <div class="bd-highlight">
                       <h5 class="card-title">
                         <form class="d-flex">
-                          <input class="form-control form-control-sm rounded-0 border-main" name="search" placeholder="Tìm kiếm ..." >
+                          <input class="form-control form-control-sm rounded-0 border-main" name="search" placeholder="Tìm kiếm ..."  value="{{ request()->search }}">
                           <button class="btn btn-sm btn-main rounded-0" type="submit">
                             <i class="bi bi-search"></i>
                           </button>
@@ -48,7 +48,7 @@
                     </div>
                   @endif
                   <div class="table-responsive">
-                    <table class="table table-striped" style="min-width: 100px">
+                    <table class="table table-hover" style="min-width: 100px">
                         <thead>
                           <tr>
                             <th width="15%">ID</th>

@@ -92,7 +92,7 @@
                             <ul class="list-item">
                               @foreach ($myTeacherCourses as $myCourse)
                                 <li>
-                                  <a href="{{ route('course.index', $myCourse->id) }}"><i class="bi bi-caret-right-fill"></i> {{ $myCourse->code .' - '. $myCourse->name }}</a>
+                                  <a href="{{-- route('course.view.student',$myCourse->id) --}}"><i class="bi bi-caret-right-fill"></i> {{ $myCourse->code .' - '. $myCourse->name }}</a>
                                 </li>
                               @endforeach
                             </ul> 
@@ -112,7 +112,7 @@
                             <ul class="list-item">
                               @foreach ($myStudentCourses as $myCourse)
                                 <li>
-                                  <a href="{{ route('course.index', $myCourse->course_id) }}"><i class="bi bi-caret-right-fill"></i> {{ $myCourse->code .' - '. $myCourse->course_name }}</a>
+                                  <a href="{{ route('course.view.student', $myCourse->course_id) }}"><i class="bi bi-caret-right-fill"></i> {{ $myCourse->code .' - '. $myCourse->course_name }}</a>
                                 </li>
                               @endforeach
                             </ul> 
@@ -131,7 +131,7 @@
                           <ul class="list-item">
                             @foreach ($notices as $key => $notice)
                               <li>
-                                <a href="{{ $notice->link }}"> {{ $key+1 .'. '. $notice->name ?? $notice->link }}</a>
+                                <a href="{{ asset('backend/assets/img/notices/'.$notice->link) }}"> {{ $key+1 .'. '. $notice->name ?? $notice->link }}</a>
                               </li>
                             @endforeach
                           </ul>

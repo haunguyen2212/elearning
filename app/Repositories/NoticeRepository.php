@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Notice;
 use App\Repositories\Interfaces\NoticeRepositoryInterface;
+use Carbon\Carbon;
 
 class NoticeRepository implements NoticeRepositoryInterface{
 
@@ -16,6 +17,7 @@ class NoticeRepository implements NoticeRepositoryInterface{
 
     public function getAll()
     {
-        return $this->notice->where('is_show', '1')->get();
+        $now = Carbon::now()->format('Y-m-d H:i:s');
+        return $this->notice->where('start_time', '<=', $now)->where('end_time', '>=', $now)->get();
     }
 }

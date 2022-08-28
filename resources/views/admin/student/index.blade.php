@@ -20,7 +20,7 @@
                     <div class="bd-highlight">
                       <h5 class="card-title">
                         <form class="d-flex">
-                          <input class="form-control form-control-sm rounded-0 border-main" name="search" placeholder="Tìm kiếm ..." >
+                          <input class="form-control form-control-sm rounded-0 border-main" name="search" placeholder="Tìm kiếm ..."  value="{{ request()->search }}">
                           <button class="btn btn-sm btn-main rounded-0" type="submit">
                             <i class="bi bi-search"></i>
                           </button>
@@ -48,10 +48,10 @@
                     </div>
                   @endif
                   <div class="table-responsive">
-                    <table class="table table-striped" style="min-width: 1100px">
+                    <table class="table table-hover" style="min-width: 1100px">
                         <thead>
                           <tr>
-                            <th width="5%">STT</th>
+                            <th width="5%">ID</th>
                             <th width="10%">Mã số</th>
                             <th width="22.5%">Họ và tên</th>
                             <th width="15%">Ngày sinh</th>
@@ -65,7 +65,7 @@
                           
                             @foreach ($students as $key => $student)
                             <tr>
-                                <td>{{ $key + 1 }}</td>
+                                <td>{{ $student->id }}</td>
                                 <td>{{ $student->username }}</td>
                                 <td>{{ $student->name }}</td>
                                 <td>{{ date('d/m/Y', strtotime($student->date_of_birth)) }}</td>
@@ -79,10 +79,27 @@
                                   @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('student.show', ['student' => $student->id]) }}" class="btn btn-sm btn-info"><i class="bi bi-eye"></i></a>
-                                    <a href="{{ route('student.edit', ['student' => $student->id]) }}" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i></a>
-                                    <button class="btn btn-sm btn-danger btn-delete" data-id="{{ $student->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="bi bi-x-lg"></i></button>
-                                    <a href="{{ route('student.pass.edit', ['id' => $student->id]) }}" class="btn btn-sm btn-success"><i class="bi bi-lock"></i></a>
+                                    <a href="{{ route('student.show', ['student' => $student->id]) }}" 
+                                      class="btn btn-sm btn-info"
+                                      data-bs-toggle="tooltip"
+                                      title="Xem"
+                                    ><i class="bi bi-eye"></i></a>
+                                    <a href="{{ route('student.edit', ['student' => $student->id]) }}" 
+                                      class="btn btn-sm btn-warning"
+                                      data-bs-toggle="tooltip"
+                                      title="Sửa"
+                                    ><i class="bi bi-pencil-square"></i></a>
+                                    <button class="btn btn-sm btn-danger btn-delete" 
+                                      data-id="{{ $student->id }}" 
+                                      data-bs-toggle="modal" 
+                                      data-bs-target="#deleteModal"
+                                      title="Xóa"
+                                    ><i class="bi bi-x-lg"></i></button>
+                                    <a href="{{ route('student.pass.edit', ['id' => $student->id]) }}" 
+                                      class="btn btn-sm btn-success"
+                                      data-bs-toggle="tooltip"
+                                      title="Đổi mật khẩu"
+                                    ><i class="bi bi-lock"></i></a>
                                 </td>
                             </tr>
                             @endforeach

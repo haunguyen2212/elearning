@@ -157,6 +157,19 @@
       </li>
 
       <li class="nav-item">
+        <a id="course-link" class="nav-link collapsed" data-bs-target="#course-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journals"></i><span>Quản lý khóa học</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="course-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+          <li>
+            <a id="list-course" href="{{ route('course.index') }}">
+              <i class="bi bi-circle"></i><span>Danh sách khóa học</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <li class="nav-item">
         <a id="room-registration-link" class="nav-link collapsed" data-bs-target="#room-registration-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-card-list"></i><span>Đăng ký phòng</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>

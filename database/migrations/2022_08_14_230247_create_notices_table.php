@@ -17,7 +17,8 @@ class CreateNoticesTable extends Migration
             $table->id();
             $table->string('name', 200)->nullable();
             $table->string('link', 200);
-            $table->char('is_show')->default('1');
+            $table->dateTime('start_time');
+            $table->dateTime('end_time');
             $table->timestamps();
         });
     }
