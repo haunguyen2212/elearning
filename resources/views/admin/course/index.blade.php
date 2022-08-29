@@ -29,7 +29,7 @@
                     </div>
                     <div class="bd-highlight">
                       <h5 class="card-title">
-                        <a class="btn btn-sm btn-main" href="{{-- route('department.create') --}}">
+                        <a class="btn btn-sm btn-main" href="{{ route('course.create') }}">
                           <i class="bi bi-plus"></i><span class="text-white"> Thêm mới</span> 
                         </a>
                       </h5>
@@ -68,8 +68,13 @@
                                     <td>{{ $course->code }}</td>
                                     <td>{{ $course->name }}</td>
                                     <td>{{ $course->teacher_name }}</td>
-                                    <td>{{ $course->introduce }}</td>
+                                    <td>{!! $course->introduce !!}</td>
                                     <td>
+                                      @if ($course->is_enrol)
+                                            <span class="badge bg-success">open</span>
+                                        @else
+                                            <span class="badge bg-danger">close</span>
+                                        @endif
                                         @if ($course->is_show)
                                             <span class="badge bg-success">show</span>
                                         @else

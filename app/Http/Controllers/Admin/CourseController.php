@@ -3,19 +3,23 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCourseRequest;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
+use App\Repositories\Interfaces\TeacherRepositoryInterface;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
 
-    private $course;
+    private $course, $teacher;
 
     public function __construct(
-        CourseRepositoryInterface $courseRepository
+        CourseRepositoryInterface $courseRepository,
+        TeacherRepositoryInterface $teacherRepository
     )
     {
         $this->course = $courseRepository;
+        $this->teacher = $teacherRepository;
     }
     
     public function index(Request $request)
@@ -33,12 +37,20 @@ class CourseController extends Controller
 
     public function create()
     {
-        //
+        $data['teachers'] = $this->teacher->getAccountActive();
+        return view('admin.course.create', $data);
     }
 
-    public function store(Request $request)
+    public function store(StoreCourseRequest $request)
     {
-        //
+        $collection = $request->except(['_token']);
+        $store = $this->course->create($collection);
+        if($store){
+            return back()->with('success', __('message.create_success', ['name' => 'khóa học']));
+        }
+        else{
+            return back()->with('error', __('message.error'));
+        }
     }
 
     public function show($id)

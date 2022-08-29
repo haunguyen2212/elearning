@@ -59,6 +59,17 @@ class CourseRepository implements CourseRepositoryInterface
         return $this->course->where('teacher_id', Auth::guard('teacher')->id())->orderBy('id', $orderBy)->get();
     }
 
+    public function create($collection = [])
+    {
+        return $this->course->create([
+            'code' => $collection['code'],
+            'name' => $collection['name'],
+            'teacher_id' => $collection['teacher_id'],
+            'introduce' => $collection['introduce'] ?? '',
+            'is_enrol' => $collection['is_enrol'] ?? '1',
+        ]);
+    }
+
     public function delete($id)
     {
         return $this->course->find($id)->delete();
