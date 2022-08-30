@@ -70,6 +70,17 @@ class CourseRepository implements CourseRepositoryInterface
         ]);
     }
 
+    public function update($id, $collection = []){
+        return $this->course->find($id)->update([
+            'code' => $collection['code'],
+            'name' => $collection['name'],
+            'teacher_id' => $collection['teacher_id'],
+            'introduce' => $collection['introduce'] ?? '',
+            'is_enrol' => $collection['is_enrol'] ?? '1',
+            'is_show' => $collection['is_show'],
+        ]);
+    }
+
     public function delete($id)
     {
         return $this->course->find($id)->delete();
@@ -87,5 +98,10 @@ class CourseRepository implements CourseRepositoryInterface
         return $this->course->find($id)->update([
             'is_show' => 1,
         ]);
+    }
+
+    public function getCourseNameTeacher($teacher_id)
+    {
+        return $this->course->where('teacher_id', $teacher_id)->select('name')->get();
     }
 }

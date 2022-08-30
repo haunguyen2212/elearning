@@ -83,7 +83,7 @@
                                     </td>
                                     <td>
                                         <a 
-                                          href="{{-- route('course.show',['course'=>$course->id]) --}}" 
+                                          href="{{ route('course.show',['course'=>$course->id]) }}" 
                                           class="btn btn-sm btn-info"
                                           data-bs-toggle="tooltip"
                                           title="Xem"
@@ -91,7 +91,7 @@
                                           <i class="bi bi-eye"></i>
                                         </a>
                                         <a 
-                                          href="{{-- route('course.edit',['course'=>$course->id]) --}}" 
+                                          href="{{ route('course.edit', ['course'=>$course->id]) }}" 
                                           class="btn btn-sm btn-warning"
                                           data-bs-toggle="tooltip"
                                           title="Sửa"

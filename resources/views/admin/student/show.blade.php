@@ -51,6 +51,14 @@
                                 <strong class="text-danger">Bị khóa</strong>  
                             @endif
                         </div>
+                        <div class="col-12 col-md-12 mb-1">
+                            <strong class="text-main">Các khóa học:</strong> 
+                            <ul>
+                                @foreach ($courses as $course)
+                                    <li>{{ $course->name }} </li>
+                                @endforeach
+                            </ul> 
+                        </div>
                         <div class="text-center mt-2">
                             <a href="{{ route('student.edit', ['student' => $info->id]) }}" class="btn btn-sm btn-success">Chỉnh sửa</a>
                             <a href="{{ route('student.index') }}" class="btn btn-sm btn-danger">Trở về</a>

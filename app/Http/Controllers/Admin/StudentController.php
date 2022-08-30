@@ -9,20 +9,23 @@ use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 use App\Imports\StudentsImport;
 use App\Repositories\Interfaces\ClassRepositoryInterface;
+use App\Repositories\Interfaces\CourseInvolvementRepositoryInterface;
 use App\Repositories\Interfaces\StudentRepositoryInterface;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
-    private $student, $class;
+    private $student, $class, $courseInvolvement;
 
     public function __construct(
         StudentRepositoryInterface $studentRepository,
-       ClassRepositoryInterface $classRepository
+        ClassRepositoryInterface $classRepository,
+        CourseInvolvementRepositoryInterface $courseInvolvementRepository
         )
     {
         $this->student = $studentRepository;
         $this->class = $classRepository;
+        $this->courseInvolvement = $courseInvolvementRepository;
     }
 
     public function index(Request $request)
@@ -67,8 +70,9 @@ class StudentController extends Controller
     public function show($id)
     {
         $this->checkIssetStudent($id);
-        $info = $this->student->getById($id);
-        return view('admin.student.show', compact('info'));
+        $data['info'] = $this->student->getById($id);
+        $data['courses'] = $this->courseInvolvement->getCourseNameStudent($id);
+        return view('admin.student.show', $data);
     }
 
     public function edit($id)

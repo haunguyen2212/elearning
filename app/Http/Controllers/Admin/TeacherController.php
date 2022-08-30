@@ -8,6 +8,7 @@ use App\Http\Requests\StoreImportRequest;
 use App\Http\Requests\StoreTeacherRequest;
 use App\Http\Requests\UpdateTeacherRequest;
 use App\Imports\TeachersImport;
+use App\Repositories\Interfaces\CourseRepositoryInterface;
 use App\Repositories\Interfaces\DepartmentRepositoryInterface;
 use App\Repositories\Interfaces\TeacherRepositoryInterface;
 use Illuminate\Http\Request;
@@ -16,16 +17,17 @@ use Maatwebsite\Excel\Facades\Excel;
 class TeacherController extends Controller
 {
 
-    private $teacher, $department;
+    private $teacher, $department, $course;
 
     public function __construct(
         TeacherRepositoryInterface $teacherRepository,
         DepartmentRepositoryInterface $departmentRepository,
-        TeachersImport $teacherImport
+        CourseRepositoryInterface $courseRepository
         )
     {
         $this->teacher = $teacherRepository;
         $this->department = $departmentRepository;
+        $this->course = $courseRepository;
     }
     
     public function index(Request $request)
@@ -70,8 +72,9 @@ class TeacherController extends Controller
     public function show($id)
     {
         $this->checkIssetTeacher($id);
-        $info = $this->teacher->getById($id);
-        return view('admin.teacher.show', compact('info'));
+        $data['info'] = $this->teacher->getById($id);
+        $data['courses'] = $this->course->getCourseNameTeacher($id);
+        return view('admin.teacher.show', $data);
     }
 
     public function edit($id)

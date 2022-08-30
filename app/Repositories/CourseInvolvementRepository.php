@@ -29,11 +29,24 @@ class CourseInvolvementRepository implements CourseInvolvementRepositoryInterfac
         return $count == 0;
     }
 
+    public function countStudentEnrol($course_id){
+        return $this->courseInvolvement->where('course_id', $course_id)->count();
+    }
+
     public function create($collection = [])
     {
         return $this->courseInvolvement->create([
             'course_id' => $collection['course_id'],
             'student_id' => $collection['student_id']
         ]);
+    }
+
+    public function getCourseNameStudent($student_id)
+    {
+        return $this->courseInvolvement->join('students', 'student_id', '=', 'students.id')
+            ->join('courses', 'course_id', '=', 'courses.id')
+            ->where('student_id', $student_id)
+            ->select('courses.name')
+            ->get();
     }
 }

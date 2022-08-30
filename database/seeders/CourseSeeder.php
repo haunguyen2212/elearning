@@ -156,7 +156,7 @@ class CourseSeeder extends Seeder
             [
                 'name' => 'Tin học 10 (Nguyễn Hồ Hải Đăng)',
                 'code' => 'TH1001',
-                'teacher_id' => 40,
+                'teacher_id' => 41,
                 'introduce' => NULL,
             ],
             [
@@ -306,7 +306,7 @@ class CourseSeeder extends Seeder
             [
                 'name' => 'Tin học 11 (Võ Nguyễn Trường An)',
                 'code' => 'TH1101',
-                'teacher_id' => 39,
+                'teacher_id' => 40,
                 'introduce' => NULL,
             ],
             [
@@ -456,13 +456,13 @@ class CourseSeeder extends Seeder
             [
                 'name' => 'Tin học 12 (Nguyễn Hồ Hải Đăng)',
                 'code' => 'TH1201',
-                'teacher_id' => 40,
+                'teacher_id' => 41,
                 'introduce' => NULL,
             ],
             [
                 'name' => 'Tin học 12 (Võ Nguyễn Trường An)',
                 'code' => 'TH1202',
-                'teacher_id' => 39,
+                'teacher_id' => 40,
                 'introduce' => NULL,
             ],
             [

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCourseRequest;
+use App\Http\Requests\UpdateCourseRequest;
+use App\Repositories\Interfaces\CourseInvolvementRepositoryInterface;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
 use App\Repositories\Interfaces\TeacherRepositoryInterface;
 use Illuminate\Http\Request;
@@ -11,15 +13,17 @@ use Illuminate\Http\Request;
 class CourseController extends Controller
 {
 
-    private $course, $teacher;
+    private $course, $teacher, $courseInvolvement;
 
     public function __construct(
         CourseRepositoryInterface $courseRepository,
-        TeacherRepositoryInterface $teacherRepository
+        TeacherRepositoryInterface $teacherRepository,
+        CourseInvolvementRepositoryInterface $courseInvolvementRepository
     )
     {
         $this->course = $courseRepository;
         $this->teacher = $teacherRepository;
+        $this->courseInvolvement = $courseInvolvementRepository;
     }
     
     public function index(Request $request)
@@ -55,17 +59,34 @@ class CourseController extends Controller
 
     public function show($id)
     {
-        //
+        $data['course'] = $this->course->getFullById($id);
+        $data['num_enrol'] = $this->courseInvolvement->countStudentEnrol($id);
+        if(empty($data['course'])){
+            abort(404);
+        }
+        return view('admin.course.show', $data);
     }
 
     public function edit($id)
     {
-        //
+        $data['teachers'] = $this->teacher->getAccountActive();
+        $data['course'] = $this->course->getFullById($id);
+        if(empty($data['course'])){
+            abort(404);
+        }
+        return view('admin.course.edit', $data);
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateCourseRequest $request, $id)
     {
-        //
+        $collection = $request->except(['_token', '_method']);
+        $update = $this->course->update($id, $collection);
+        if($update){
+            return back()->with('success', __('message.update_success', ['name' => 'khóa học']));
+        }
+        else{
+            return back()->with('error', __('message.error'));
+        }
     }
 
 
