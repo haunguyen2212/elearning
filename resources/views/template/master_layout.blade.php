@@ -131,7 +131,7 @@
                           <ul class="list-item">
                             @foreach ($notices as $key => $notice)
                               <li>
-                                <a href="{{ asset('backend/assets/img/notices/'.$notice->link) }}"> {{ $key+1 .'. '. $notice->name ?? $notice->link }}</a>
+                                <a href="{{ asset('backend/assets/document/notices/'.$notice->link) }}"> {{ $key+1 .'. '. ($notice->name ?? $notice->link) }}</a>
                               </li>
                             @endforeach
                           </ul>

@@ -53,6 +53,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'isAdmin'], function(){
     Route::get('course/{id}/lock', [Admin\CourseController::class, 'lock'])->name('course.lock');
     Route::get('course/{id}/unlock', [Admin\CourseController::class, 'unlock'])->name('course.unlock');
 
+    Route::resource('notice', Admin\NoticeController::class)->except(['show']);
+
     Route::get('room-registration', [Admin\ScheduleController::class, 'index'])->name('schedule.list');
     Route::get('schedule/create', [Admin\ScheduleController::class, 'create'])->name('schedule.create');
     Route::get('schedule/show', [Admin\ScheduleController::class, 'error'])->name('schedule.error');

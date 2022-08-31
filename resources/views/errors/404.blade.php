@@ -27,11 +27,9 @@
   <main>
     <div class="container">
 
-      <section class="section error-404 min-vh-100 d-flex flex-column align-items-center justify-content-center pt-5 text-center">
-        <h1 class="pt-5">404</h1>
+      <section class="section error-404 min-vh-100 d-flex flex-column justify-content-center text-center">
+        <h1 class="">404</h1>
         <h2 class="pt-2">Không tìm thấy đường dẫn này.</h2>
-        <a class="btn" href="{{ route('admin.home') }}">Về trang chủ</a>
-        <img src="assets/img/not-found.svg" class="img-fluid py-5" alt="Page Not Found">
       </section>
 
     </div>
