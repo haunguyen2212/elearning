@@ -16,13 +16,18 @@
                     <h5 class="card-title">Thông báo</h5>
                     </div>
                     <div class="bd-highlight">
+                        
                     <h5 class="card-title">
-                        <form class="d-flex">
-                        <input class="form-control form-control-sm rounded-0 border-main" name="search" placeholder="Tìm kiếm ..."  value="{{ request()->search }}">
-                        <button class="btn btn-sm btn-main rounded-0" type="submit">
-                            <i class="bi bi-search"></i>
-                        </button>
-                    </form>
+                        
+                        <form class="d-flex align-items-center">
+                            <span class="fw-bold" style="width: 100px">Hiển thị: </span>
+                            <select class="form-select-sm form-select" name="filter" id="filter" onchange="this.form.submit();">
+                                <option value="all" {{ request('filter') == 'all' ? 'selected' : '' }}>Tất cả</option>
+                                <option value="current" {{ request('filter') == 'current' ? 'selected' : '' }}>Đang hiển thị</option>
+                                <option value="future" {{ request('filter') == 'future' ? 'selected' : '' }}>Sắp tới</option>
+                                <option value="past" {{ request('filter') == 'past' ? 'selected' : '' }}>Đã quá hạn</option>
+                            </select>
+                        </form>
                     </h5>
                     </div>
                     <div class="bd-highlight">

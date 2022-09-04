@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreNoticeRequest;
+use App\Http\Requests\UpdateNoticeRequest;
 use App\Repositories\Interfaces\NoticeRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -19,9 +20,15 @@ class NoticeController extends Controller
         $this->notice = $noticeRepository;
     }
     
-    public function index()
+    public function index(Request $request)
     {
-        $data['notices'] = $this->notice->getAllNotice(20);
+        if(isset($request->filter)){
+            $data['notices'] = $this->notice->filter($request->filter, 20);
+            $data['notices']->appends(['search' => $request->filter]);
+        }
+        else{
+            $data['notices'] = $this->notice->getAllNotice(20);
+        }
         return view('admin.notice.index', $data);
     }
 
@@ -59,13 +66,45 @@ class NoticeController extends Controller
 
     public function edit($id)
     {
-        //
+        $notice = $this->notice->getById($id);
+        if(empty($notice)){
+            abort(404);
+        }
+        return view('admin.notice.edit', compact('notice'));
     }
 
 
-    public function update(Request $request, $id)
+    public function update(UpdateNoticeRequest $request, $id)
     {
-        //
+        $notice = $this->notice->getById($id);
+        if(empty($notice)){
+            abort(404);
+        }
+        $collection = $request->except(['_token', '_method']);
+        $collection['start_time'] = date('Y-m-d H:i:s', strtotime($collection['start_time']));
+        $collection['end_time'] = date('Y-m-d H:i:s', strtotime($collection['end_time']));
+        $link = $request->file('link');
+        if($link){
+            $file = $request->file('link')->getClientOriginalName();
+            $link->move(public_path('backend/assets/document/notices/'), $file);
+            $destinationPath = public_path('backend/assets/document/notices/').$notice->link;
+            if(file_exists($destinationPath)){
+                unlink($destinationPath);
+            }
+            $collection['link'] = $file;
+            $update = $this->notice->update($id, $collection, true);
+        }
+        else{
+            $update = $this->notice->update($id, $collection);
+        }
+
+        if($update){
+            return back()->with('success', __('message.update_success', ['name' => 'thông báo']));
+        }
+        else{
+            return back()->with('error', __('message.error'));
+        }
+        
     }
 
 
