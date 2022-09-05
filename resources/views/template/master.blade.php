@@ -8,6 +8,7 @@
     <title>@yield('title')</title>
     <link href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="../backend/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../backend/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -24,7 +25,7 @@
               <div class="collapse navbar-collapse justify-content-between" id="navbarControll">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                   <li class="nav-item">
-                    <a class="nav-link " aria-current="page" href="#"><span>Trang chủ</span></a>
+                    <a class="nav-link " aria-current="page" href="{{ route('home') }}"><span>Trang chủ</span></a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#"><span>Lớp học</span></a>
@@ -32,15 +33,27 @@
                   <li class="nav-item">
                     <a class="nav-link" href="#"><span>Điểm số</span></a>
                   </li>
+
+                  @if (auth()->guard('teacher')->check())
+                    <li class="nav-item">
+                      <a class="nav-link" href="{{ route('teacher.registration.create') }}"><span>Đăng ký phòng</span></a>
+                    </li>
+                  @endif
                   <li class="nav-item">
-                    <a class="nav-link" href="#"><span>Phòng thực hành</span></a>
+                    <a class="nav-link" href="#"><span>Liên hệ</span></a>
                   </li>
                 </ul>
                 <ul class="navbar-nav ms-auto dropdown">
                   
                         <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                           <img class="rounded-circle" src="http://127.0.0.1:8000/backend/assets/img/profile-img.jpg" width="35px" alt="avt">
-                          <span>Nguyễn Trung Hậu</span> 
+                          <span>
+                            @if (auth()->guard('student')->check())
+                              {{ auth()->guard('student')->user()->name }}
+                            @else
+                              {{ auth()->guard('teacher')->user()->name }}
+                            @endif
+                          </span> 
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                           <li><a class="dropdown-item" href="#">Action</a></li>

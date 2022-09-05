@@ -10,18 +10,17 @@ use Illuminate\Http\Request;
 
 class RoomRegistrationController extends Controller
 {
-    private $myCourse, $roomRegistration;
+    private $roomRegistration;
 
     public function __construct(
         RoomRegistrationRepositoryInterface $roomRegistrationRepository
     )
     {
         $this->roomRegistration = $roomRegistrationRepository;
-        $this->myCourse = new MyCourse();
     }
 
      public function create(){
-        $data['myTeacherCourses'] = $this->myCourse->getCourseOfTeacher();
+        $data['myRegistration'] = $this->roomRegistration->getOfTeacher(auth()->guard('teacher')->id());
         return view('front.teacher.registration_room', $data);
      }
 
@@ -37,5 +36,13 @@ class RoomRegistrationController extends Controller
             return back()->with('error', __('message.error'));
         }
          
+     }
+
+     public function destroy($id){
+        $delete = $this->roomRegistration->delete($id);
+        if($delete){
+            return response()->json(['status' => 200]);
+        }
+        else return response()->json(['status' => 500]);
      }
 }

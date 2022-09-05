@@ -1,4 +1,4 @@
-@extends('template.master_layout')
+@extends('template.master')
 
 @section('title', 'Đăng ký phòng')
 
@@ -13,7 +13,51 @@
 
 @section('content')
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 col-md-7">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Danh sách đăng ký</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover" style="min-width: 600px">
+                            <thead>
+                                <tr>
+                                    <th width="5%">STT</th>
+                                    <th width="15%">Ngày đăng ký</th>
+                                    <th width="30%">Nội dung</th>
+                                    <th width="20%">Thời gian</th>
+                                    <th width="15%">Số lượng</th>
+                                    <th width="15%">Tùy chỉnh</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($myRegistration as $key => $registration)
+                                    <tr>
+                                        <td>{{ $key + 1 }}</td>
+                                        <td>{{ date('d/m/Y', strtotime($registration->date)) }}</td>
+                                        <td>{{ $registration->purpose }}</td>
+                                        <td>{{ date('H:i', strtotime($registration->start_time)).' - '.date('H:i', strtotime($registration->end_time)) }}</td>
+                                        <td class="ps-4">{{ $registration->amount }}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-warning"
+                                                 data-bs-toggle="modal" 
+                                                 data-bs-target="#ModalEdit"
+                                                 ><i class="bi bi-pencil-square"></i></button>
+                                            <button class="btn btn-sm btn-danger btn-delete" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#ModalDelete"
+                                                data-url="{{ route('teacher.registration.destroy', $registration->id) }}"
+                                                ><i class="bi bi-x-lg"></i></button>
+                                        </td>
+
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-5">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Đăng ký sử dụng phòng</h5>
@@ -80,12 +124,17 @@
                 </div>
             </div>
         </div>
+
     </div>
+
+    @include('front.teacher.modal.edit')
+    @include('front.teacher.modal.delete')
 @endsection
 
 @section('script')
     <script src="{{ asset('backend/assets/vendor/jquery-ui/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('backend/assets/vendor/jquery-ui/timepicker.js') }}"></script>
+    <script src="{{ asset('frontend/assets/js/registration/delete_registration.js') }}"></script>
     <script>
         $("#date").datepicker({
             dateFormat:"dd-mm-yy",

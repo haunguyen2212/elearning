@@ -107,6 +107,14 @@ a{
     color: var(--main-color);
 }
 
+.navbar-light .navbar-toggler{
+    border: none;
+}
+
+.navbar-toggler:focus{
+    box-shadow: none !important;
+}
+
 /* .navbar-nav .nav-link span:after {
     transition: all ease-in-out .2s;
     background: var(--main-color);

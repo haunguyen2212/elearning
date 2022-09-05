@@ -57,5 +57,15 @@ class RoomRegistrationRepository implements RoomRegistrationRepositoryInterface{
             ]);
         }
     }
+
+    public function getOfTeacher($teacher_id, $offset = 10 ,$orderBy = 'desc')
+    {
+        return $this->room_registration->where('teacher_id', $teacher_id)->orderBy('date', $orderBy)->paginate($offset);
+    }
+
+    public function delete($id)
+    {
+        return $this->room_registration->find($id)->delete();
+    }
     
 }
