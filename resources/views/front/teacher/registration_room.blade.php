@@ -5,6 +5,9 @@
 @section('style')
     <link rel="stylesheet" href="{{ asset('backend/assets/vendor/jquery-ui/jquery-ui.min.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/assets/vendor/jquery-ui/timepicker.css') }}">
+    <style>
+        .ui-timepicker-container{z-index: 1056 !important};
+    </style>
 @endsection
 
 @section('breadcrumb')
@@ -17,6 +20,12 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Danh sách đăng ký</h5>
+                    @if (session('success_edit'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('success_edit') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
                     <div class="table-responsive">
                         <table class="table table-hover" style="min-width: 600px">
                             <thead>
@@ -38,9 +47,11 @@
                                         <td>{{ date('H:i', strtotime($registration->start_time)).' - '.date('H:i', strtotime($registration->end_time)) }}</td>
                                         <td class="ps-4">{{ $registration->amount }}</td>
                                         <td>
-                                            <button class="btn btn-sm btn-warning"
+                                            <button class="btn btn-sm btn-warning btn-edit"
                                                  data-bs-toggle="modal" 
                                                  data-bs-target="#ModalEdit"
+                                                 data-url="{{ route('teacher.registration.edit', $registration->id) }}"
+                                                 data-update="{{ route('teacher.registration.update', $registration->id) }}"
                                                  ><i class="bi bi-pencil-square"></i></button>
                                             <button class="btn btn-sm btn-danger btn-delete" 
                                                 data-bs-toggle="modal" 
@@ -134,15 +145,16 @@
 @section('script')
     <script src="{{ asset('backend/assets/vendor/jquery-ui/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('backend/assets/vendor/jquery-ui/timepicker.js') }}"></script>
+    <script src="{{ asset('frontend/assets/js/registration/edit_registration.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/registration/delete_registration.js') }}"></script>
     <script>
-        $("#date").datepicker({
+        $("#date, #date_edit").datepicker({
             dateFormat:"dd-mm-yy",
             minDate: "OD",
             maxDate: "6M"
         });
 
-        $('#start_time, #end_time').timepicker({
+        $('#start_time, #end_time, #start_time_edit, #end_time_edit').timepicker({
             'timeFormat': 'HH:mm',
             'scrollDefault': 'now',
             'minTime': '7:00am',

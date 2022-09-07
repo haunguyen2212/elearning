@@ -96,6 +96,7 @@
 
     <script src="../backend/assets/js/jquery.min.js"></script>
     <script src="../backend/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../function.js"></script>
     @yield('script')
 </body>
 </html>

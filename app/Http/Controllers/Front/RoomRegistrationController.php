@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TeacherRegistrationRequest;
+use App\Http\Requests\TeacherUpdateRegistrationRequest;
 use App\Libraries\MyCourse;
 use App\Repositories\Interfaces\RoomRegistrationRepositoryInterface;
 use Illuminate\Http\Request;
@@ -36,6 +37,33 @@ class RoomRegistrationController extends Controller
             return back()->with('error', __('message.error'));
         }
          
+     }
+
+     public function edit($id){
+        $data = $this->roomRegistration->getById($id);
+        if(!empty($data)){
+            return response()->json(['data' => $data, 'status' => 1]);
+        }
+        else{
+            return response()->json(['status' => 0]);
+        }
+     }
+
+     public function update(TeacherUpdateRegistrationRequest $request, $id){
+        $data = $this->roomRegistration->getById($id);
+        if(!empty($data)){
+            $collection = $request->except(['_token', '_method']);
+            $collection['date'] = date('Y-m-d', strtotime($request->date));
+            $collection['start_time'] = date('H:i', strtotime($request->start_time));
+            $collection['end_time'] = date('H:i', strtotime($request->end_time));
+            $collection['teacher_id'] = auth()->guard('teacher')->id();
+            $this->roomRegistration->update($id, $collection);
+            $request->session()->flash('success_edit', __('message.update_success', ['name' => 'đăng ký']));
+            return response()->json(['status' => 1]);
+        }
+        else{
+            return response()->json(['status' => 0]);
+        }
      }
 
      public function destroy($id){

@@ -8,6 +8,8 @@ interface RoomRegistrationRepositoryInterface{
     public function getForDate($date);
     public function create($collection = [], $is_admin = false);
     public function getOfTeacher($teacher_id, $offset = 10 ,$orderBy = 'desc');
+    public function getById($id);
+    public function update($id, $collection = []);
     public function delete($id);
 
 }

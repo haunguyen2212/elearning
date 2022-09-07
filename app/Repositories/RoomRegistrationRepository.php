@@ -63,6 +63,23 @@ class RoomRegistrationRepository implements RoomRegistrationRepositoryInterface{
         return $this->room_registration->where('teacher_id', $teacher_id)->orderBy('date', $orderBy)->paginate($offset);
     }
 
+    public function getById($id)
+    {
+        return $this->room_registration->where('id', $id)->first();
+    }
+
+    public function update($id, $collection = [])
+    {
+        return $this->room_registration->find($id)->update([
+            'purpose' => $collection['purpose'],
+            'date' => $collection['date'],
+            'teacher_id' => $collection['teacher_id'],
+            'start_time' => $collection['start_time'],
+            'end_time' => $collection['end_time'],
+            'amount' => $collection['amount'],
+        ]);
+    }
+
     public function delete($id)
     {
         return $this->room_registration->find($id)->delete();

@@ -23,6 +23,8 @@ Route::group(['prefix' => 'teacher', 'middleware' => 'isTeacher'], function(){
     Route::get('/', [Front\TeacherHomeController::class, 'index'])->name('teacher.home');
     Route::get('registration', [Front\RoomRegistrationController::class, 'create'])->name('teacher.registration.create');
     Route::post('registration', [Front\RoomRegistrationController::class, 'store'])->name('teacher.registration.store');
+    Route::get('registration/{id}/edit', [Front\RoomRegistrationController::class, 'edit'])->name('teacher.registration.edit');
+    Route::put('registration/{id}/update', [Front\RoomRegistrationController::class, 'update'])->name('teacher.registration.update');
     Route::delete('registration/{id}/delete', [Front\RoomRegistrationController::class, 'destroy'])->name('teacher.registration.destroy');
 });
 
