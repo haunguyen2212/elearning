@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\RoomRegistration;
 use App\Repositories\Interfaces\RoomRegistrationRepositoryInterface;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class RoomRegistrationRepository implements RoomRegistrationRepositoryInterface{
@@ -66,6 +67,36 @@ class RoomRegistrationRepository implements RoomRegistrationRepositoryInterface{
     public function getById($id)
     {
         return $this->room_registration->where('id', $id)->first();
+    }
+
+    public function filterOfTeacher($teacher_id ,$value, $offset = [], $orderBy = 'desc')
+    {
+        $now = Carbon::now()->format('Y-m-d H:i:s');
+        switch($value){
+            case 'current':
+                return $this->room_registration->where('teacher_id', $teacher_id)
+                    ->where(DB::raw('CONCAT(date, " " , start_time)'),'<=', $now)
+                    ->where(DB::raw('CONCAT(date, " " , end_time)'),'>=', $now)
+                    ->orderBy('date', $orderBy)
+                    ->paginate($offset);
+                break;
+            case 'future':
+                return $this->room_registration->where('teacher_id', $teacher_id)
+                    ->where(DB::raw('CONCAT(date, " " , start_time)'),'>=', $now)
+                    ->orderBy('date', $orderBy)
+                    ->paginate($offset);
+                break;
+            case 'past':
+                return $this->room_registration->where('teacher_id', $teacher_id)
+                    ->where(DB::raw('CONCAT(date, " " , end_time)'),'<', $now)
+                    ->orderBy('date', $orderBy)
+                    ->paginate($offset);
+                break;
+            default:
+                return $this->room_registration->where('teacher_id', $teacher_id)
+                    ->orderBy('date', $orderBy)
+                    ->paginate($offset);
+        }
     }
 
     public function update($id, $collection = [])

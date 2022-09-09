@@ -20,8 +20,13 @@ class RoomRegistrationController extends Controller
         $this->roomRegistration = $roomRegistrationRepository;
     }
 
-     public function create(){
-        $data['myRegistration'] = $this->roomRegistration->getOfTeacher(auth()->guard('teacher')->id());
+     public function create(Request $request){
+        if(isset($request->filter)){
+            $data['myRegistration'] = $this->roomRegistration->filterOfTeacher(auth()->guard('teacher')->id(), $request->filter);
+        }
+        else{
+            $data['myRegistration'] = $this->roomRegistration->getOfTeacher(auth()->guard('teacher')->id());
+        }
         return view('front.teacher.registration_room', $data);
      }
 

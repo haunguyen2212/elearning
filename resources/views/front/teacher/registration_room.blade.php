@@ -19,7 +19,24 @@
         <div class="col-12 col-md-7">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Danh sách đăng ký</h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="bd-highlight">
+                            <h5 class="card-title">Danh sách đăng ký</h5>
+                        </div>
+                        <div class="bd-highlight">    
+                            <h5 class="card-title">    
+                                <form class="d-flex align-items-center">
+                                    <span class="fw-bold" style="width: 100px; font-size: 15px">Hiển thị: </span>
+                                    <select class="form-select" name="filter" id="filter" onchange="this.form.submit();">
+                                        <option value="all" {{ request('filter') == 'all' ? 'selected' : '' }}>Tất cả</option>
+                                        <option value="current" {{ request('filter') == 'current' ? 'selected' : '' }}>Đang diễn ra</option>
+                                        <option value="future" {{ request('filter') == 'future' ? 'selected' : '' }}>Sắp diễn ra</option>
+                                        <option value="past" {{ request('filter') == 'past' ? 'selected' : '' }}>Đã diễn ra</option>
+                                    </select>
+                                </form>
+                            </h5>
+                        </div>
+                    </div>
                     @if (session('success_edit'))
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             {{ session('success_edit') }}
