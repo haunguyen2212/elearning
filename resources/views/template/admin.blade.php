@@ -282,6 +282,7 @@
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
   <script src="assets/js/function.js"></script>
+  <script src="../function.js"></script>
   @yield('script')
 
 </body>

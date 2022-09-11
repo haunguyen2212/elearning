@@ -9,13 +9,27 @@
     <li class="breadcrumb-item active">Kết quả</li>
 @endsection
 
+@php
+    $period = session()->get('schedule')['period'];
+    $rooms = session()->get('schedule')['rooms'];
+    $schedule = session()->get('schedule')['schedule'];
+    $deny = session()->get('schedule')['deny'];
+@endphp
 
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Kết quả xếp lịch</h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="bd-highlight">
+                            <h5 class="card-title">Kết quả xếp lịch</h5>
+                        </div>
+                        <div>
+                            <a href="{{ route('schedule.result.edit') }}" class="btn btn-sm btn-warning text-white">Chỉnh sửa</a>
+                            <a href="" class="btn btn-sm btn-primary">Lưu lại</a>
+                        </div>
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-borderless table-bordered" border="1" cellpadding="0" cellspacing="0">
                             <thead>

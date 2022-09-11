@@ -41,12 +41,48 @@ class ScheduleController extends Controller
         return view('errors.404');
     }
 
-    public function main(ScheduleRequest $request){
-        $period = CarbonPeriod::create($request->from_date, $request->to_date);
-        $rooms = $this->room->getDropDown()->toArray();
-        asort($rooms);
-        [$schedule, $deny] = $this->schedule->getSchedule($request->from_date, $request->to_date);
-        return view('admin.room_registration.result', compact('period', 'rooms', 'schedule', 'deny'));
+    public function handleSchedule(ScheduleRequest $request){
+        $data['period'] = CarbonPeriod::create($request->from_date, $request->to_date)->toArray();
+        $data['rooms'] = $this->room->getDropDown()->toArray();
+        asort($data['rooms']);
+        [$data['schedule'], $data['deny']] = $this->schedule->getSchedule($request->from_date, $request->to_date);
+        if ($request->session()->exists('schedule')) {
+            $request->session()->forget('schedule');
+        }
+        $request->session()->put('schedule', $data);
+        return redirect()->route('schedule.result.show');
+    }
+
+    public function showResult(){
+        if (!session()->exists('schedule')) {
+            return redirect()->route('schedule.create');
+        }
+        return view('admin.room_registration.result');
+    }
+
+    public function getDataById(Request $request){
+        $data = $this->roomRegistration->getFullById($request->id);
+        if(empty($data)){
+            abort(404);
+        }
+        return response()->json(['data' => $data, 'status' => 1]);
+    }
+
+    public function editResult(){
+        if (!session()->exists('schedule')) {
+            return redirect()->route('schedule.create');
+        }
+        $data['have_deny'] = false;
+        foreach(session()->get('schedule')['deny'] as $value){
+            if($value != []){
+                $data['have_deny'] = true;
+                break;
+            }    
+        }
+        return view('admin.room_registration.editResult', $data);
+    }
+
+    public function storeResult(){
         
     }
 
@@ -76,4 +112,5 @@ class ScheduleController extends Controller
             return back()->with('error', __('message.error'));
         }
     }
+
 }
