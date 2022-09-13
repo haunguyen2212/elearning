@@ -26,8 +26,7 @@
                             <h5 class="card-title">Kết quả xếp lịch</h5>
                         </div>
                         <div>
-                            <a href="{{ route('schedule.result.edit') }}" class="btn btn-sm btn-warning text-white">Chỉnh sửa</a>
-                            <a href="" class="btn btn-sm btn-primary">Lưu lại</a>
+                            <a href="" class="btn btn-sm btn-warning text-white">Chỉnh sửa</a>
                         </div>
                     </div>
                     <div class="table-responsive">

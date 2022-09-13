@@ -64,8 +64,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'isAdmin'], function(){
     Route::post('schedule/handle', [Admin\ScheduleController::class, 'handleSchedule'])->name('schedule.handle');
     Route::post('download/docx', [Admin\ScheduleController::class, 'printDocx'])->name('schedule.download.docx');
     Route::get('schedule/result/show', [Admin\ScheduleController::class, 'showResult'])->name('schedule.result.show');
-    Route::get('schedule/result/edit', [Admin\ScheduleController::class, 'editResult'])->name('schedule.result.edit');
-    Route::get('schedule/result/getData', [Admin\ScheduleController::class, 'getDataById'])->name('schedule.result.get');
     Route::get('registration/create', [Admin\ScheduleController::class, 'createRegistration'])->name('admin.registration.create');
     Route::post('registration/store', [Admin\ScheduleController::class, 'storeRegistration'])->name('admin.registration.store');
 });

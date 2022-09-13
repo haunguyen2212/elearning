@@ -6,11 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminRegistrationRequest;
 use App\Http\Requests\ScheduleRequest;
 use App\Libraries\Schedule;
+use App\Models\Room;
+use App\Models\RoomAssignment;
 use App\Repositories\Interfaces\RoomRegistrationRepositoryInterface;
 use App\Repositories\Interfaces\RoomRepositoryInterface;
 use App\Repositories\Interfaces\TeacherRepositoryInterface;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ScheduleController extends Controller
 {
@@ -44,8 +47,46 @@ class ScheduleController extends Controller
     public function handleSchedule(ScheduleRequest $request){
         $data['period'] = CarbonPeriod::create($request->from_date, $request->to_date)->toArray();
         $data['rooms'] = $this->room->getDropDown()->toArray();
-        asort($data['rooms']);
         [$data['schedule'], $data['deny']] = $this->schedule->getSchedule($request->from_date, $request->to_date);
+        //dd($data['deny']);
+        DB::beginTransaction();
+        try{
+            foreach($data['schedule'] as $date){
+                foreach($date as $room_index => $room){
+                    if($room == []) continue;
+                    foreach($room as $value){
+                        $old = RoomAssignment::where('registration_id', $value['id'])->count();
+                        if($old > 0){
+                            RoomAssignment::where('registration_id', $value['id'])->delete();
+                        }
+                        RoomAssignment::create([
+                            'registration_id' => $value['id'],
+                            'room_id' => $data['rooms'][$room_index]['id'],
+                        ]);
+                    }
+                    
+                }
+            }
+
+            foreach($data['deny'] as $date){
+                if($date == []) continue;
+                foreach($date as $value){      
+                    $old = RoomAssignment::where('registration_id', $value['id'])->count();
+                    if($old > 0){
+                        RoomAssignment::where('registration_id', $value['id'])->delete();
+                    }
+                    RoomAssignment::create([
+                        'registration_id' => $value['id'],
+                        'room_id' => NULL,
+                    ]);
+                }
+            }
+            DB::commit();
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+        }
+        
         if ($request->session()->exists('schedule')) {
             $request->session()->forget('schedule');
         }
@@ -58,32 +99,6 @@ class ScheduleController extends Controller
             return redirect()->route('schedule.create');
         }
         return view('admin.room_registration.result');
-    }
-
-    public function getDataById(Request $request){
-        $data = $this->roomRegistration->getFullById($request->id);
-        if(empty($data)){
-            abort(404);
-        }
-        return response()->json(['data' => $data, 'status' => 1]);
-    }
-
-    public function editResult(){
-        if (!session()->exists('schedule')) {
-            return redirect()->route('schedule.create');
-        }
-        $data['have_deny'] = false;
-        foreach(session()->get('schedule')['deny'] as $value){
-            if($value != []){
-                $data['have_deny'] = true;
-                break;
-            }    
-        }
-        return view('admin.room_registration.editResult', $data);
-    }
-
-    public function storeResult(){
-        
     }
 
     public function printDocx(Request $request){
