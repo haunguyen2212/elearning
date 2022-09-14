@@ -18,5 +18,6 @@ class RoomRegistration extends Model
         'start_time',
         'end_time',
         'amount',
+        'status',
     ];
 }

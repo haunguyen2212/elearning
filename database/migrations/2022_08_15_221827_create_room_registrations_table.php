@@ -21,6 +21,7 @@ class CreateRoomRegistrationsTable extends Migration
             $table->time('start_time');
             $table->time('end_time');
             $table->integer('amount');
+            $table->char('status', 2)->default('0');
             $table->timestamps();
             $table->foreign('teacher_id')->references('id')->on('teachers')->onUpdate('cascade')->onDelete('cascade');
         });

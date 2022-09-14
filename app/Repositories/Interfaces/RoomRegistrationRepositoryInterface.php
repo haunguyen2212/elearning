@@ -13,5 +13,6 @@ interface RoomRegistrationRepositoryInterface{
     public function filterOfTeacher($teacher_id ,$value, $offset = 10, $orderBy = 'desc');
     public function update($id, $collection = []);
     public function delete($id);
+    public function getDataAcceptForDate($date);
 
 }

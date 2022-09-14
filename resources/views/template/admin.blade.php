@@ -189,6 +189,11 @@
               <i class="bi bi-circle"></i><span>Xếp lịch</span>
             </a>
           </li>
+          <li>
+            <a id="history-schedule" href="{{ route('schedule.view.index') }}">
+              <i class="bi bi-circle"></i><span>Lịch sử dụng phòng</span>
+            </a>
+          </li>
         </ul>
       </li>
 

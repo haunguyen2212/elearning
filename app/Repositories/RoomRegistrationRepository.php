@@ -29,7 +29,7 @@ class RoomRegistrationRepository implements RoomRegistrationRepositoryInterface{
     {
         return $this->room_registration->leftJoin('teachers', 'teacher_id', 'teachers.id')
             ->whereDate('date', $date)
-            ->select('room_registrations.id', 'purpose', 'date', 'start_time', 'end_time', 'amount', DB::raw('teachers.name as teacher_name'))
+            ->select('room_registrations.id', 'purpose', 'date', 'start_time', 'end_time', 'amount', 'status', DB::raw('teachers.name as teacher_name'))
             ->orderBy('end_time', 'asc')
             ->orderBy('start_time', 'asc')
             ->get();
@@ -72,7 +72,7 @@ class RoomRegistrationRepository implements RoomRegistrationRepositoryInterface{
     public function getFullById($id)
     {
         return $this->room_registration->leftJoin('teachers', 'teacher_id', 'teachers.id')
-            ->select('room_registrations.id', 'purpose', 'date', 'start_time', 'end_time', 'amount', DB::raw('teachers.name as teacher_name'))
+            ->select('room_registrations.id', 'purpose', 'date', 'start_time', 'end_time', 'amount', 'status', DB::raw('teachers.name as teacher_name'))
             ->where('room_registrations.id', $id)->first();
     }
 
@@ -121,6 +121,18 @@ class RoomRegistrationRepository implements RoomRegistrationRepositoryInterface{
     public function delete($id)
     {
         return $this->room_registration->find($id)->delete();
+    }
+
+    public function getDataAcceptForDate($date)
+    {
+        return $this->room_registration->leftJoin('teachers', 'teacher_id', 'teachers.id')
+            ->join('room_assignments', 'registration_id', 'room_registrations.id')
+            ->where('room_registrations.status', 1)
+            ->whereDate('date', $date)
+            ->select('room_registrations.id', 'purpose', 'date', 'start_time', 'end_time', 'amount', 'status', 'room_id' ,DB::raw('teachers.name as teacher_name'))
+            ->orderBy('end_time', 'asc')
+            ->orderBy('start_time', 'asc')
+            ->get();
     }
     
 }

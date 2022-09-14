@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminRegistrationRequest;
 use App\Http\Requests\ScheduleRequest;
 use App\Libraries\Schedule;
-use App\Models\Room;
 use App\Models\RoomAssignment;
+use App\Models\RoomRegistration;
 use App\Repositories\Interfaces\RoomRegistrationRepositoryInterface;
 use App\Repositories\Interfaces\RoomRepositoryInterface;
 use App\Repositories\Interfaces\TeacherRepositoryInterface;
@@ -57,8 +57,10 @@ class ScheduleController extends Controller
                     foreach($room as $value){
                         $old = RoomAssignment::where('registration_id', $value['id'])->count();
                         if($old > 0){
+                            RoomRegistration::find($value['id'])->update(['status' => 0]);
                             RoomAssignment::where('registration_id', $value['id'])->delete();
                         }
+                        RoomRegistration::find($value['id'])->update(['status' => 1]);
                         RoomAssignment::create([
                             'registration_id' => $value['id'],
                             'room_id' => $data['rooms'][$room_index]['id'],
@@ -73,8 +75,10 @@ class ScheduleController extends Controller
                 foreach($date as $value){      
                     $old = RoomAssignment::where('registration_id', $value['id'])->count();
                     if($old > 0){
+                        RoomRegistration::find($value['id'])->update(['status' => 0]);
                         RoomAssignment::where('registration_id', $value['id'])->delete();
                     }
+                    RoomRegistration::find($value['id'])->update(['status' => '-1']);
                     RoomAssignment::create([
                         'registration_id' => $value['id'],
                         'room_id' => NULL,
