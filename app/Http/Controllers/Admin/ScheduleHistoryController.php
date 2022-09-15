@@ -26,6 +26,8 @@ class ScheduleHistoryController extends Controller
     public function index(Request $request){
         $start = $request->start ?? Carbon::now()->addWeek()->startOfWeek()->format('Y-m-d');
         $end = $request->end ?? Carbon::now()->addWeek()->endOfWeek()->format('Y-m-d');
+        $data['start_date'] = $start;
+        $data['end_date'] = $end;
         $data['periods'] = CarbonPeriod::create($start, $end)->toArray();
         $data['rooms'] = $this->room->getDropDown()->toArray();
         $data['schedule'] = [];
@@ -34,5 +36,22 @@ class ScheduleHistoryController extends Controller
             $data['schedule'][$item] = $this->roomRegistration->getDataAcceptForDate($item);
         }
         return view('admin.room_registration.history', $data);
+    }
+
+    public function edit(Request $request){
+        if(!isset($request->start) || !isset($request->end) || ($request->start > $request->end)){
+            abort(404);
+        }
+        $data['start_date'] = $request->start;
+        $data['end_date'] = $request->end;
+        $data['periods'] = CarbonPeriod::create($request->start, $request->end)->toArray();
+        $data['rooms'] = $this->room->getDropDown()->toArray();
+        $data['schedule'] = [];
+        foreach($data['periods'] as $date){
+            $item = $date->format('Y-m-d');
+            $data['schedule'][$item] = $this->roomRegistration->getDataAcceptForDate($item);
+        }
+        $data['deny'] = $this->roomRegistration->getDataDenyAndLack($request->start, $request->end);
+        return view('admin.room_registration.history_edit', $data);
     }
 }

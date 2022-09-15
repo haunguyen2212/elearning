@@ -134,5 +134,18 @@ class RoomRegistrationRepository implements RoomRegistrationRepositoryInterface{
             ->orderBy('start_time', 'asc')
             ->get();
     }
+
+    public function getDataDenyAndLack($start_date, $end_date)
+    {
+        return $this->room_registration->leftJoin('teachers', 'teacher_id', 'teachers.id')
+            ->leftJoin('room_assignments', 'registration_id', 'room_registrations.id')
+            ->whereIn('room_registrations.status', ['-1', '0'])
+            ->whereDate('date', '>=' , $start_date)
+            ->whereDate('date', '<=', $end_date)
+            ->select('room_registrations.id', 'purpose', 'date', 'start_time', 'end_time', 'amount', 'status', 'room_id' ,DB::raw('teachers.name as teacher_name'))
+            ->orderBy('end_time', 'asc')
+            ->orderBy('start_time', 'asc')
+            ->get();
+    }
     
 }

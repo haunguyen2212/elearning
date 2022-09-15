@@ -1,6 +1,6 @@
 @extends('template.admin')
 
-@section('title', 'Lịch sử dụng phòng')
+@section('title', 'Chỉnh sửa lịch')
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('backend/assets/vendor/jquery-ui/jquery-ui.min.css') }}">
@@ -8,7 +8,8 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item active">Lịch sử dụng phòng</li>
+    <li class="breadcrumb-item"><a href="{{ route('schedule.view.index').'?start='.$start_date.'&end='.$end_date }}">Lịch sử dụng phòng</a></li>
+    <li class="breadcrumb-item active">Chỉnh sửa</li>
 @endsection
 
 @section('content')
@@ -18,12 +19,53 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="bd-highlight">
-                            <h5 class="card-title">Lịch sử dụng phòng</h5>
-                        </div>
-                        <div>
-                            <a href="" class="btn btn-sm btn-warning text-white">Chỉnh sửa</a>
+                            <h5 class="card-title">Chỉnh sửa lịch</h5>
                         </div>
                     </div>
+
+                    @if ($deny->count() > 0)
+                        <div class="table-responsive">
+                            <table class="table table-striped" style="min-width: 1000px">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Ngày</th>
+                                        <th>Nội dung</th>
+                                        <th>Thời gian</th>
+                                        <th>Số lượng</th>
+                                        <th>Người đăng ký</th>
+                                        <th>Trạng thái</th>
+                                        <th>Tùy chỉnh</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                    @foreach ($deny as $key => $value)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>{{ date('d/m/Y', strtotime($value->date)) }}</td>
+                                            <td>{{ $value->purpose }}</td>
+                                            <td>{{ date('H:i', strtotime($value->start_time)).' - '.date('H:i', strtotime($value->end_time)) }}</td>
+                                            <td>{{ $value->amount }}</td>
+                                            <td>{{ $value->teacher_name }}</td>
+                                            <td>
+                                                @if ($value->status == 0)
+                                                    <span class="badge bg-warning">Chưa sắp</span>
+                                                @else
+                                                    <span class="badge bg-danger">Từ chối</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-sm btn-main ms-3"><i class="bi bi-pencil-square"></i></button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>    
+                        <h5 class="card-title">Lịch sử dụng phòng</h5>     
+                    @endif
+
                     <div class="table-responsive">
                         <table class="table table-borderless table-bordered" border="1" cellpadding="0" cellspacing="0">
                             <thead>
@@ -58,11 +100,6 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <a href="{{ route('schedule.view.edit').'?start='.$start_date.'&end='.$end_date }}" class="btn btn-sm btn-main"><i class="bi bi-pencil-square"></i> Chỉnh sửa</a>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -74,7 +111,6 @@
         $('#room-registration-link').removeClass('collapsed');
         $('#room-registration-nav').addClass('show');
         $('#history-schedule').addClass('active');
-        $('#history-schedule').attr('href', 'javascript:void(0)');
     </script>
 @endsection
 

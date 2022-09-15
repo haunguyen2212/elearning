@@ -14,5 +14,6 @@ interface RoomRegistrationRepositoryInterface{
     public function update($id, $collection = []);
     public function delete($id);
     public function getDataAcceptForDate($date);
+    public function getDataDenyAndLack($start_date, $end_date);
 
 }
