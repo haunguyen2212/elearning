@@ -56,7 +56,14 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <button class="btn btn-sm btn-main ms-3"><i class="bi bi-pencil-square"></i></button>
+                                                <button class="btn btn-sm btn-main ms-3 txt-edit"
+                                                        data-bs-toggle="modal" 
+                                                        data-bs-target="#ModalEdit"
+                                                        data-url-edit="{{ route('schedule_edit.edit', $value->id) }}"
+                                                        data-url-update="{{ route('schedule_edit.update', $value->id) }}"
+                                                >
+                                                <i class="bi bi-pencil-square"></i>
+                                            </button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -84,15 +91,32 @@
                                             <td>
                                                 @foreach ($schedule[date('Y-m-d', strtotime($date))] as $value)
                                                     @if ($value->room_id == $room['id'])
-                                                        <p>
+                                                        <p style="background: #F5F5F5; border-radius: 3px">
                                                             <strong>{{ date('H:i', strtotime($value->start_time)) .' - '. date('H:i', strtotime($value->end_time))  }}</strong>
                                                             <br><span>{{ $value->purpose }}</span>
                                                             <br><span>{{ $value->teacher_name }}</span>
                                                             <br><span>Số lượng: {{ $value->amount }}</span>
+                                                            <br><span>
+                                                                <small class="text-warning fw-bold txt-edit" 
+                                                                    style="cursor: pointer"
+                                                                    data-bs-toggle="modal" 
+                                                                    data-bs-target="#ModalEdit"
+                                                                    data-url-edit="{{ route('schedule_edit.edit', $value->id) }}"
+                                                                    data-url-update="{{ route('schedule_edit.update', $value->id) }}"
+                                                                >[Sửa]</small>
+                                                                <small class="text-danger fw-bold" 
+                                                                    style="cursor: pointer"
+                                                                >
+                                                                [Xóa]
+                                                                </small>
+                                                            </span>
                                                         </p>
                                                     @endif
                                                     
                                                 @endforeach
+                                                <small class="text-primary fw-bold" 
+                                                            style="cursor: pointer"
+                                                    >[Thêm]</small>
                                             </td>
                                         @endforeach
                                     </tr>
@@ -104,6 +128,7 @@
             </div>
         </div>
     </div>
+    @include('admin.room_registration.modal.history_edit')
 @endsection
 
 @section('script')
@@ -112,5 +137,6 @@
         $('#room-registration-nav').addClass('show');
         $('#history-schedule').addClass('active');
     </script>
+    <script src="{{ asset('backend/assets/js/schedule_history/edit.js') }}"></script>
 @endsection
 

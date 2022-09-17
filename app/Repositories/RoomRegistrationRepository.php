@@ -147,5 +147,13 @@ class RoomRegistrationRepository implements RoomRegistrationRepositoryInterface{
             ->orderBy('start_time', 'asc')
             ->get();
     }
+
+    public function getResultForRegistration($id){
+        return $this->room_registration->leftJoin('teachers', 'teacher_id', 'teachers.id')
+            ->leftJoin('room_assignments', 'registration_id', 'room_registrations.id')
+            ->where('room_registrations.id', $id)
+            ->select('room_registrations.id', 'purpose', 'date', 'start_time', 'end_time', 'amount', 'status', 'room_id' ,DB::raw('teachers.name as teacher_name'))
+            ->get();
+    }
     
 }

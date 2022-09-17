@@ -67,6 +67,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'isAdmin'], function(){
 
     Route::get('schedule/view', [Admin\ScheduleHistoryController::class, 'index'])->name('schedule.view.index');
     Route::get('schedule/view/edit', [Admin\ScheduleHistoryController::class, 'edit'])->name('schedule.view.edit');
+    Route::resource('schedule_edit', Admin\ScheduleEditController::class);
 
     Route::get('registration/create', [Admin\ScheduleController::class, 'createRegistration'])->name('admin.registration.create');
     Route::post('registration/store', [Admin\ScheduleController::class, 'storeRegistration'])->name('admin.registration.store');
