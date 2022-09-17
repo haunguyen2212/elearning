@@ -16,5 +16,6 @@ interface RoomRegistrationRepositoryInterface{
     public function getDataAcceptForDate($date);
     public function getDataDenyAndLack($start_date, $end_date);
     public function getResultForRegistration($id);
+    public function setStatus($id, $status = 0);
 
 }

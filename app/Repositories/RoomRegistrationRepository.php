@@ -129,7 +129,7 @@ class RoomRegistrationRepository implements RoomRegistrationRepositoryInterface{
             ->join('room_assignments', 'registration_id', 'room_registrations.id')
             ->where('room_registrations.status', 1)
             ->whereDate('date', $date)
-            ->select('room_registrations.id', 'purpose', 'date', 'start_time', 'end_time', 'amount', 'status', 'room_id' ,DB::raw('teachers.name as teacher_name'))
+            ->select('room_registrations.id', 'purpose', 'date', 'start_time', 'end_time', 'amount', 'status', 'room_id' ,DB::raw('teachers.name as teacher_name, room_assignments.id as assignment_id'))
             ->orderBy('end_time', 'asc')
             ->orderBy('start_time', 'asc')
             ->get();
@@ -152,8 +152,15 @@ class RoomRegistrationRepository implements RoomRegistrationRepositoryInterface{
         return $this->room_registration->leftJoin('teachers', 'teacher_id', 'teachers.id')
             ->leftJoin('room_assignments', 'registration_id', 'room_registrations.id')
             ->where('room_registrations.id', $id)
-            ->select('room_registrations.id', 'purpose', 'date', 'start_time', 'end_time', 'amount', 'status', 'room_id' ,DB::raw('teachers.name as teacher_name'))
+            ->select('room_registrations.id', 'purpose', 'date', 'start_time', 'end_time', 'amount', 'status', 'room_id' ,DB::raw('teachers.name as teacher_name, room_assignments.id as assignment_id'))
             ->get();
+    }
+
+    public function setStatus($id, $status = 0)
+    {
+        return $this->room_registration->find($id)->update([
+            'status' => $status,
+        ]);
     }
     
 }

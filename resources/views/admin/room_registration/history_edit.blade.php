@@ -104,8 +104,11 @@
                                                                     data-url-edit="{{ route('schedule_edit.edit', $value->id) }}"
                                                                     data-url-update="{{ route('schedule_edit.update', $value->id) }}"
                                                                 >[Sửa]</small>
-                                                                <small class="text-danger fw-bold" 
+                                                                <small class="text-danger fw-bold txt-delete" 
                                                                     style="cursor: pointer"
+                                                                    data-bs-toggle="modal" 
+                                                                    data-bs-target="#ModalDelete"
+                                                                    data-url="{{ route('schedule_edit.destroy', $value->assignment_id) }}"
                                                                 >
                                                                 [Xóa]
                                                                 </small>
@@ -129,6 +132,7 @@
         </div>
     </div>
     @include('admin.room_registration.modal.history_edit')
+    @include('admin.room_registration.modal.history_delete')
 @endsection
 
 @section('script')
@@ -138,5 +142,6 @@
         $('#history-schedule').addClass('active');
     </script>
     <script src="{{ asset('backend/assets/js/schedule_history/edit.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/schedule_history/delete.js') }}"></script>
 @endsection
 
