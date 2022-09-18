@@ -45,6 +45,7 @@ class RoomRegistrationRepository implements RoomRegistrationRepositoryInterface{
                 'date' => $collection['date'],
                 'start_time' => $collection['start_time'],
                 'end_time' => $collection['end_time'],
+                'status' => $collection['status'] ?? 0,
             ]);
         }
         else{

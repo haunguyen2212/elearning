@@ -14,6 +14,8 @@
     $rooms = session()->get('schedule')['rooms'];
     $schedule = session()->get('schedule')['schedule'];
     $deny = session()->get('schedule')['deny'];
+    $start_date = date('Y-m-d', strtotime($period[0]));
+    $end_date = date('Y-m-d', strtotime($period[count($period)-1]));
 @endphp
 
 @section('content')
@@ -26,7 +28,7 @@
                             <h5 class="card-title">Kết quả xếp lịch</h5>
                         </div>
                         <div>
-                            <a href="" class="btn btn-sm btn-warning text-white">Chỉnh sửa</a>
+                            <a href="{{ route('schedule.view.edit').'?start='.$start_date.'&end='.$end_date }}" class="btn btn-sm btn-main"><i class="bi bi-pencil-square"></i> Chỉnh sửa</a>
                         </div>
                     </div>
                     <div class="table-responsive">

@@ -5,6 +5,9 @@
 @section('style')
     <link rel="stylesheet" href="{{ asset('backend/assets/vendor/jquery-ui/jquery-ui.min.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/assets/vendor/jquery-ui/timepicker.css') }}">
+    <style>
+        .ui-timepicker-container{z-index: 1056 !important};
+    </style>
 @endsection
 
 @section('breadcrumb')
@@ -117,8 +120,14 @@
                                                     @endif
                                                     
                                                 @endforeach
-                                                <small class="text-primary fw-bold" 
-                                                            style="cursor: pointer"
+                                                <small class="text-primary fw-bold txt-create" 
+                                                        style="cursor: pointer"
+                                                        data-bs-toggle="modal" 
+                                                        data-bs-target="#ModalCreate"
+                                                        data-room-id="{{ $room['id'] }}"
+                                                        data-room-name="{{ $room['name'] }}"
+                                                        data-date="{{ date('Y-m-d', strtotime($date)) }}"
+                                                        data-url="{{ route('schedule_edit.create') }}"
                                                     >[Thêm]</small>
                                             </td>
                                         @endforeach
@@ -131,6 +140,7 @@
             </div>
         </div>
     </div>
+    @include('admin.room_registration.modal.history_create')
     @include('admin.room_registration.modal.history_edit')
     @include('admin.room_registration.modal.history_delete')
 @endsection
@@ -141,6 +151,18 @@
         $('#room-registration-nav').addClass('show');
         $('#history-schedule').addClass('active');
     </script>
+    <script src="{{ asset('backend/assets/vendor/jquery-ui/timepicker.js') }}"></script>
+    <script>
+
+        $('#start_time_create, #end_time_create').timepicker({
+            'timeFormat': 'HH:mm',
+            'scrollDefault': 'now',
+            'minTime': '7:00am',
+            'maxTime': '5:00pm',
+            interval: 5,
+        });
+    </script>
+    <script src="{{ asset('backend/assets/js/schedule_history/create.js') }}"></script>
     <script src="{{ asset('backend/assets/js/schedule_history/edit.js') }}"></script>
     <script src="{{ asset('backend/assets/js/schedule_history/delete.js') }}"></script>
 @endsection
