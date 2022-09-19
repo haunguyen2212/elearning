@@ -6,23 +6,26 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\EditScheduleStoreRequest;
 use App\Repositories\Interfaces\RoomAssignmentRepositoryInterface;
 use App\Repositories\Interfaces\RoomRegistrationRepositoryInterface;
+use App\Repositories\Interfaces\RoomRepositoryInterface;
 use App\Repositories\Interfaces\TeacherRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ScheduleEditController extends Controller
 {
-    private $roomRegistration, $roomAssignment, $teacher;
+    private $roomRegistration, $roomAssignment, $teacher, $room;
 
     public function __construct(
         RoomRegistrationRepositoryInterface $roomRegistrationRepository,
         RoomAssignmentRepositoryInterface $roomAssignmentRepository,
-        TeacherRepositoryInterface $teacherRepository
+        TeacherRepositoryInterface $teacherRepository,
+        RoomRepositoryInterface $roomRepository
     )
     {
         $this->roomRegistration = $roomRegistrationRepository;
         $this->roomAssignment = $roomAssignmentRepository;
         $this->teacher = $teacherRepository;
+        $this->room = $roomRepository;
     }
     public function index()
     {
@@ -72,7 +75,8 @@ class ScheduleEditController extends Controller
 
     public function edit($id)
     {
-        $data = $this->roomRegistration->getResultForRegistration($id);
+        $data['info'] = $this->roomAssignment->getFullById($id);
+        $data['rooms'] = $this->room->getDropDownAsc();
         if(!empty($data)){
             return response()->json(['data' => $data, 'status' => 1]);
         }
@@ -82,7 +86,17 @@ class ScheduleEditController extends Controller
 
     public function update(Request $request, $id)
     {
-        //
+        $collection = $request->except(['_token', '_method']);
+        DB::beginTransaction();
+        try{
+            $this->roomAssignment->update($id, $collection);
+            DB::commit();
+            return response()->json(['status' => 1]);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['status' => 0]);
+        }
     }
 
 

@@ -59,7 +59,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <button class="btn btn-sm btn-main ms-3 txt-edit"
+                                                <button class="btn btn-sm btn-main ms-3 txt-assign"
                                                         data-bs-toggle="modal" 
                                                         data-bs-target="#ModalEdit"
                                                         data-url-edit="{{ route('schedule_edit.edit', $value->id) }}"
@@ -104,8 +104,8 @@
                                                                     style="cursor: pointer"
                                                                     data-bs-toggle="modal" 
                                                                     data-bs-target="#ModalEdit"
-                                                                    data-url-edit="{{ route('schedule_edit.edit', $value->id) }}"
-                                                                    data-url-update="{{ route('schedule_edit.update', $value->id) }}"
+                                                                    data-url-edit="{{ route('schedule_edit.edit', $value->assignment_id) }}"
+                                                                    data-url-update="{{ route('schedule_edit.update', $value->assignment_id) }}"
                                                                 >[Sửa]</small>
                                                                 <small class="text-danger fw-bold txt-delete" 
                                                                     style="cursor: pointer"

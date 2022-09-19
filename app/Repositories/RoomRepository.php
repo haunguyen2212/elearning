@@ -20,6 +20,11 @@ class RoomRepository implements RoomRepositoryInterface{
         return $this->room->select('id', 'name', 'capacity')->orderBy('capacity', 'asc')->get();
     }
 
+    public function getDropDownAsc()
+    {
+        return $this->room->select('id', 'name', 'capacity')->orderBy('id', 'asc')->get();
+    }
+
 
     
 }

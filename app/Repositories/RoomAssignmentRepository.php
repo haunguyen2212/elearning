@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\RoomAssignment;
 use App\Repositories\Interfaces\RoomAssignmentRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 
 class RoomAssignmentRepository implements RoomAssignmentRepositoryInterface{
 
@@ -19,6 +20,15 @@ class RoomAssignmentRepository implements RoomAssignmentRepositoryInterface{
     public function getById($id)
     {
         return $this->roomAssignment->find($id);
+    }
+
+    public function getFullById($id)
+    {
+        return $this->roomAssignment->join('room_registrations', 'registration_id', '=', 'room_registrations.id')
+            ->leftJoin('teachers', 'teacher_id', '=', 'teachers.id')
+            ->where('room_assignments.id', $id)
+            ->select('room_assignments.*', 'purpose', 'date', 'teacher_id', 'start_time', 'end_time', 'amount', 'status' ,DB::raw('room_registrations.id as registration_id, teachers.name as teacher_name'))
+            ->first();
     }
 
     public function setNullRoom($id)
@@ -38,6 +48,13 @@ class RoomAssignmentRepository implements RoomAssignmentRepositoryInterface{
         return $this->roomAssignment->create([
             'registration_id' => $collection['registration_id'],
             'room_id' => $collection['room_id'],
+        ]);
+    }
+
+    public function update($id, $collection = [])
+    {
+        return $this->roomAssignment->find($id)->update([
+            'room_id' => $collection['room_id'] ?? NULL,
         ]);
     }
 
