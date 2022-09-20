@@ -11,5 +11,6 @@ interface RoomAssignmentRepositoryInterface{
     public function create($collection = []);
     public function delete($id);
     public function update($id, $collection = []);
+    public function deleteByRegistration($registration_id);
 
 }

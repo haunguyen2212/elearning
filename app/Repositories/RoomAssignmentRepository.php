@@ -63,4 +63,9 @@ class RoomAssignmentRepository implements RoomAssignmentRepositoryInterface{
         return $this->roomAssignment->find($id)->delete();
     }
 
+    public function deleteByRegistration($registration_id)
+    {
+        return $this->roomAssignment->where('registration_id', $registration_id)->delete();
+    }
+
 }

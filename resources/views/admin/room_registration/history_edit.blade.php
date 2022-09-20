@@ -61,9 +61,9 @@
                                             <td>
                                                 <button class="btn btn-sm btn-main ms-3 txt-assign"
                                                         data-bs-toggle="modal" 
-                                                        data-bs-target="#ModalEdit"
-                                                        data-url-edit="{{ route('schedule_edit.edit', $value->id) }}"
-                                                        data-url-update="{{ route('schedule_edit.update', $value->id) }}"
+                                                        data-bs-target="#ModalAssign"
+                                                        data-url-edit="{{ route('schedule_edit.assign.edit', $value->id) }}"
+                                                        data-url-update="{{ route('schedule_edit.assign.update', $value->id) }}"
                                                 >
                                                 <i class="bi bi-pencil-square"></i>
                                             </button>
@@ -143,6 +143,7 @@
     @include('admin.room_registration.modal.history_create')
     @include('admin.room_registration.modal.history_edit')
     @include('admin.room_registration.modal.history_delete')
+    @include('admin.room_registration.modal.history_assign')
 @endsection
 
 @section('script')
@@ -165,5 +166,6 @@
     <script src="{{ asset('backend/assets/js/schedule_history/create.js') }}"></script>
     <script src="{{ asset('backend/assets/js/schedule_history/edit.js') }}"></script>
     <script src="{{ asset('backend/assets/js/schedule_history/delete.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/schedule_history/assign.js') }}"></script>
 @endsection
 

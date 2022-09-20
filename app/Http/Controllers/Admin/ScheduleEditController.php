@@ -127,4 +127,35 @@ class ScheduleEditController extends Controller
         }
 
     }
+
+    public function assignEdit($registration_id){
+        $data['info'] = $this->roomRegistration->getFullById($registration_id);
+        $data['rooms'] = $this->room->getDropDownAsc();
+        return response()->json(['data' => $data, 'status' => 1]);
+    }
+
+    public function assignUpdate($registration_id, Request $request){
+        DB::beginTransaction();
+        try{
+            $count = $this->roomAssignment->countRegistration($registration_id);
+            if($count > 0){
+                $this->roomAssignment->deleteByRegistration($registration_id);
+            }
+
+            foreach($request->room_id as $value){
+                $collection['registration_id'] = $registration_id;
+                $collection['room_id'] = $value;
+                $this->roomAssignment->create($collection);
+            }
+
+            $this->roomRegistration->setStatus($registration_id, 1);
+
+            DB::commit();
+            return response()->json(['status' => 1]);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['status' => 0]);
+        }
+    }
 }
