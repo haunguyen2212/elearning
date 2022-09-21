@@ -134,6 +134,23 @@ class ScheduleEditController extends Controller
         return response()->json(['data' => $data, 'status' => 1]);
     }
 
+    public function checkUpdate($registration_id, Request $request){
+        $info = $this->roomRegistration->getFullById($registration_id);
+        if(empty($info)){
+            return response()->json(['status' => 0]);
+        }
+        $data = $this->roomRegistration->checkTime($info->start_time, $info->end_time, $info->date, $request->room_id);
+        foreach($data as $key => $value){
+            if($value->start_time == $info->end_time || $value->end_time == $info->start_time){
+                unset($data[$key]);
+            }
+        }
+        if(empty($data)){
+            return response()->json(['status' => 0]);
+        }
+        return response()->json(['data' => $data, 'status' => 1]);
+    }
+
     public function assignUpdate($registration_id, Request $request){
         DB::beginTransaction();
         try{

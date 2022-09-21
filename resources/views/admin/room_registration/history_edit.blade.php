@@ -105,6 +105,7 @@
                                                                     data-bs-toggle="modal" 
                                                                     data-bs-target="#ModalEdit"
                                                                     data-url-edit="{{ route('schedule_edit.edit', $value->assignment_id) }}"
+                                                                    data-url-check={{ route('schedule_edit.check', $value->id) }}
                                                                     data-url-update="{{ route('schedule_edit.update', $value->assignment_id) }}"
                                                                 >[Sửa]</small>
                                                                 <small class="text-danger fw-bold txt-delete" 
