@@ -44,13 +44,20 @@ class ScheduleEditController extends Controller
 
     public function store(EditScheduleStoreRequest $request)
     {
-        DB::beginTransaction();
-        try{
-            $collection = $request->except(['_token']);
+        $collection = $request->except(['_token']);
             $collection['date'] = date('Y-m-d H:i:s', strtotime($collection['date']));
             $collection['start_time'] = date('Y-m-d H:i:s', strtotime($collection['start_time']));
             $collection['end_time'] = date('Y-m-d H:i:s', strtotime($collection['end_time']));
             $collection['status'] = 1;
+        $check = $this->roomRegistration->checkTime($collection['start_time'], $collection['end_time'], $collection['date'], $request->room_id);
+        if($check->count() > 0){
+            return response()->json(['message' => '<i class="bi bi-exclamation-circle"></i> Phòng đã được sử dụng', 'status' => 0]);
+        }
+        if(!$this->room->checkCapacity($request->room_id, $request->amount)){
+            return response()->json(['message' => '<i class="bi bi-exclamation-circle"></i> Phòng không đủ chỗ', 'status' => 0]);
+        }
+        DB::beginTransaction();
+        try{
             $roomRegistration = $this->roomRegistration->create($collection, true);
             $collectionAssignment = [
                 'registration_id' => $roomRegistration->id,
@@ -76,7 +83,7 @@ class ScheduleEditController extends Controller
     public function edit($id)
     {
         $data['info'] = $this->roomAssignment->getFullById($id);
-        $data['rooms'] = $this->room->getDropDownAsc();
+        $data['rooms'] = $this->room->getDropDownForCapacity($data['info']->amount);
         if(!empty($data)){
             return response()->json(['data' => $data, 'status' => 1]);
         }
@@ -87,8 +94,26 @@ class ScheduleEditController extends Controller
     public function update(Request $request, $id)
     {
         $collection = $request->except(['_token', '_method']);
+        $info = $this->roomAssignment->getFullById($id);
         DB::beginTransaction();
         try{
+            $olds = $this->roomRegistration->checkTime($info->start_time, $info->end_time, $info->date, $request->room_id);
+            foreach($olds as $key => $value){
+                if($value->start_time == $info->end_time || $value->end_time == $info->start_time){
+                    unset($olds[$key]);
+                }
+            }
+            foreach($olds as $key => $value){
+                $count = $this->roomAssignment->countRegistration($value->id);
+                if($count == 1){
+                    $this->roomRegistration->setStatus($value->id, '-1');
+                    $this->roomAssignment->setNullRoom($value->assignment_id);
+                }
+                else{
+                    $this->roomAssignment->delete($value->assignment_id);
+                }
+            }
+            
             $this->roomAssignment->update($id, $collection);
             DB::commit();
             return response()->json(['status' => 1]);
@@ -151,9 +176,45 @@ class ScheduleEditController extends Controller
         return response()->json(['data' => $data, 'status' => 1]);
     }
 
+    public function checkAssign($registration_id, Request $request){
+        $info = $this->roomRegistration->getFullById($registration_id);
+        if(empty($info)){
+            return response()->json(['status' => 0]);
+        }
+        $data = $this->roomRegistration->checkTimeForRooms($info->start_time, $info->end_time, $info->date, $request->room_id);
+        foreach($data as $key => $value){
+            if($value->start_time == $info->end_time || $value->end_time == $info->start_time){
+                unset($data[$key]);
+            }
+        }
+        if(empty($data)){
+            return response()->json(['status' => 0]);
+        }
+        return response()->json(['data' => $data, 'status' => 1]);
+    }
+
     public function assignUpdate($registration_id, Request $request){
+        $collection = $request->except(['_token', '_method']);
+        $info = $this->roomRegistration->getFullById($registration_id);
         DB::beginTransaction();
         try{
+            $olds = $this->roomRegistration->checkTimeForRooms($info->start_time, $info->end_time, $info->date, $request->room_id);
+            foreach($olds as $key => $value){
+                if($value->start_time == $info->end_time || $value->end_time == $info->start_time){
+                    unset($olds[$key]);
+                }
+            }
+            foreach($olds as $key => $value){
+                $count = $this->roomAssignment->countRegistration($value->id);
+                if($count == 1){
+                    $this->roomRegistration->setStatus($value->id, '-1');
+                    $this->roomAssignment->setNullRoom($value->assignment_id);
+                }
+                else{
+                    $this->roomAssignment->delete($value->assignment_id);
+                }
+            }
+
             $count = $this->roomAssignment->countRegistration($registration_id);
             if($count > 0){
                 $this->roomAssignment->deleteByRegistration($registration_id);

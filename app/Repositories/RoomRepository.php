@@ -25,6 +25,15 @@ class RoomRepository implements RoomRepositoryInterface{
         return $this->room->select('id', 'name', 'capacity')->orderBy('id', 'asc')->get();
     }
 
+    public function getDropDownForCapacity($capacity)
+    {
+        return $this->room->where('capacity', '>=', $capacity)->select('id', 'name', 'capacity')->orderBy('id', 'asc')->get();
+    }
+
+    public function checkCapacity($id, $capacity)
+    {
+        return $this->room->where('id', $id)->where('capacity', '>=', $capacity)->count() > 0;
+    }
 
     
 }

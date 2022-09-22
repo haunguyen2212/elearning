@@ -180,5 +180,22 @@ class RoomRegistrationRepository implements RoomRegistrationRepositoryInterface{
             ->select('room_registrations.*',DB::raw('teachers.name as teacher_name, room_assignments.id as assignment_id'))
             ->get();
     }
+
+    public function checkTimeForRooms($start_time, $end_time, $date, $room_id = [])
+    {
+        return $this->room_registration->leftJoin('teachers', 'teacher_id', '=', 'teachers.id')
+            ->join('room_assignments', 'registration_id', '=', 'room_registrations.id')
+            ->whereIn('room_id', $room_id)
+            ->where('status', 1)
+            ->where('date', $date)
+            ->where(function($q) use ($start_time, $end_time){
+                $q->whereBetween('start_time', [$start_time, $end_time])
+                    ->orWhereBetween('end_time', [$start_time, $end_time])
+                    ->orWhereRaw("'".$start_time."' BETWEEN start_time AND end_time")
+                    ->orWhereRaw("'".$end_time."' BETWEEN start_time AND end_time");
+            })
+            ->select('room_registrations.*',DB::raw('teachers.name as teacher_name, room_assignments.id as assignment_id'))
+            ->get();
+    }
     
 }

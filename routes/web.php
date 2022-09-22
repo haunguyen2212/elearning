@@ -70,7 +70,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'isAdmin'], function(){
     Route::resource('schedule_edit', Admin\ScheduleEditController::class);
     Route::get('schedule_edit/{id}/assign', [Admin\ScheduleEditController::class, 'assignEdit'])->name('schedule_edit.assign.edit');
     Route::post('schedule_edit/{id}/assign', [Admin\ScheduleEditController::class, 'assignUpdate'])->name('schedule_edit.assign.update');
-    Route::get('schedule_edit/{id}/check/', [Admin\ScheduleEditController::class, 'checkUpdate'])->name('schedule_edit.check');
+    Route::get('schedule_edit/{id}/check', [Admin\ScheduleEditController::class, 'checkUpdate'])->name('schedule_edit.check');
+    Route::get('schedule_edit/{id}/assign/check', [Admin\ScheduleEditController::class, 'checkAssign'])->name('schedule_edit.assign.check');
 
     Route::get('registration/create', [Admin\ScheduleController::class, 'createRegistration'])->name('admin.registration.create');
     Route::post('registration/store', [Admin\ScheduleController::class, 'storeRegistration'])->name('admin.registration.store');

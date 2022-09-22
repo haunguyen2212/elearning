@@ -51,13 +51,19 @@ $('#ModalEdit form#frm-edit').change(function(e){
             room_id: room_id,
         },
         success: function(res){
-            if(res.data.length > 0){
-                var str = '<div>Trùng phòng</div>';
-                str += '<ul>';
+            var count = 0;
+            $.each(res.data, function(prefix, val){       
+                count++;
+            });
+            if(count > 0){
+                var str = '<div class="alert alert-warning" role="alert"><strong>Cảnh báo: </strong>Phòng đã được sử dụng:';
+                str += '<ul class="mb-0">';
                 $.each(res.data, function(prefix, val){       
-                    str += '<li>'+val.purpose+' - '+val.teacher_name+'</li>';
+                    str += '<li>'+val.purpose+' - '+val.teacher_name+' ('+formatTimeInput(val.start_time)+' - '+formatTimeInput(val.end_time)+')</li>';
                 });
                 str += '</ul>';
+                str += '<div>Thao tác thay đổi sẽ xóa các phòng trên ra khỏi danh sách.</div>'
+                str += '</div>';
                 $('#content-check').html(str);
             }
             else{

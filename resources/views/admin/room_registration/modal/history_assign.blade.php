@@ -12,9 +12,12 @@
               <label>
                 <strong>Chọn phòng:</strong> 
               </label>
-              <div id="room_edit">
+              <form action="" id="assign-room">
+                <div id="room_edit">
   
-              </div>
+                </div>
+                <div id="content-assign-check"></div>
+              </form>  
             </div>
           </div>
         </div>

@@ -63,6 +63,7 @@
                                                         data-bs-toggle="modal" 
                                                         data-bs-target="#ModalAssign"
                                                         data-url-edit="{{ route('schedule_edit.assign.edit', $value->id) }}"
+                                                        data-url-check="{{ route('schedule_edit.assign.check', $value->id) }}"
                                                         data-url-update="{{ route('schedule_edit.assign.update', $value->id) }}"
                                                 >
                                                 <i class="bi bi-pencil-square"></i>

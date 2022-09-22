@@ -2,6 +2,7 @@ var _token = $('meta[name="csrf-token"]').attr('content');
 
 $('.txt-create').click(function(e){
     e.preventDefault();
+    $('#err-msg-create').html('');
     var url = $(this).attr('data-url');
     var room_id = $(this).attr('data-room-id');
     var room_name = $(this).attr('data-room-name');
@@ -60,6 +61,12 @@ $('.sm-create').click(function(e){
             console.log(res);
             if(res.status == 1){
                 window.location.reload();
+            }
+            if(res.status == 0){
+                if(typeof res.message !== 'undefined'){
+                    console.log(res.message);
+                    $('#err-msg-create').html(res.message);
+                }
             }
         },
         error: function(err){
