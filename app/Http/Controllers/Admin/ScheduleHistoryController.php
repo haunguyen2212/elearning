@@ -24,10 +24,14 @@ class ScheduleHistoryController extends Controller
     }
     
     public function index(Request $request){
-        $start = $request->start ?? Carbon::now()->addWeek()->startOfWeek()->format('Y-m-d');
-        $end = $request->end ?? Carbon::now()->addWeek()->endOfWeek()->format('Y-m-d');
+        $start = $request->start ?? Carbon::now()->startOfWeek()->format('Y-m-d');
+        $end = $request->end ?? Carbon::now()->endOfWeek()->format('Y-m-d');
         $data['start_date'] = $start;
         $data['end_date'] = $end;
+        $data['previous_start_date'] = Carbon::parse($start)->subWeek()->startOfWeek()->format('Y-m-d');
+        $data['previous_end_date'] = Carbon::parse($start)->subWeek()->endOfWeek()->format('Y-m-d');
+        $data['next_start_date'] = Carbon::parse($start)->addWeek()->startOfWeek()->format('Y-m-d');
+        $data['next_end_date'] = Carbon::parse($start)->addWeek()->endOfWeek()->format('Y-m-d');
         $data['periods'] = CarbonPeriod::create($start, $end)->toArray();
         $data['rooms'] = $this->room->getDropDown()->toArray();
         $data['schedule'] = [];

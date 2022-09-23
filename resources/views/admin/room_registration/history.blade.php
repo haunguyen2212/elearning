@@ -20,8 +20,10 @@
                         <div class="bd-highlight">
                             <h5 class="card-title">Lịch sử dụng phòng</h5>
                         </div>
-                        <div>
-                            <a href="" class="btn btn-sm btn-warning text-white">Chỉnh sửa</a>
+                        <div class="fw-bold text-main">
+                          <a class="text-main" href="{{ route('schedule.view.index').'?start='.$previous_start_date.'&end='.$previous_end_date }}">< </a>
+                          <small>{{ date('d/m/Y', strtotime($start_date)).' - '.date('d/m/Y', strtotime($end_date)) }}</small>
+                          <a class="text-main" href="{{ route('schedule.view.index').'?start='.$next_start_date.'&end='.$next_end_date }}"> ></a>   
                         </div>
                     </div>
                     <div class="table-responsive">

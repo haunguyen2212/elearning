@@ -18,7 +18,7 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
-              <a class="navbar-brand" href="#">E-learning</a>
+              <a class="navbar-brand" href="{{ route('home') }}">E-learning</a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarControll" aria-controls="navbarControll" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
@@ -45,22 +45,20 @@
                 </ul>
                 <ul class="navbar-nav ms-auto dropdown">
                   
-                        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                          <img class="rounded-circle" src="http://127.0.0.1:8000/backend/assets/img/profile-img.jpg" width="35px" alt="avt">
-                          <span>
-                            @if (auth()->guard('student')->check())
-                              {{ auth()->guard('student')->user()->name }}
-                            @else
-                              {{ auth()->guard('teacher')->user()->name }}
-                            @endif
-                          </span> 
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                          <li><a class="dropdown-item" href="#">Action</a></li>
-                          <li><a class="dropdown-item" href="#">Another action</a></li>
-                          <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                </ul>
+                  <button class="btn dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img class="rounded-circle" src="http://127.0.0.1:8000/backend/assets/img/profile-img.jpg" width="35px" alt="avt">
+                    <span>
+                      @if (auth()->guard('student')->check())
+                        {{ auth()->guard('student')->user()->name }}
+                      @else
+                        {{ auth()->guard('teacher')->user()->name }}
+                      @endif
+                    </span> 
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="profileDropdown">
+                    <li><a class="dropdown-item" href="{{ route('logout') }}">Đăng xuất</a></li>
+                  </ul>
+          </ul>
               </div>
             </div>
           </nav>

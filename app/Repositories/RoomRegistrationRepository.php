@@ -197,5 +197,14 @@ class RoomRegistrationRepository implements RoomRegistrationRepositoryInterface{
             ->select('room_registrations.*',DB::raw('teachers.name as teacher_name, room_assignments.id as assignment_id'))
             ->get();
     }
+
+    public function getRoomById($id)
+    {
+        return $this->room_registration->leftJoin('room_assignments', 'registration_id', 'room_registrations.id')
+            ->leftJoin('rooms', 'room_id', 'rooms.id')
+            ->where('room_registrations.id', $id)
+            ->select('room_registrations.id', 'status', DB::raw('rooms.name as room_name'))
+            ->get();
+    }
     
 }

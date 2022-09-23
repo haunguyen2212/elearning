@@ -19,5 +19,6 @@ interface RoomRegistrationRepositoryInterface{
     public function setStatus($id, $status = 0);
     public function checkTime($start_time, $end_time, $date, $room_id);
     public function checkTimeForRooms($start_time, $end_time, $date, $room_id = []);
+    public function getRoomById($id);
 
 }

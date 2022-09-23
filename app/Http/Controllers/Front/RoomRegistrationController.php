@@ -27,6 +27,10 @@ class RoomRegistrationController extends Controller
         else{
             $data['myRegistration'] = $this->roomRegistration->getOfTeacher(auth()->guard('teacher')->id());
         }
+        $data['room'] = [];
+        foreach($data['myRegistration'] as $value){
+            $data['room'][$value->id] = $this->roomRegistration->getRoomById($value->id);
+        }
         return view('front.teacher.registration_room', $data);
      }
 

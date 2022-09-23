@@ -27,7 +27,7 @@
                             <h5 class="card-title">    
                                 <form class="d-flex align-items-center">
                                     <span class="fw-bold" style="width: 100px; font-size: 15px">Hiển thị: </span>
-                                    <select class="form-select" name="filter" id="filter" onchange="this.form.submit();">
+                                    <select class="form-select form-select-sm" name="filter" id="filter" onchange="this.form.submit();">
                                         <option value="all" {{ request('filter') == 'all' ? 'selected' : '' }}>Tất cả</option>
                                         <option value="current" {{ request('filter') == 'current' ? 'selected' : '' }}>Đang diễn ra</option>
                                         <option value="future" {{ request('filter') == 'future' ? 'selected' : '' }}>Sắp diễn ra</option>
@@ -49,9 +49,10 @@
                                 <tr>
                                     <th width="5%">STT</th>
                                     <th width="15%">Ngày đăng ký</th>
-                                    <th width="30%">Nội dung</th>
-                                    <th width="20%">Thời gian</th>
-                                    <th width="15%">Số lượng</th>
+                                    <th width="25%">Nội dung</th>
+                                    <th width="15%">Thời gian</th>
+                                    <th width="12.5%">Số lượng</th>
+                                    <th width="12.5%">Phòng</th>
                                     <th width="15%">Tùy chỉnh</th>
                                 </tr>
                             </thead>
@@ -63,6 +64,17 @@
                                         <td>{{ $registration->purpose }}</td>
                                         <td>{{ date('H:i', strtotime($registration->start_time)).' - '.date('H:i', strtotime($registration->end_time)) }}</td>
                                         <td class="ps-4">{{ $registration->amount }}</td>
+                                        <td>
+                                            @foreach ($room[$registration->id] as $value)
+                                                @if ($value->status == 1)
+                                                    <span class="badge bg-success">{{ $value->room_name }}</span>
+                                                @elseif ($value->status == 0)
+                                                    <span class="badge bg-info">Chưa sắp</span>
+                                                @elseif ($value->status == -1)
+                                                    <span class="badge bg-danger">Từ chối</span>
+                                                @endif
+                                            @endforeach
+                                        </td>
                                         <td>
                                             <button class="btn btn-sm btn-warning btn-edit"
                                                  data-bs-toggle="modal" 
