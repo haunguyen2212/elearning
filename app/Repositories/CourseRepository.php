@@ -67,6 +67,7 @@ class CourseRepository implements CourseRepositoryInterface
             'teacher_id' => $collection['teacher_id'],
             'introduce' => $collection['introduce'] ?? '',
             'is_enrol' => $collection['is_enrol'] ?? '1',
+            'school_year_id' => $collection['school_year_id'],
         ]);
     }
 
@@ -103,5 +104,41 @@ class CourseRepository implements CourseRepositoryInterface
     public function getCourseNameTeacher($teacher_id)
     {
         return $this->course->where('teacher_id', $teacher_id)->select('name')->get();
+    }
+
+    public function getByKeyOfCurrent($school_year, $key, $offset = 10)
+    {
+        return $this->course->leftJoin('teachers', 'teacher_id', 'teachers.id')
+            ->where('school_year_id', $school_year)
+            ->where(function ($q) use ($key) {
+                $q->where('code', 'like', '%'.$key.'%')
+                ->orWhere('courses.name', 'like', '%'.$key.'%');
+            })
+            ->select('courses.*', DB::raw('teachers.name as teacher_name'))
+            ->orderBy('id', 'desc')
+            ->paginate($offset);
+    }
+
+    public function getFullInfoOfCurrent($school_year, $offset = 10)
+    {
+        return $this->course->leftJoin('teachers', 'teacher_id', 'teachers.id')
+            ->where('school_year_id', $school_year)
+            ->select('courses.id', 'courses.name', 'code', 'introduce', 'is_enrol', 'courses.is_show', 'notice', 'teacher_id' ,DB::raw('teachers.name as teacher_name'))
+            ->orderBy('id', 'desc')
+            ->paginate($offset);
+    }
+
+    public function getAllActiveOfCurrent($school_year, $offset = 10)
+    {
+        return $this->course->leftJoin('teachers', 'teacher_id', '=', 'teachers.id')
+            ->where('courses.school_year_id', $school_year)
+            ->where('is_show', 1)
+            ->select('courses.*', DB::raw('teachers.name as teacher_name'))
+            ->paginate($offset);
+    }
+
+    public function getCourseOfTeacherOfCurrent($school_year, $orderBy = 'asc')
+    {
+        return $this->course->where('teacher_id', Auth::guard('teacher')->id())->where('school_year_id', $school_year)->orderBy('id', $orderBy)->get();
     }
 }

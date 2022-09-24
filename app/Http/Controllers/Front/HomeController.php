@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Libraries\MyCourse;
+use App\Libraries\SchoolYear;
 use App\Repositories\Interfaces\CourseInvolvementRepositoryInterface;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
 use Illuminate\Http\Request;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    private $course, $courseInvolvement ,$myCourse;
+    private $course, $courseInvolvement ,$myCourse, $schoolYear;
 
     public function __construct(
         CourseRepositoryInterface $courseRepository,
@@ -21,6 +22,8 @@ class HomeController extends Controller
         $this->course = $courseRepository;
         $this->courseInvolvement = $courseInvolvementRepository;
         $this->myCourse = new MyCourse();
+        $schoolYear = new SchoolYear();
+        $this->schoolYear = $schoolYear->current();
     }
 
     public function index(){
@@ -30,7 +33,7 @@ class HomeController extends Controller
         else{
             $data['myTeacherCourses'] = $this->myCourse->getCourseOfTeacher();
         }
-        $data['courses'] = $this->course->getAllActive(15);
+        $data['courses'] = $this->course->getAllActiveOfCurrent($this->schoolYear->id ,15);
         return view('home', $data);
     }
 

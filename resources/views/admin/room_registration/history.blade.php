@@ -21,9 +21,9 @@
                             <h5 class="card-title">Lịch sử dụng phòng</h5>
                         </div>
                         <div class="fw-bold text-main">
-                          <a class="text-main" href="{{ route('schedule.view.index').'?start='.$previous_start_date.'&end='.$previous_end_date }}">< </a>
+                          <a class="text-main" href="{{ route('schedule.view.index').'?start='.$previous_start_date.'&end='.$previous_end_date }}"><i class="bi bi-caret-left-fill"></i> </a>
                           <small>{{ date('d/m/Y', strtotime($start_date)).' - '.date('d/m/Y', strtotime($end_date)) }}</small>
-                          <a class="text-main" href="{{ route('schedule.view.index').'?start='.$next_start_date.'&end='.$next_end_date }}"> ></a>   
+                          <a class="text-main" href="{{ route('schedule.view.index').'?start='.$next_start_date.'&end='.$next_end_date }}"> <i class="bi bi-caret-right-fill"></i></a>   
                         </div>
                     </div>
                     <div class="table-responsive">

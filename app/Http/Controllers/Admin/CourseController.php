@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
+use App\Libraries\SchoolYear;
 use App\Repositories\Interfaces\CourseInvolvementRepositoryInterface;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
 use App\Repositories\Interfaces\TeacherRepositoryInterface;
@@ -13,7 +14,7 @@ use Illuminate\Http\Request;
 class CourseController extends Controller
 {
 
-    private $course, $teacher, $courseInvolvement;
+    private $course, $teacher, $courseInvolvement, $schoolYear;
 
     public function __construct(
         CourseRepositoryInterface $courseRepository,
@@ -24,17 +25,19 @@ class CourseController extends Controller
         $this->course = $courseRepository;
         $this->teacher = $teacherRepository;
         $this->courseInvolvement = $courseInvolvementRepository;
+        $schoolYear = new SchoolYear();
+        $this->schoolYear = $schoolYear->current();
     }
     
     public function index(Request $request)
     {
         if(isset($request->search)){
             $key = $request->search;
-            $data['courses'] = $this->course->getByKey($key);
+            $data['courses'] = $this->course->getByKeyOfCurrent($this->schoolYear->id, $key);
             $data['courses']->appends(['search' => $key]);
         }
         else{
-            $data['courses'] = $this->course->getFullInfo();
+            $data['courses'] = $this->course->getFullInfoOfCurrent($this->schoolYear->id);
         }
         return view('admin.course.index', $data);
     }
@@ -48,6 +51,7 @@ class CourseController extends Controller
     public function store(StoreCourseRequest $request)
     {
         $collection = $request->except(['_token']);
+        $collection['school_year_id'] = $this->schoolYear->id;
         $store = $this->course->create($collection);
         if($store){
             return back()->with('success', __('message.create_success', ['name' => 'khóa học']));

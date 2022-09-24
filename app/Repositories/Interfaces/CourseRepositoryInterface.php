@@ -17,5 +17,9 @@ interface CourseRepositoryInterface{
     public function show($id);
     public function delete($id);
     public function getCourseNameTeacher($teacher_id);
+    public function getByKeyOfCurrent($school_year, $key, $offset = 10);
+    public function getFullInfoOfCurrent($school_year, $offset = 10);
+    public function getAllActiveOfCurrent($school_year, $offset = 10);
+    public function getCourseOfTeacherOfCurrent($school_year, $orderBy = 'asc');
 
 }

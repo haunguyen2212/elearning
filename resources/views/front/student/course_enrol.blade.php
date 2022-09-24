@@ -27,9 +27,15 @@
                         <div><strong class="text-main">Tên lớp: </strong>{{ $course->name }}</div>
                         <div><strong class="text-main">Giáo viên: </strong>{{ $course->teacher_name }}</div>
                     </div>
-                    <div class="d-flex justify-content-center mt-3">
-                        <a href="{{ route('course.enrol', $course->id) }}" class="btn-slide01">Ghi danh tôi</a>
-                    </div>
+                    @if (auth()->guard('student')->check())
+                        <div class="d-flex justify-content-center mt-3">
+                            <a href="{{ route('course.enrol', $course->id) }}" class="btn-slide01">Ghi danh tôi</a>
+                        </div>
+                    @else
+                        <div class="d-flex justify-content-center mt-3">
+                            <a href="{{ route('home') }}" class="btn-slide01">Về trang chủ</a>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

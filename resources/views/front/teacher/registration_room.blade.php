@@ -76,17 +76,19 @@
                                             @endforeach
                                         </td>
                                         <td>
-                                            <button class="btn btn-sm btn-warning btn-edit"
-                                                 data-bs-toggle="modal" 
-                                                 data-bs-target="#ModalEdit"
-                                                 data-url="{{ route('teacher.registration.edit', $registration->id) }}"
-                                                 data-update="{{ route('teacher.registration.update', $registration->id) }}"
-                                                 ><i class="bi bi-pencil-square"></i></button>
-                                            <button class="btn btn-sm btn-danger btn-delete" 
+                                            @if ($value->status != 1)
+                                                <button class="btn btn-sm btn-warning btn-edit"
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#ModalEdit"
+                                                data-url="{{ route('teacher.registration.edit', $registration->id) }}"
+                                                data-update="{{ route('teacher.registration.update', $registration->id) }}"
+                                                ><i class="bi bi-pencil-square"></i></button>
+                                                <button class="btn btn-sm btn-danger btn-delete" 
                                                 data-bs-toggle="modal" 
                                                 data-bs-target="#ModalDelete"
                                                 data-url="{{ route('teacher.registration.destroy', $registration->id) }}"
                                                 ><i class="bi bi-x-lg"></i></button>
+                                            @endif       
                                         </td>
 
                                     </tr>

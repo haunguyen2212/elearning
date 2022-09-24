@@ -49,4 +49,14 @@ class CourseInvolvementRepository implements CourseInvolvementRepositoryInterfac
             ->select('courses.name')
             ->get();
     }
+
+    public function getCourseOfStudentOfCurrent($school_year, $orderBy = 'asc')
+    {
+        return $this->courseInvolvement->join('courses', 'course_id', 'courses.id')
+            ->where('student_id', Auth::guard('student')->id())
+            ->where('courses.school_year_id', $school_year)
+            ->select('course_involvement.id', 'course_id', 'code' ,DB::raw('courses.name as course_name'))
+            ->orderBy('id', $orderBy)
+            ->get();
+    }
 }
