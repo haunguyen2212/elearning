@@ -21,4 +21,9 @@ class SchoolYearRepository implements SchoolYearRepositoryInterface{
         return $this->schoolYear->where('status', 1)->first();
     }
 
+    public function getAll($offset = 10)
+    {
+        return $this->schoolYear->orderBy('status', 'desc')->orderBy('name', 'desc')->paginate($offset);
+    }
+
 }

@@ -41,7 +41,7 @@
   <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-      <a href="index.html" class="logo d-flex align-items-center">
+      <a href="{{ route('admin.home') }}" class="logo d-flex align-items-center">
         {{-- <img src="assets/img/logo.png" alt=""> --}}
         <span class="d-none d-lg-block">E-Learning</span>
       </a>
@@ -120,6 +120,19 @@
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
+
+      <li class="nav-item">
+        <a id="year-link" class="nav-link collapsed" data-bs-target="#year-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-box"></i><span>Quản lý năm học</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="year-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+          <li>
+            <a id="list-year" href="{{ route('school_year.index') }}">
+              <i class="bi bi-circle"></i><span>Chọn năm học</span>
+            </a>
+          </li>
+        </ul>
+      </li>
 
       <li class="nav-item">
         <a id="department-link" class="nav-link collapsed" data-bs-target="#departments-nav" data-bs-toggle="collapse" href="#">
