@@ -37,4 +37,29 @@ class SchoolYearRepository implements SchoolYearRepositoryInterface{
         ]);
     }
 
+    public function getById($id)
+    {
+        return $this->schoolYear->find($id);
+    }
+
+    public function create($collection = [])
+    {
+        return $this->schoolYear->create([
+            'name' => $collection['name'],
+            'start_time' => $collection['start_time'],
+            'end_time' => $collection['end_time'],
+            'status' => $collection['status'] ?? 0,
+        ]);
+    }
+
+    public function update($id, $collection = [])
+    {
+        return $this->schoolYear->find($id)->update([
+            'name' => $collection['name'],
+            'start_time' => $collection['start_time'],
+            'end_time' => $collection['end_time'],
+            'status' => $collection['status'] ?? 0,
+        ]);
+    }
+
 }

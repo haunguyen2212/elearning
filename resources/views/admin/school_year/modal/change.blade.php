@@ -1,4 +1,4 @@
-<div class="modal fade" id="ModalChange" tabindex="-1" aria-labelledby="ModalChangeLabel" aria-hidden="true">
+<div class="modal fade" id="ModalChange" data-url="{{ route('school_year.change') }}" tabindex="-1" aria-labelledby="ModalChangeLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
