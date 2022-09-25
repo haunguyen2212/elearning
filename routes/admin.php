@@ -8,6 +8,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'isAdmin'], function(){
     Route::get('/', [Admin\HomeController::class, 'index'])->name('admin.home');
 
     Route::resource('school_year', Admin\SchoolYearController::class)->except(['create']);
+    Route::post('school_year_change', [Admin\SchoolYearController::class, 'change'])->name('school_year.change');
     
     Route::resource('student', Admin\StudentController::class);
     Route::get('student/{id}/password', [Admin\StudentController::class, 'editPassword'])->name('student.pass.edit');

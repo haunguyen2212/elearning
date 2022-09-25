@@ -26,4 +26,15 @@ class SchoolYearRepository implements SchoolYearRepositoryInterface{
         return $this->schoolYear->orderBy('status', 'desc')->orderBy('name', 'desc')->paginate($offset);
     }
 
+    public function changeToCurrent($id)
+    {
+        $this->schoolYear->where('status', 1)->update([
+            'status' => 0,
+        ]);
+
+        return $this->schoolYear->find($id)->update([
+            'status' => 1,
+        ]);
+    }
+
 }
