@@ -34,6 +34,9 @@
                   </label>
                 </div>
               </div>
+              <div class="col-12 pt-2">
+                <span class="fw-bold txt-delete" style="color: red; cursor: pointer"></span>
+              </div>
             </div>
           </form>
         </div>

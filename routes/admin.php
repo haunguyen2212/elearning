@@ -7,7 +7,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'isAdmin'], function(){
     Route::get('logout', [Admin\LoginController::class, 'logout'])->name('admin.logout');
     Route::get('/', [Admin\HomeController::class, 'index'])->name('admin.home');
 
-    Route::resource('school_year', Admin\SchoolYearController::class)->except(['create']);
+    Route::resource('school_year', Admin\SchoolYearController::class)->except(['create', 'show']);
     Route::post('school_year_change', [Admin\SchoolYearController::class, 'change'])->name('school_year.change');
     
     Route::resource('student', Admin\StudentController::class);
@@ -36,6 +36,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'isAdmin'], function(){
 
     Route::resource('notice', Admin\NoticeController::class)->except(['show']);
 
+    Route::resource('room', Admin\RoomController::class)->except(['show']);
     Route::get('room-registration', [Admin\ScheduleController::class, 'index'])->name('schedule.list');
     Route::get('schedule/create', [Admin\ScheduleController::class, 'create'])->name('schedule.create');
     Route::get('schedule/handle', [Admin\ScheduleController::class, 'error'])->name('schedule.error');

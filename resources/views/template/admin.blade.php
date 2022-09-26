@@ -189,6 +189,11 @@
         </a>
         <ul id="room-registration-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
           <li>
+            <a id="list-room" href="{{ route('room.index') }}">
+              <i class="bi bi-circle"></i><span>Danh sách phòng</span>
+            </a>
+          </li>
+          <li>
             <a id="list-registration" href="{{ route('schedule.list') }}">
               <i class="bi bi-circle"></i><span>Danh sách đăng ký</span>
             </a>

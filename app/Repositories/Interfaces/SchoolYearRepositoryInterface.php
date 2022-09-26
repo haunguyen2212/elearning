@@ -10,4 +10,5 @@ interface SchoolYearRepositoryInterface{
     public function changeToCurrent($id);
     public function create($collection = []);
     public function update($id, $collection = []);
+    public function delete($id);
 }

@@ -62,4 +62,9 @@ class SchoolYearRepository implements SchoolYearRepositoryInterface{
         ]);
     }
 
+    public function delete($id)
+    {
+        return $this->schoolYear->find($id)->delete();
+    }
+
 }

@@ -6,7 +6,8 @@ jQuery.noConflict();
             e.preventDefault();
             $('#ModalEdit .text-danger').html('');
             var url = $(this).attr('data-url-edit');
-            $('#frm-edit').attr('data-url', $(this).attr('data-url-update'))
+            $('#frm-edit').attr('data-url', $(this).attr('data-url-update'));
+            $('.txt-delete').attr('data-url', $(this).attr('data-url-delete'));
             $.ajax({
                 type: 'get',
                 url: url,
@@ -21,10 +22,12 @@ jQuery.noConflict();
                         if(res.data.status == 1){
                             $('#ModalEdit #status_edit').prop('checked', true);
                             $('#ModalEdit #status_edit').css('pointer-events', 'none');
+                            $('.txt-delete').html('');
                         }
                         else{
                             $('#ModalEdit #status_edit').prop('checked', false);
                             $('#ModalEdit #status_edit').removeAttr('style');
+                            $('.txt-delete').html('Xóa học kỳ');
                         }
                     }
                 },
@@ -63,5 +66,33 @@ jQuery.noConflict();
 
             })
         });
+
+        $('.txt-delete').click(function(e){
+            e.preventDefault();
+            var url = $(this).attr('data-url');
+            $('#ModalDelete').attr('data-url', url);
+            $('#ModalEdit').modal('hide');
+            $('#ModalDelete').modal('show');
+        });
+
+        $('.btn-confirm-delete').click(function(e){
+            e.preventDefault();
+            var url = $('#ModalDelete').attr('data-url');
+            $.ajax({
+                type: 'delete',
+                url:url,
+                data:{
+                    _token:_token,
+                },
+                success: function(res){
+                    if(res.status == 1){
+                        window.location.reload();
+                    }
+                },
+                error: function(err){
+
+                }
+            })
+        })
     });
 })(jQuery);

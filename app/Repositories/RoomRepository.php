@@ -35,5 +35,39 @@ class RoomRepository implements RoomRepositoryInterface{
         return $this->room->where('id', $id)->where('capacity', '>=', $capacity)->count() > 0;
     }
 
+    public function getAll($offset = 10)
+    {
+        return $this->room->paginate($offset);
+    }
+
+    public function delete($id)
+    {
+        return $this->room->find($id)->delete();
+    }
+
+    public function getById($id)
+    {
+        return $this->room->find($id);
+    }
+
+    public function update($id, $collection = [])
+    {
+        return $this->room->find($id)->update([
+            'name' => $collection['name'],
+            'capacity' => $collection['capacity'],
+        ]);
+    }
+
+    public function create($collection = [])
+    {
+        return $this->room->create([
+            'name' => $collection['name'],
+            'capacity' => $collection['capacity'],
+        ]);
+    }
     
+    public function getByKey($key, $offset = 10)
+    {
+        return $this->room->where('name', 'like', '%'.$key.'%')->paginate($offset);
+    }
 }

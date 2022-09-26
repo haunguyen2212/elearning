@@ -56,6 +56,7 @@
                                         style="cursor: pointer"
                                         data-url-edit="{{ route('school_year.edit', $schoolYear->id) }}"
                                         data-url-update="{{ route('school_year.update', $schoolYear->id) }}"
+                                        data-url-delete="{{ route('school_year.destroy', $schoolYear->id) }}"
                                         ></i></small>
                                 </div>
                             @endforeach
@@ -73,6 +74,7 @@
     @include('admin.school_year.modal.create')
     @include('admin.school_year.modal.change')
     @include('admin.school_year.modal.edit')
+    @include('admin.school_year.modal.delete')
 @endsection
 
 @section('script')

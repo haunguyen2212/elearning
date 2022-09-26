@@ -99,7 +99,17 @@ class SchoolYearController extends Controller
 
     public function destroy($id)
     {
-        //
+        DB::beginTransaction();
+        try{
+            $this->schoolYear->delete($id);
+            DB::commit();
+            session()->flash('success', __('message.delete_success', ['name' => 'năm học']));
+            return response()->json(['status' => 1]);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['status' => 0]);
+        }
     }
 
     public function change(ChangeSchoolYearRequest $request){
