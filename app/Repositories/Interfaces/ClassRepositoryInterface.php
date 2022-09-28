@@ -15,5 +15,8 @@ interface ClassRepositoryInterface{
     public function create($collection = []);
     public function update($id, $collection = []);
     public function delete($id);
+    public function getAllOfCurrent($school_year, $offset = 10);
+    public function getFullInfoOfCurrent($school_year, $offset = 10);
+    public function getByKeyOfCurrent($school_year, $key, $offset = 10);
 
 }

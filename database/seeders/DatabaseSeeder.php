@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             RoomRegistrationSeeder::class,
             RoomSeeder::class,
             RoomAssignmentSeeder::class,
+            ClassroomSeeder::class,
        ]);
     }
 }

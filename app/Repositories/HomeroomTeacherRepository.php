@@ -46,5 +46,13 @@ class HomeroomTeacherRepository implements HomeroomTeacherRepositoryInterface{
             'end_date' => Carbon::now()->format('Y-m-d'),
         ]);
     }
+
+    public function getAllTeacherActiveOfCurrent($school_year)
+    {
+        return $this->homeroomTeacher->leftJoin('classes', 'class_id', 'classes.id')
+            ->leftJoin('teachers', 'teacher_id', 'teachers.id')
+            ->where('school_year_id', $school_year)
+            ->whereNull('end_date')->where('active', '1')->get();
+    }
     
 }

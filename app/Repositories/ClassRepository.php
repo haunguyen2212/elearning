@@ -27,23 +27,24 @@ class ClassRepository implements ClassRepositoryInterface{
 
     public function getFullInfo($offset = 10)
     {
-        $classNoneStudent = $this->class->leftJoin('students', 'students.class_id', 'classes.id')
-            ->leftJoin('homeroom_teachers', 'homeroom_teachers.class_id', 'classes.id')
+        $classNoneStudent = $this->class->leftJoin('homeroom_teachers', 'homeroom_teachers.class_id', 'classes.id')
             ->leftJoin('teachers', 'teacher_id', 'teachers.id')
-            ->select('classes.id', 'classes.name', DB::raw('teachers.name as teacher_name, COUNT(students.id) as total'))
+            ->leftJoin('classroom', 'classroom.class_id', 'classes.id')
+            ->leftJoin('students', 'classroom.student_id', 'students.id')
+            ->select('classes.id', 'classes.name', DB::raw('teachers.name as teacher_name, COUNT(student_id) as total'))
             ->groupBy('classes.id', 'classes.name', 'teacher_name')
             ->having('total', 0);
-
-        $classes = $this->class->leftJoin('students', 'students.class_id', 'classes.id')
-            ->leftJoin('homeroom_teachers', 'homeroom_teachers.class_id', 'classes.id')
+        
+        return $this->class->leftJoin('homeroom_teachers', 'homeroom_teachers.class_id', 'classes.id')
             ->leftJoin('teachers', 'teacher_id', 'teachers.id')
+            ->leftJoin('classroom', 'classroom.class_id', 'classes.id')
+            ->leftJoin('students', 'classroom.student_id', 'students.id')
             ->where('students.active', '1')
             ->whereNull('end_date')
-            ->select('classes.id', 'classes.name', DB::raw('teachers.name as teacher_name, COUNT(students.id) as total'))
+            ->select('classes.id', 'classes.name', DB::raw('teachers.name as teacher_name, COUNT(student_id) as total'))
             ->groupBy('classes.id', 'classes.name', 'teacher_name')
-            ->union($classNoneStudent);
-
-            return $classes->orderBy('id', 'asc')->paginate($offset);
+            ->union($classNoneStudent)
+            ->paginate($offset);
     }
     
 
@@ -63,43 +64,52 @@ class ClassRepository implements ClassRepositoryInterface{
 
     public function countTotalStudent($id)
     {
-        return $this->class->leftJoin('students', 'students.class_id', 'classes.id')
+        return $this->class->leftJoin('classroom', 'classroom.class_id', 'classes.id')
+        ->leftJoin('students','classroom.student_id', 'students.id')
         ->where('students.active', '1')
         ->where('classes.id', $id)
-        ->select('classes.id',DB::raw('COUNT(students.id) as total'))
+        ->select('classes.id',DB::raw('COUNT(classroom.student_id) as total'))
         ->groupBy('classes.id')
         ->first();
     }
 
     public function getStudentsById($id)
     {
-        return $this->class->find($id)->students()->where('students.active', '1')->get();
+        return $this->class->leftJoin('classroom', 'classroom.class_id', 'classes.id')
+            ->leftJoin('students','classroom.student_id', 'students.id')
+            ->where('students.active', '1')
+            ->where('classes.id', $id)
+            ->select('classes.id', 'students.*')
+            ->get();
     }
 
     public function create($collection = [])
     {
         return $this->class->create([
             'name' => $collection['name'],
+            'school_year_id' => $collection['school_year_id'],
         ]);
     }
 
     public function getByKey($key, $offset = 10)
     {
-        $classNoneStudent = $this->class->leftJoin('students', 'students.class_id', 'classes.id')
-            ->leftJoin('homeroom_teachers', 'homeroom_teachers.class_id', 'classes.id')
+        $classNoneStudent = $this->class->leftJoin('homeroom_teachers', 'homeroom_teachers.class_id', 'classes.id')
             ->leftJoin('teachers', 'teacher_id', 'teachers.id')
+            ->leftJoin('classroom', 'classroom.class_id', 'classes.id')
+            ->leftJoin('students', 'classroom.student_id', 'students.id')
             ->where('classes.name', 'like', '%'.$key.'%')
-            ->select('classes.id', 'classes.name', DB::raw('teachers.name as teacher_name, COUNT(students.id) as total'))
+            ->select('classes.id', 'classes.name', DB::raw('teachers.name as teacher_name, COUNT(student_id) as total'))
             ->groupBy('classes.id', 'classes.name', 'teacher_name')
             ->having('total', 0);
-
-        return $this->class->leftJoin('students', 'students.class_id', 'classes.id')
-            ->leftJoin('homeroom_teachers', 'homeroom_teachers.class_id', 'classes.id')
+        
+        return $this->class->leftJoin('homeroom_teachers', 'homeroom_teachers.class_id', 'classes.id')
             ->leftJoin('teachers', 'teacher_id', 'teachers.id')
+            ->leftJoin('classroom', 'classroom.class_id', 'classes.id')
+            ->leftJoin('students', 'classroom.student_id', 'students.id')
+            ->where('classes.name', 'like', '%'.$key.'%')
             ->where('students.active', '1')
             ->whereNull('end_date')
-            ->where('classes.name', 'like', '%'.$key.'%')
-            ->select('classes.id', 'classes.name', DB::raw('teachers.name as teacher_name, COUNT(students.id) as total'))
+            ->select('classes.id', 'classes.name', DB::raw('teachers.name as teacher_name, COUNT(student_id) as total'))
             ->groupBy('classes.id', 'classes.name', 'teacher_name')
             ->union($classNoneStudent)
             ->paginate($offset);
@@ -116,4 +126,60 @@ class ClassRepository implements ClassRepositoryInterface{
     {
         return $this->class->find($id)->delete();
     }
+
+    public function getAllOfCurrent($school_year, $offset = 10)
+    {
+        return $this->class->where('school_year_id', $school_year)->select('id', 'name')->paginate($offset);
+    }
+
+    public function getFullInfoOfCurrent($school_year, $offset = 10)
+    {
+        $classNoneStudent = $this->class->leftJoin('homeroom_teachers', 'homeroom_teachers.class_id', 'classes.id')
+            ->leftJoin('teachers', 'teacher_id', 'teachers.id')
+            ->leftJoin('classroom', 'classroom.class_id', 'classes.id')
+            ->leftJoin('students', 'classroom.student_id', 'students.id')
+            ->where('school_year_id', $school_year)
+            ->select('classes.id', 'classes.name', DB::raw('teachers.name as teacher_name, COUNT(student_id) as total'))
+            ->groupBy('classes.id', 'classes.name', 'teacher_name')
+            ->having('total', 0);
+        
+        return $this->class->leftJoin('homeroom_teachers', 'homeroom_teachers.class_id', 'classes.id')
+            ->leftJoin('teachers', 'teacher_id', 'teachers.id')
+            ->leftJoin('classroom', 'classroom.class_id', 'classes.id')
+            ->leftJoin('students', 'classroom.student_id', 'students.id')
+            ->where('school_year_id', $school_year)
+            ->where('students.active', '1')
+            ->whereNull('end_date')
+            ->select('classes.id', 'classes.name', DB::raw('teachers.name as teacher_name, COUNT(student_id) as total'))
+            ->groupBy('classes.id', 'classes.name', 'teacher_name')
+            ->union($classNoneStudent)
+            ->paginate($offset);
+    }
+
+    public function getByKeyOfCurrent($school_year, $key, $offset = 10)
+    {
+        $classNoneStudent = $this->class->leftJoin('homeroom_teachers', 'homeroom_teachers.class_id', 'classes.id')
+            ->leftJoin('teachers', 'teacher_id', 'teachers.id')
+            ->leftJoin('classroom', 'classroom.class_id', 'classes.id')
+            ->leftJoin('students', 'classroom.student_id', 'students.id')
+            ->where('school_year_id', $school_year)
+            ->where('classes.name', 'like', '%'.$key.'%')
+            ->select('classes.id', 'classes.name', DB::raw('teachers.name as teacher_name, COUNT(student_id) as total'))
+            ->groupBy('classes.id', 'classes.name', 'teacher_name')
+            ->having('total', 0);
+        
+        return $this->class->leftJoin('homeroom_teachers', 'homeroom_teachers.class_id', 'classes.id')
+            ->leftJoin('teachers', 'teacher_id', 'teachers.id')
+            ->leftJoin('classroom', 'classroom.class_id', 'classes.id')
+            ->leftJoin('students', 'classroom.student_id', 'students.id')
+            ->where('school_year_id', $school_year)
+            ->where('classes.name', 'like', '%'.$key.'%')
+            ->where('students.active', '1')
+            ->whereNull('end_date')
+            ->select('classes.id', 'classes.name', DB::raw('teachers.name as teacher_name, COUNT(student_id) as total'))
+            ->groupBy('classes.id', 'classes.name', 'teacher_name')
+            ->union($classNoneStudent)
+            ->paginate($offset);
+    }
+
 }

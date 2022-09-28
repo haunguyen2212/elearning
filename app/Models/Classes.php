@@ -13,6 +13,7 @@ class Classes extends Model
     protected $primaryKey = 'id';
     protected $fillable = [
         'name',
+        'school_year_id',
     ];
 
     public function students(){

@@ -20,16 +20,55 @@ class ClassSeeder extends Seeder
         DB::table('classes')->insert([
             [
                 'name' => '10C1',
+                'schooL_year_id' => 1,
                 'created_at' => $dateTime,
                 'updated_at' => $dateTime,
             ],
             [
                 'name' => '10C2',
+                'schooL_year_id' => 1,
+                'created_at' => $dateTime,
+                'updated_at' => $dateTime,
+            ],
+            [
+                'name' => '10C1',
+                'schooL_year_id' => 2,
+                'created_at' => $dateTime,
+                'updated_at' => $dateTime,
+            ],
+            [
+                'name' => '10C2',
+                'schooL_year_id' => 2,
                 'created_at' => $dateTime,
                 'updated_at' => $dateTime,
             ],
             [
                 'name' => '10C3',
+                'schooL_year_id' => 2,
+                'created_at' => $dateTime,
+                'updated_at' => $dateTime,
+            ],
+            [
+                'name' => '10C1',
+                'schooL_year_id' => 3,
+                'created_at' => $dateTime,
+                'updated_at' => $dateTime,
+            ],
+            [
+                'name' => '10C2',
+                'schooL_year_id' => 3,
+                'created_at' => $dateTime,
+                'updated_at' => $dateTime,
+            ],
+            [
+                'name' => '10C3',
+                'schooL_year_id' => 3,
+                'created_at' => $dateTime,
+                'updated_at' => $dateTime,
+            ],
+            [
+                'name' => '10C4',
+                'schooL_year_id' => 3,
                 'created_at' => $dateTime,
                 'updated_at' => $dateTime,
             ],

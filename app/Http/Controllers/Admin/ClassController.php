@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ChangeHomeroomTeacherRequest;
 use App\Http\Requests\StoreClassRequest;
 use App\Http\Requests\UpdateClassRequest;
+use App\Libraries\SchoolYear;
 use App\Repositories\Interfaces\ClassRepositoryInterface;
 use App\Repositories\Interfaces\HomeroomTeacherRepositoryInterface;
 use App\Repositories\Interfaces\TeacherRepositoryInterface;
@@ -15,7 +16,7 @@ use Illuminate\Http\Request;
 class ClassController extends Controller
 {
 
-    private $class, $teacher, $homeroomTeacher;
+    private $class, $teacher, $homeroomTeacher, $schoolYear;
 
     public function __construct(
         ClassRepositoryInterface $classRepository,
@@ -26,17 +27,19 @@ class ClassController extends Controller
         $this->class = $classRepository;
         $this->teacher = $teacherRepository;
         $this->homeroomTeacher = $homeroomTeacherRepository;
+        $schoolYear = new SchoolYear();
+        $this->schoolYear = $schoolYear->current();
     }
 
     public function index(Request $request)
     {
         if(isset($request->search)){
             $key = $request->search;
-            $classes = $this->class->getByKey($key);
+            $classes = $this->class->getByKeyOfCurrent($this->schoolYear->id, $key);
             $classes->appends(['search' => $key]);
         }
         else{
-            $classes = $this->class->getFullInfo();
+            $classes = $this->class->getFullInfoOfCurrent($this->schoolYear->id);
         } 
         
         return view('admin.class.index', compact('classes'));
@@ -51,7 +54,7 @@ class ClassController extends Controller
     }
 
     public function getIdHomeroomTeachers(){
-        $teachersActive = $this->homeroomTeacher->getAllTeacherActive();
+        $teachersActive = $this->homeroomTeacher->getAllTeacherActiveOfCurrent($this->schoolYear->id);
         foreach($teachersActive as $key => $teacher){
             $arr[$key] = $teacher->id;
         }
@@ -68,9 +71,10 @@ class ClassController extends Controller
     public function store(StoreClassRequest $request)
     {
         $collectionClass = $request->except(['_token']);
+        $collectionClass['school_year_id'] = $this->schoolYear->id;
         $storeClass = $this->class->create($collectionClass);
         $collectionHomeroomTeacher['class_id'] = $storeClass->id;
-        $collectionHomeroomTeacher['teacher_id'] = $request->homeroom_teacher;
+        $collectionHomeroomTeacher['teacher_id'] = $request->homeroom_teacher; 
         $storeHomeroomTeacher = $this->homeroomTeacher->create($collectionHomeroomTeacher);
         if($storeClass && $storeHomeroomTeacher){
             return back()->with('success', __('message.create_success', ['name' => 'lớp học']));

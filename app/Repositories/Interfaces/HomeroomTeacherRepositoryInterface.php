@@ -9,5 +9,6 @@ interface HomeroomTeacherRepositoryInterface{
     public function create($collection = []);
     public function update($id, $collection = []);
     public function setEndDate($id);
+    public function getAllTeacherActiveOfCurrent($school_year);
 
 }
