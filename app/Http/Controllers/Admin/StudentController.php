@@ -8,6 +8,7 @@ use App\Http\Requests\StoreImportRequest;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 use App\Imports\StudentsImport;
+use App\Libraries\SchoolYear;
 use App\Repositories\Interfaces\ClassRepositoryInterface;
 use App\Repositories\Interfaces\CourseInvolvementRepositoryInterface;
 use App\Repositories\Interfaces\StudentRepositoryInterface;
@@ -15,7 +16,7 @@ use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
-    private $student, $class, $courseInvolvement;
+    private $student, $class, $courseInvolvement, $schoolYear;
 
     public function __construct(
         StudentRepositoryInterface $studentRepository,
@@ -26,6 +27,8 @@ class StudentController extends Controller
         $this->student = $studentRepository;
         $this->class = $classRepository;
         $this->courseInvolvement = $courseInvolvementRepository;
+        $schoolYear = new SchoolYear();
+        $this->schoolYear = $schoolYear->current();
     }
 
     public function index(Request $request)
@@ -51,7 +54,7 @@ class StudentController extends Controller
 
     public function create()
     {
-        $classes = $this->class->getAll();
+        $classes = $this->class->getAllOfCurrent($this->schoolYear->id);
         return view('admin.student.create', compact('classes'));
     }
 
@@ -70,7 +73,7 @@ class StudentController extends Controller
     public function show($id)
     {
         $this->checkIssetStudent($id);
-        $data['info'] = $this->student->getById($id);
+        $data['info'] = $this->student->getByIdOfCurrent($this->schoolYear->id, $id);
         $data['courses'] = $this->courseInvolvement->getCourseNameStudent($id);
         return view('admin.student.show', $data);
     }
@@ -78,8 +81,8 @@ class StudentController extends Controller
     public function edit($id)
     {
         $this->checkIssetStudent($id);
-        $classes = $this->class->getAll();
-        $info = $this->student->getById($id);
+        $classes = $this->class->getAllOfCurrent($this->schoolYear->id);
+        $info = $this->student->getByIdOfCurrent($this->schoolYear->id, $id);
         return view('admin.student.edit', compact('classes', 'info'));
     }
 

@@ -53,9 +53,9 @@
                           <tr>
                             <th width="5%">ID</th>
                             <th width="10%">Mã số</th>
-                            <th width="22.5%">Họ và tên</th>
+                            <th width="20%">Họ và tên</th>
                             <th width="15%">Ngày sinh</th>
-                            <th width="12.5%">Lớp</th>
+                            <th width="15%">Nơi sinh</th>
                             <th width="10%">Phái</th>
                             <th width="10%">Trạng thái</th>
                             <th width="15%">Tùy chỉnh</th>
@@ -69,7 +69,7 @@
                                 <td>{{ $student->username }}</td>
                                 <td>{{ $student->name }}</td>
                                 <td>{{ date('d/m/Y', strtotime($student->date_of_birth)) }}</td>
-                                <td>{{ $student->class_name }}</td>
+                                <td>{{ $student->place_of_birth }}</td>
                                 <td>{{ ($student->gender) ? 'Nữ' : 'Nam' }}</td>
                                 <td>
                                   @if ($student->active)

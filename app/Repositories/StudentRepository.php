@@ -18,25 +18,22 @@ class StudentRepository implements StudentRepositoryInterface{
 
     public function getAll($offset = 10)
     {
-        return $this->student->leftJoin('classes', 'class_id', 'classes.id')
-        ->select('students.id', 'username', 'students.name', 'date_of_birth', 'gender', 'place_of_birth', 'address', 'active', 'phone', 'email', DB::raw('classes.id as class_id, classes.name as class_name'))
+        return $this->student->select('students.id', 'username', 'students.name', 'date_of_birth', 'gender', 'place_of_birth', 'address', 'active', 'phone', 'email')
         ->orderBy('students.id', 'asc')
         ->paginate($offset);
     }
 
     public function getById($id){
-        return $this->student->leftJoin('classes', 'class_id', 'classes.id')
-        ->where('students.id', $id)
-        ->select('students.id', 'username', 'students.name', 'date_of_birth', 'gender', 'place_of_birth', 'address', 'active', 'phone', 'email', DB::raw('classes.id as class_id, classes.name as class_name'))
-        ->first();
+        return $this->student->where('students.id', $id)
+            ->select('students.id', 'username', 'students.name', 'date_of_birth', 'gender', 'place_of_birth', 'address', 'active', 'phone', 'email')
+            ->first();
     }
 
     public function getByKey($key, $offset = 10)
     {
-        return $this->student->leftJoin('classes', 'class_id', 'classes.id')
-            ->where('username', 'like', '%'.$key.'%')
+        return $this->student->where('username', 'like', '%'.$key.'%')
             ->orWhere('students.name', 'like', '%'.$key.'%')
-            ->select('students.id', 'username', 'students.name', 'date_of_birth', 'gender', 'place_of_birth', 'active', DB::raw('classes.id as class_id, classes.name as class_name'))
+            ->select('students.id', 'username', 'students.name', 'date_of_birth', 'gender', 'place_of_birth', 'active')
             ->paginate($offset);
     }
 
@@ -105,4 +102,20 @@ class StudentRepository implements StudentRepositoryInterface{
         ]);
     }
     
+    public function getByIdOfCurrent($school_year, $id)
+    {
+        $data = $this->student->leftJoin('classroom', 'classroom.student_id', 'students.id')
+        ->leftJoin('classes', 'classroom.class_id', 'classes.id')
+        ->where('students.id', $id)
+        ->where('school_year_id', $school_year)
+        ->select('students.*', 'class_id', DB::raw('classes.name as class_name'), 'school_year_id')
+        ->first();
+        if(empty($data)){
+            return $this->student->where('students.id', $id)->first();
+        }
+        else{
+            return  $data;
+        }
+            
+    }
 }

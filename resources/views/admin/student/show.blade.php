@@ -26,7 +26,7 @@
                             <strong class="text-main">Giới tính:</strong> {{ ($info->gender) ? 'Nữ' : 'Nam' }}
                         </div>
                         <div class="col-12 col-md-6 mb-1">
-                            <strong class="text-main">Lớp:</strong> {{ $info->class_name }}
+                            <strong class="text-main">Lớp:</strong> {{ $info->class_name ?? 'Chưa có' }}
                         </div>
                         <div class="col-12 col-md-6 mb-1">
                             <strong class="text-main">Ngày sinh:</strong> {{ date('d/m/Y', strtotime($info->date_of_birth)) }}
