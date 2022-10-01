@@ -20,6 +20,7 @@ interface CourseRepositoryInterface{
     public function getByKeyOfCurrent($school_year, $key, $offset = 10);
     public function getFullInfoOfCurrent($school_year, $offset = 10);
     public function getAllActiveOfCurrent($school_year, $offset = 10);
+    public function searchByKeyOfCurrent($key, $school_year, $offset = 10);
     public function getCourseOfTeacherOfCurrent($school_year, $orderBy = 'asc');
 
 }

@@ -141,4 +141,17 @@ class CourseRepository implements CourseRepositoryInterface
     {
         return $this->course->where('teacher_id', Auth::guard('teacher')->id())->where('school_year_id', $school_year)->orderBy('id', $orderBy)->get();
     }
+
+    public function searchByKeyOfCurrent($key, $school_year, $offset = 10)
+    {
+        return $this->course->leftJoin('teachers', 'teacher_id', '=', 'teachers.id')
+            ->where('courses.school_year_id', $school_year)
+            ->where(function($q) use ($key){
+                $q->where('courses.code', 'like', '%'.$key.'%')
+                    ->orWhere('courses.name', 'like', '%'.$key.'%');
+            })
+            ->where('is_show', 1)
+            ->select('courses.*', DB::raw('teachers.name as teacher_name'))
+            ->paginate($offset);
+    }
 }

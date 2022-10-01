@@ -46,7 +46,7 @@ class DepartmentSeeder extends Seeder
                 'name' => 'Tổ Tin Học',
             ],
             [
-                'name' => 'Tổ Văn Phòng',
+                'name' => 'Văn Phòng',
             ]
         ]);
     }

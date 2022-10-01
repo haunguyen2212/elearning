@@ -60,6 +60,7 @@
                           @enderror
                         </div>
                         
+                        <div><small class="fw-bold"><a href="{{ asset('backend/assets/document/import/mau-import-giao-vien.xlsx') }}" class="text-main"><i class="bi bi-download"></i> Download mẫu import giáo viên</small></a></div>
 
                         <div class="text-center">
                           <button type="submit" class="btn btn-sm btn-success">Import</button>

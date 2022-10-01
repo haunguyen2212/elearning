@@ -55,8 +55,8 @@
                             <th width="10%">Mã số</th>
                             <th width="20%">Họ và tên</th>
                             <th width="10%">Ngày sinh</th>
-                            <th width="10%">Phái</th>
-                            <th width="10%">Đơn vị</th>
+                            <th width="7.5%">Phái</th>
+                            <th width="12.5%">Đơn vị</th>
                             <th width="10%">Điện thoại</th>
                             <th width="10%">Trạng thái</th>
                             <th width="15%">Tùy chỉnh</th>

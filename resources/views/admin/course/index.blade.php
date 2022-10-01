@@ -71,14 +71,14 @@
                                     <td>{!! $course->introduce !!}</td>
                                     <td>
                                       @if ($course->is_enrol)
-                                            <span class="badge bg-success">open</span>
+                                            <span class="badge bg-success">Mở</span>
                                         @else
-                                            <span class="badge bg-danger">close</span>
+                                            <span class="badge bg-danger">Đóng</span>
                                         @endif
                                         @if ($course->is_show)
-                                            <span class="badge bg-success">show</span>
+                                            <span class="badge bg-success">Hiện</span>
                                         @else
-                                            <span class="badge bg-danger">hide</span>
+                                            <span class="badge bg-danger">Ẩn</span>
                                         @endif
                                     </td>
                                     <td>

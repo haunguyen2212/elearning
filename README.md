@@ -32,4 +32,4 @@ php artisan serve
 ```
 
 # Author
-Hau
+Hau NT

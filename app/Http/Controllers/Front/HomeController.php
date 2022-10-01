@@ -26,14 +26,20 @@ class HomeController extends Controller
         $this->schoolYear = $schoolYear->current();
     }
 
-    public function index(){
+    public function index(Request $request){
         if(Auth::guard('student')->check()){
             $data['myStudentCourses'] = $this->myCourse->getCourseOfStudent();
         }
         else{
             $data['myTeacherCourses'] = $this->myCourse->getCourseOfTeacher();
         }
-        $data['courses'] = $this->course->getAllActiveOfCurrent($this->schoolYear->id ,15);
+        if(isset($request->search)){
+            $data['courses'] = $this->course->searchByKeyOfCurrent($request->search, $this->schoolYear->id, 15);
+            $data['courses']->appends(['search' => $request->search]);
+        }
+        else{
+            $data['courses'] = $this->course->getAllActiveOfCurrent($this->schoolYear->id ,15);
+        }
         return view('home', $data);
     }
 
