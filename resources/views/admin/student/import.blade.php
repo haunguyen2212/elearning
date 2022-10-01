@@ -59,13 +59,15 @@
                             <div class="text-danger pt-1">{!! $message !!}</div>
                           @enderror
                         </div>
-                        
+
+                        <div><small class="fw-bold"><a href="{{ asset('backend/assets/document/import/mau-import-hoc-sinh.xlsx') }}" class="text-main"><i class="bi bi-download"></i> Download mẫu import học sinh</small></a></div>
 
                         <div class="text-center">
                           <button type="submit" class="btn btn-sm btn-success">Import</button>
                           <a href="{{ route('student.index') }}" class="btn btn-sm btn-danger">Trở về</a>
                         </div>
                       </form>
+                      
                 </div>
             </div>
         </div>

@@ -7,12 +7,14 @@ use App\Repositories\Interfaces\StudentRepositoryInterface;
 use App\Repositories\StudentRepository;
 use App\Repositories\Interfaces\ClassRepositoryInterface;
 use App\Repositories\ClassRepository;
+use App\Repositories\ClassroomRepository;
 use App\Repositories\CourseInvolvementRepository;
 use App\Repositories\CourseRepository;
 use App\Repositories\Interfaces\TeacherRepositoryInterface;
 use App\Repositories\Interfaces\DepartmentRepositoryInterface;
 use App\Repositories\DepartmentRepository;
 use App\Repositories\HomeroomTeacherRepository;
+use App\Repositories\Interfaces\ClassroomRepositoryInterface;
 use App\Repositories\Interfaces\CourseInvolvementRepositoryInterface;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
 use App\Repositories\Interfaces\HomeroomTeacherRepositoryInterface;
@@ -59,6 +61,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(RoomRegistrationRepositoryInterface::class, RoomRegistrationRepository::class);
         $this->app->bind(RoomRepositoryInterface::class, RoomRepository::class);
         $this->app->bind(RoomAssignmentRepositoryInterface::class, RoomAssignmentRepository::class);
+        $this->app->bind(ClassroomRepositoryInterface::class, ClassroomRepository::class);
     }
 
     /**

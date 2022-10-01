@@ -9,6 +9,10 @@
     <li class="breadcrumb-item active">Thêm mới</li>
 @endsection
 
+@section('style')
+    <link rel="stylesheet" href="{{ asset('backend/assets/vendor/jquery-ui/jquery-ui.min.css') }}">
+@endsection
+
 @section('content')
     <div class="row">
         <div class="col-12 col-md-8">
@@ -50,7 +54,7 @@
 
                         <div class="col-12 col-md-6">
                             <label for="date_of_birth" class="form-label">Ngày sinh (*)</label>
-                            <input type="text" class="form-control" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth') }}">
+                            <input type="text" class="form-control" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth') }}" autocomplete="off">
                             @error('date_of_birth')
                               <div class="text-danger ps-1 pt-1">{!! $message !!}</div>
                             @enderror
@@ -143,5 +147,12 @@
         $('#user-nav').addClass('show');
         $('#user-link').removeClass('collapsed');
         $('#student').addClass('active');
+    </script>
+    <script src="{{ asset('backend/assets/vendor/jquery-ui/jquery-ui.min.js') }}"></script>
+    <script>
+      $("#date_of_birth").datepicker({
+            dateFormat:"dd-mm-yy",
+            maxDate: "0"
+        });
     </script>
 @endsection

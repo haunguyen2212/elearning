@@ -24,7 +24,6 @@ class StudentsImport implements ToModel, WithHeadingRow, SkipsOnError, WithValid
         return new Student([
             "username" => $row['username'],
             "name" => $row['name'],
-            "class_id" => $row['class_id'],
             "gender" => $row['gender'],
             "date_of_birth" => Date::excelToDateTimeObject($row['date_of_birth']),
             "place_of_birth" => $row['place_of_birth'],
@@ -40,7 +39,6 @@ class StudentsImport implements ToModel, WithHeadingRow, SkipsOnError, WithValid
         return [
             '*.username' => ['required', 'max:20', 'unique:students,username'],
             '*.name' => ['required', 'max:50'],
-            '*.class_id' => ['required', 'exists:classes,id'],
             '*.gender' => ['required', 'in:0,1'],
             '*.date_of_birth' => ['required'],
             '*.place_of_birth' => ['nullable', 'max:200'],
@@ -59,8 +57,6 @@ class StudentsImport implements ToModel, WithHeadingRow, SkipsOnError, WithValid
             '*.username.unique' => 'Tài khoản đã tồn tại',
             '*.name.required' => 'Chưa nhập họ và tên',
             '*.name.max' => 'Họ và tên không quá 50 ký tự',
-            '*.class_id.required' => 'Chưa nhập ID lớp học',
-            '*.class_id.exists' => 'ID lớp học không tồn tại',
             '*.gender.required' => 'Chưa nhập giới tính',
             '*.gender.in' => 'Giới tính chỉ nhận 2 giá trị 0 và 1',
             '*.date_of_birth.required' => 'Chưa nhập ngày sinh',

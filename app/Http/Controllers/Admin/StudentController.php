@@ -10,23 +10,27 @@ use App\Http\Requests\UpdateStudentRequest;
 use App\Imports\StudentsImport;
 use App\Libraries\SchoolYear;
 use App\Repositories\Interfaces\ClassRepositoryInterface;
+use App\Repositories\Interfaces\ClassroomRepositoryInterface;
 use App\Repositories\Interfaces\CourseInvolvementRepositoryInterface;
 use App\Repositories\Interfaces\StudentRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
 {
-    private $student, $class, $courseInvolvement, $schoolYear;
+    private $student, $class, $courseInvolvement, $schoolYear, $classroom;
 
     public function __construct(
         StudentRepositoryInterface $studentRepository,
         ClassRepositoryInterface $classRepository,
-        CourseInvolvementRepositoryInterface $courseInvolvementRepository
+        CourseInvolvementRepositoryInterface $courseInvolvementRepository,
+        ClassroomRepositoryInterface $classroomRepository
         )
     {
         $this->student = $studentRepository;
         $this->class = $classRepository;
         $this->courseInvolvement = $courseInvolvementRepository;
+        $this->classroom = $classroomRepository;
         $schoolYear = new SchoolYear();
         $this->schoolYear = $schoolYear->current();
     }
@@ -61,11 +65,19 @@ class StudentController extends Controller
     public function store(StoreStudentRequest $request)
     {
         $collection = $request->except(['_token']);
-        $store = $this->student->create($collection);
-        if($store){
+        DB::beginTransaction();
+        try{
+            $store = $this->student->create($collection);
+            $collectionClass = [
+                'class_id' => $collection['class'],
+                'student_id' => $store->id,
+            ];
+            $this->classroom->create($collectionClass);
+            DB::commit();
             return back()->with('success', __('message.create_success', ['name' => 'tài khoản']));
         }
-        else{
+        catch(\Exception $e){
+            DB::rollBack();
             return back()->with('error', __('message.create_error', ['name' => 'tài khoản']));
         }
     }
@@ -88,13 +100,29 @@ class StudentController extends Controller
 
     public function update(UpdateStudentRequest $request, $id)
     {
-        $this->checkIssetStudent($id);
         $collection = $request->except(['_token', '_method']);
-        $update = $this->student->update($id, $collection);
-        if($update){
+        DB::beginTransaction();
+        try{
+            $student = $this->student->getByIdOfCurrent($this->schoolYear->id, $id);
+            $this->student->update($id, $collection);
+            if(isset($student->class_id)){
+                $oldClass = $this->classroom->findClassOfStudent($student->class_id, $student->id);
+                $oldClass->update([
+                    'class_id' => $collection['class'],
+                ]);
+            }
+            else{
+                $collectionClass = [
+                    'student_id' => $id,
+                    'class_id' => $collection['class'],
+                ];
+                $this->classroom->create($collectionClass);
+            }
+            DB::commit();
             return back()->with('success', __('message.update_success', ['name' => 'thông tin tài khoản']));
         }
-        else{
+        catch(\Exception $e){
+            DB::rollBack();
             return back()->with('error', __('message.update_error', ['name' => 'thông tin tài khoản']));
         }
     }

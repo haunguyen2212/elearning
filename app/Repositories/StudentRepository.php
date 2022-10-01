@@ -19,7 +19,7 @@ class StudentRepository implements StudentRepositoryInterface{
     public function getAll($offset = 10)
     {
         return $this->student->select('students.id', 'username', 'students.name', 'date_of_birth', 'gender', 'place_of_birth', 'address', 'active', 'phone', 'email')
-        ->orderBy('students.id', 'asc')
+        ->orderBy('students.id', 'desc')
         ->paginate($offset);
     }
 
@@ -55,7 +55,6 @@ class StudentRepository implements StudentRepositoryInterface{
             'date_of_birth' => date('Y-m-d', strtotime($collection['date_of_birth'])),
             'gender' => $collection['gender'],
             'place_of_birth' => $collection['place_of_birth'],
-            'class_id' => $collection['class'],
             'address' => $collection['address'],
             'phone' => $collection['phone'],
             'email' => $collection['email'],
@@ -71,7 +70,6 @@ class StudentRepository implements StudentRepositoryInterface{
             'date_of_birth' => date('Y-m-d', strtotime($collection['date_of_birth'])),
             'gender' => $collection['gender'],
             'place_of_birth' => $collection['place_of_birth'],
-            'class_id' => $collection['class'],
             'address' => $collection['address'],
             'phone' => $collection['phone'],
             'email' => $collection['email'],
