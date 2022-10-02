@@ -80,7 +80,7 @@ class TeacherController extends Controller
     public function edit($id)
     {
         $this->checkIssetTeacher($id);
-        $departments = $this->department->getAll();
+        $departments = $this->department->getDropdown();
         $info = $this->teacher->getById($id);
         return view('admin.teacher.edit', compact('departments', 'info'));
     }

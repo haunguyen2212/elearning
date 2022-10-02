@@ -20,8 +20,8 @@
                     <div class="bd-highlight">
                       <h5 class="card-title">
                         <form class="d-flex">
-                          <input class="form-control form-control-sm rounded-0 border-main" name="search" placeholder="Tìm kiếm ..."  value="{{ request()->search }}">
-                          <button class="btn btn-sm btn-main rounded-0" type="submit">
+                          <input class="form-control input-search" name="search" placeholder="Tìm kiếm đơn vị..."  value="{{ request()->search }}">
+                          <button class="btn btn-sm button-search" type="submit">
                             <i class="bi bi-search"></i>
                           </button>
                       </form>

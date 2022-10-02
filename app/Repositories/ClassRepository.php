@@ -182,4 +182,9 @@ class ClassRepository implements ClassRepositoryInterface{
             ->paginate($offset);
     }
 
+    public function getDropDownOfCurrent($school_year)
+    {
+        return $this->class->where('school_year_id', $school_year)->select('id', 'name')->get();
+    }
+
 }

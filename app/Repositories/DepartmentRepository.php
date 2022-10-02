@@ -20,6 +20,11 @@ class DepartmentRepository implements DepartmentRepositoryInterface{
         return $this->department->select('id', 'name')->paginate($offset);
     }
 
+    public function getDropdown()
+    {
+        return $this->department->select('id', 'name')->get();
+    }
+
     public function getFullInfo($offset = 10)
     {
         $departmentNoneMember = $this->department->leftJoin('teachers', 'department_id', 'departments.id')

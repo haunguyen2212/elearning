@@ -14,5 +14,6 @@ interface DepartmentRepositoryInterface{
     public function create($collection = []);
     public function update($id, $collection = []);
     public function delete($id);
+    public function getDropdown();
 
 }

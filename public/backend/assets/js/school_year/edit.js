@@ -27,7 +27,7 @@ jQuery.noConflict();
                         else{
                             $('#ModalEdit #status_edit').prop('checked', false);
                             $('#ModalEdit #status_edit').removeAttr('style');
-                            $('.txt-delete').html('Xóa học kỳ');
+                            $('.txt-delete').html('<i class="bi bi-x-circle"></i> Xóa học kỳ');
                         }
                     }
                 },

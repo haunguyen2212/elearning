@@ -93,7 +93,7 @@ class StudentController extends Controller
     public function edit($id)
     {
         $this->checkIssetStudent($id);
-        $classes = $this->class->getAllOfCurrent($this->schoolYear->id);
+        $classes = $this->class->getDropDownOfCurrent($this->schoolYear->id);
         $info = $this->student->getByIdOfCurrent($this->schoolYear->id, $id);
         return view('admin.student.edit', compact('classes', 'info'));
     }

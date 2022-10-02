@@ -18,5 +18,6 @@ interface ClassRepositoryInterface{
     public function getAllOfCurrent($school_year, $offset = 10);
     public function getFullInfoOfCurrent($school_year, $offset = 10);
     public function getByKeyOfCurrent($school_year, $key, $offset = 10);
+    public function getDropDownOfCurrent($school_year);
 
 }
