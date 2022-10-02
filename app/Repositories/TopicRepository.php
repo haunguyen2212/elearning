@@ -17,11 +17,11 @@ class TopicRepository implements TopicRepositoryInterface{
 
     public function getAll($course_id, $orderBy = 'asc')
     {
-        return $this->topic->where('course_id', $course_id)->orderBy('id', $orderBy)->get();
+        return $this->topic->where('course_id', $course_id)->orderBy('pin', 'desc')->orderBy('id', $orderBy)->orderBy('updated_at', 'desc')->get();
     }
 
     public function getActive($course_id, $orderBy = 'asc')
     {
-        return $this->topic->where('course_id', $course_id)->where('is_show', 1)->orderBy('id', $orderBy)->get();
+        return $this->topic->where('course_id', $course_id)->where('is_show', 1)->orderBy('pin', 'desc')->orderBy('updated_at', 'desc')->orderBy('id', $orderBy)->get();
     }
 }

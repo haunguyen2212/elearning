@@ -45,7 +45,7 @@ class EditScheduleStoreRequest extends FormRequest
             'amount.numeric' => '<i class="bi bi-exclamation-circle"></i> Giá trị không hợp lệ',
             'date.required' => '<i class="bi bi-exclamation-circle"></i> Chưa chọn ngày đăng ký',
             'date.date_format' => '<i class="bi bi-exclamation-circle"></i> Ngày không đúng định dạng',
-            'date.after_or_equal' => '<i class="bi bi-exclamation-circle"></i> Ngày đã chọn không hợp lệ',
+            'date.after_or_equal' => '<i class="bi bi-exclamation-circle"></i> Ngày đăng ký đã quá hạn',
             'start_time.required' => '<i class="bi bi-exclamation-circle"></i> Chưa chọn thời gian bắt đầu',
             'start_time.date_format' => '<i class="bi bi-exclamation-circle"></i> Thời gian không đúng định dạng',
             'end_time.required' => '<i class="bi bi-exclamation-circle"></i> Chưa chọn thời gian kết thúc',

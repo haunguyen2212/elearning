@@ -93,7 +93,7 @@
                             <ul class="list-item">
                               @foreach ($myTeacherCourses as $myCourse)
                                 <li>
-                                  <a href="{{-- route('course.view.student',$myCourse->id) --}}"><i class="bi bi-caret-right-fill"></i> {{ $myCourse->code .' - '. $myCourse->name }}</a>
+                                  <a href="{{ route('course.view.teacher',$myCourse->id) }}"><i class="bi bi-caret-right-fill"></i> {{ $myCourse->code .' - '. $myCourse->name }}</a>
                                 </li>
                               @endforeach
                             </ul> 

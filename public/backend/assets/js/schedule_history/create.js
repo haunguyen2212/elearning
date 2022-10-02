@@ -2,6 +2,7 @@ var _token = $('meta[name="csrf-token"]').attr('content');
 
 $('.txt-create').click(function(e){
     e.preventDefault();
+    $('#ModalCreate .text-danger').html('');
     $('#err-msg-create').html('');
     var url = $(this).attr('data-url');
     var room_id = $(this).attr('data-room-id');

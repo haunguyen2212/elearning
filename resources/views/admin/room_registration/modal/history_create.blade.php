@@ -43,6 +43,8 @@
                 <span class="text-danger mt-3 err-end_time"></span>
               </div>
           </div>
+          <span class="text-danger mt-3 err-date"></span>
+          <span class="text-danger mt-3 err-room_id"></span>
           <div class="text-danger ps-2 fw-bold" id="err-msg-create"></div>
         </div>
         <div class="modal-footer">

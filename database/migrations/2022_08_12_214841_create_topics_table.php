@@ -19,6 +19,7 @@ class CreateTopicsTable extends Migration
             $table->string('title', 200);
             $table->string('content', 3000)->nullable();
             $table->char('is_show', 1)->default('1');
+            $table->char('pin', 1)->default('0');
             $table->timestamps();
             $table->foreign('course_id')->references('id')->on('courses')->onUpdate('cascade')->onDelete('cascade');
         });
