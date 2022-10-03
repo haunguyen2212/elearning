@@ -24,16 +24,16 @@
                             <span>{{ $topic->title }}</span>
                             <span class="pe-2">
                                 @if ($topic->is_show == 1)
-                                    <i class="bi bi-eye me-1" title="Hiển thị"></i>
+                                    <i class="bi bi-eye me-1 hide-topic" title="Hiển thị" data-url="{{ route('course.hide.teacher', $topic->id) }}"></i>
                                 @else
-                                    <i class="bi bi-eye-slash me-1" title="Ẩn"></i>
+                                    <i class="bi bi-eye-slash me-1 show-topic" title="Ẩn" data-url="{{ route('course.show.teacher', $topic->id) }}"></i>
                                 @endif
                                 <i class="bi bi-pen me-1" title="Chỉnh sửa"></i>
                                 <i class="bi bi-x-lg me-1" title="Xóa"></i>
                                 @if ($topic->pin == 1)
-                                    <i class="bi bi-pin-angle-fill" title="Ghim"></i>
+                                    <i class="bi bi-pin-angle-fill unpin-topic" title="Ghim" data-url="{{ route('course.unpin.teacher', $topic->id) }}"></i>
                                 @else
-                                    <i class="bi bi-pin-angle"></i>
+                                    <i class="bi bi-pin-angle pin-topic" data-url="{{ route('course.pin.teacher', $topic->id) }}"></i>
                                 @endif
                                 
                             </span>
@@ -68,4 +68,8 @@
             
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script src="{{ asset('frontend/assets/js/course/teacher.js') }}"></script>
 @endsection

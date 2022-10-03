@@ -47,7 +47,22 @@
                 <ul class="navbar-nav ms-auto dropdown">
                   
                         <button class="btn dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                          <img class="rounded-circle" src="http://127.0.0.1:8000/backend/assets/img/profile-img.jpg" width="35px" alt="avt">
+                          <img class="rounded-circle" src="
+                          @if (auth()->guard('student')->check())
+                            @if (auth()->guard('student')->user()->gender == 0)
+                              {{ asset('backend/assets/img/avatar/avatar-student-0.png') }}
+                            @else
+                              {{ asset('backend/assets/img/avatar/avatar-student-1.png') }}
+                            @endif
+                          @else
+                            @if (auth()->guard('teacher')->user()->gender == 0)
+                              {{ asset('backend/assets/img/avatar/avatar-teacher-0.png') }}
+                            @else
+                              {{ asset('backend/assets/img/avatar/avatar-teacher-1.png') }}
+                            @endif
+                          @endif
+                          " 
+                          width="35px" alt="avt">
                           <span>
                             @if (auth()->guard('student')->check())
                               {{ auth()->guard('student')->user()->name }}
@@ -160,6 +175,9 @@
 
     <script src="../backend/assets/js/jquery.min.js"></script>
     <script src="../backend/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script>
+      var _token = $('meta[name="csrf-token"]').attr('content');
+    </script>
     @yield('script')
 </body>
 </html>

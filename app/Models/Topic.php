@@ -15,6 +15,7 @@ class Topic extends Model
         'course_id',
         'title',
         'content',
-        'is_show'
+        'is_show',
+        'pin',
     ];
 }

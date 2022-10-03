@@ -26,6 +26,10 @@ Route::group(['prefix' => 'teacher', 'middleware' => 'isTeacher'], function(){
     Route::get('registration/{id}/edit', [Front\RoomRegistrationController::class, 'edit'])->name('teacher.registration.edit');
     Route::put('registration/{id}/update', [Front\RoomRegistrationController::class, 'update'])->name('teacher.registration.update');
     Route::delete('registration/{id}/delete', [Front\RoomRegistrationController::class, 'destroy'])->name('teacher.registration.destroy');
-    Route::get('course/view/{id}', [Front\CourseTeacherController::class, 'index'])->name('course.view.teacher');
+    Route::get('course/{id}/view', [Front\CourseTeacherController::class, 'index'])->name('course.view.teacher');
+    Route::patch('topic/{id}/pin', [Front\CourseTeacherController::class, 'pin'])->name('course.pin.teacher');
+    Route::patch('topic/{id}/unpin', [Front\CourseTeacherController::class, 'unpin'])->name('course.unpin.teacher');
+    Route::patch('topic/{id}/show', [Front\CourseTeacherController::class, 'show'])->name('course.show.teacher');
+    Route::patch('topic/{id}/hide', [Front\CourseTeacherController::class, 'hide'])->name('course.hide.teacher');
 });
 

@@ -1,5 +1,3 @@
-var _token = $('meta[name="csrf-token"]').attr('content');
-
 $('.btn-delete').click(function(e){
     e.preventDefault();
     var url = $(this).attr('data-url');
