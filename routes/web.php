@@ -27,9 +27,10 @@ Route::group(['prefix' => 'teacher', 'middleware' => 'isTeacher'], function(){
     Route::put('registration/{id}/update', [Front\RoomRegistrationController::class, 'update'])->name('teacher.registration.update');
     Route::delete('registration/{id}/delete', [Front\RoomRegistrationController::class, 'destroy'])->name('teacher.registration.destroy');
     Route::get('course/{id}/view', [Front\CourseTeacherController::class, 'index'])->name('course.view.teacher');
-    Route::patch('topic/{id}/pin', [Front\CourseTeacherController::class, 'pin'])->name('course.pin.teacher');
-    Route::patch('topic/{id}/unpin', [Front\CourseTeacherController::class, 'unpin'])->name('course.unpin.teacher');
-    Route::patch('topic/{id}/show', [Front\CourseTeacherController::class, 'show'])->name('course.show.teacher');
-    Route::patch('topic/{id}/hide', [Front\CourseTeacherController::class, 'hide'])->name('course.hide.teacher');
+    Route::patch('topic/{id}/pin', [Front\CourseTeacherController::class, 'pinTopic'])->name('course.pin.teacher');
+    Route::patch('topic/{id}/unpin', [Front\CourseTeacherController::class, 'unpinTopic'])->name('course.unpin.teacher');
+    Route::patch('topic/{id}/show', [Front\CourseTeacherController::class, 'showTopic'])->name('course.show.teacher');
+    Route::patch('topic/{id}/hide', [Front\CourseTeacherController::class, 'hideTopic'])->name('course.hide.teacher');
+    Route::post('course/{id}/store', [Front\CourseTeacherController::class, 'storeTopic'])->name('course.topic.store');
 });
 

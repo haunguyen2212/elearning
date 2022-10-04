@@ -38,7 +38,7 @@ class CourseTeacherController extends Controller
         return view('front.teacher.course', $data);
     }
 
-    public function pin($id){
+    public function pinTopic($id){
         DB::beginTransaction();
         try{
             $this->topic->pin($id);
@@ -51,7 +51,7 @@ class CourseTeacherController extends Controller
         }
     }
 
-    public function unpin($id){
+    public function unpinTopic($id){
         DB::beginTransaction();
         try{
             $this->topic->unpin($id);
@@ -64,7 +64,7 @@ class CourseTeacherController extends Controller
         }
     }
 
-    public function show($id){
+    public function showTopic($id){
         DB::beginTransaction();
         try{
             $this->topic->show($id);
@@ -77,7 +77,7 @@ class CourseTeacherController extends Controller
         }
     }
 
-    public function hide($id){
+    public function hideTopic($id){
         DB::beginTransaction();
         try{
             $this->topic->hide($id);
@@ -88,6 +88,10 @@ class CourseTeacherController extends Controller
             DB::rollBack();
             return response()->json(['status' => 0]);
         }
+    }
+
+    public function storeTopic($id){
+        
     }
 
     public function getCourseById($id){

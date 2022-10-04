@@ -17,11 +17,13 @@
                 </div>
             </div>
 
+            <a href="" class="text-main fw-bold" data-bs-toggle="modal" data-bs-target="#ModalCreateTopic"><i class="bi bi-plus-circle"></i> Thêm chủ đề mới</a>
+
             @foreach ($topics as $key => $topic)
                 <div class="topic">
                     <h5 class="topic-title">
                         <div class="d-flex justify-content-between">
-                            <span>{{ $topic->title }}</span>
+                            <span>{!! $topic->title !!}</span>
                             <span class="pe-2">
                                 @if ($topic->is_show == 1)
                                     <i class="bi bi-eye me-1 hide-topic" title="Hiển thị" data-url="{{ route('course.hide.teacher', $topic->id) }}"></i>
@@ -41,11 +43,11 @@
                         
                     </h5>
                     <div class="topic-content">
-                        {{ $topic->content }}     
+                        {!! $topic->content !!}     
                     </div>
                     <div class="topic-link">
                         @foreach ($documents[$key] as $document)
-                            <a href="{{ $document->link }}">
+                            <a href="{{ asset('frontend/upload/TN1001/document/'.$document->link) }}" target="_blank">
                                 @switch($document->type)
                                     @case(1)
                                         <i class="bi bi-file-earmark"></i>
@@ -68,8 +70,15 @@
             
         </div>
     </div>
+    @include('front.teacher.modal.create_topic')
 @endsection
 
 @section('script')
+    <script src="{{ asset('backend/assets/vendor/ckeditor/ckeditor.js') }}"></script>
+    <script>
+        CKEDITOR.replace('content_topic_create');
+    </script>
     <script src="{{ asset('frontend/assets/js/course/teacher.js') }}"></script>
+    <script src="{{ asset('frontend/assets/js/course/topic.js') }}"></script>
+    
 @endsection
