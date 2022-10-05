@@ -175,6 +175,7 @@
 
     <script src="../backend/assets/js/jquery.min.js"></script>
     <script src="../backend/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../function.js"></script>
     <script>
       var _token = $('meta[name="csrf-token"]').attr('content');
     </script>

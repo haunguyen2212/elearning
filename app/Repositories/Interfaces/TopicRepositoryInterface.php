@@ -10,5 +10,6 @@ interface TopicRepositoryInterface{
     public function unpin($id);
     public function show($id);
     public function hide($id);
+    public function create($collection = []);
 
 }

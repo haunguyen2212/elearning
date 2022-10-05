@@ -52,4 +52,14 @@ class TopicRepository implements TopicRepositoryInterface{
             'is_show' => 0,
         ]);
     }
+
+    public function create($collection = [])
+    {
+        return $this->topic->create([
+            'course_id' => $collection['course_id'],
+            'title' => $collection['title'],
+            'content' => $collection['content'],
+            'is_show' => $collection['is_show'] ?? 1,
+        ]);
+    }
 }

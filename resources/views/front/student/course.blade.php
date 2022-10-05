@@ -23,7 +23,7 @@
                         {{ $topic->title }}
                     </h5>
                     <div class="topic-content">
-                        {{ $topic->content }}     
+                        {!! $topic->content !!}     
                     </div>
                     <div class="topic-link">
                         @foreach ($documents[$key] as $document)

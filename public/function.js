@@ -29,3 +29,29 @@ function formatDateShow(date){
     }
     return `${day}/${month}/${year}`;
 }
+
+function uploadFile(id){
+    document.getElementById(id).click();
+}
+
+function showFileUpload(input, result){
+    const ipnFileElement = document.querySelector('#'+input)
+    const resultElement = document.querySelector('#'+result)
+
+    ipnFileElement.addEventListener('change', function(e) {
+    const files = e.target.files
+    const file = files[0]
+
+    const fileReader = new FileReader()
+    fileReader.readAsDataURL(file)
+
+    fileReader.onload = function() {
+        const url = fileReader.result
+        console.log(fileReader);
+        resultElement.insertAdjacentHTML(
+        'beforeend',
+        `<a href="${url}">file</a><br>`
+        )
+    }
+    })
+}

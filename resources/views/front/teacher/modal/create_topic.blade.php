@@ -10,18 +10,13 @@
                 <div class="col-12">
                     <label for="title_topic_create" class="form-label">Tên chủ đề (*)</label>
                     <input type="text" class="form-control" id="title_topic_create" name="title">
-                    <span class="text-danger txt_error txt_title_topic_create mt-1"></span>
+                    <span class="text-danger txt_error txt_title mt-1"></span>
                 </div>
                 <div class="col-12">
                     <label for="content_topic_create" class="form-label">Nội dung (*)</label>
                     <textarea class="form-control" id="content_topic_create" name="content" rows="3"></textarea>
-                    <span class="text-danger txt_error txt_content_topic_create mt-1"></span>
+                    <span class="text-danger txt_error txt_content mt-1"></span>
                 </div>
-                <div class="col-12">
-                    <label for="document_topic_create" class="form-label">Tài liệu (*)</label>
-                    <input type="file" multiple class="form-control" name="document_topic_create" id="document_topic_create">
-                    <span class="text-danger txt_error txt_document_topic_create mt-1"></span>
-                  </div>
             </form>
         </div>
         <div class="modal-footer">

@@ -73,6 +73,7 @@
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
+              <img src="{{ asset('backend/assets/img/avatar/avatar-admin.png') }}" class="rounded-circle mb-2" width="60px" alt="">
               <h6>{{ Auth::guard('admin')->user()->name }}</h6>
               <span>Quản trị hệ thống</span>
             </li>

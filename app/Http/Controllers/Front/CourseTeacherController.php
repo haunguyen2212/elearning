@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreTopicRequest;
 use App\Libraries\MyCourse;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
 use App\Repositories\Interfaces\TopicDocumentRepositoryInterface;
@@ -90,8 +91,19 @@ class CourseTeacherController extends Controller
         }
     }
 
-    public function storeTopic($id){
-        
+    public function storeTopic($id, StoreTopicRequest $request){
+        $collection = $request->except(['_token']);
+        $collection['course_id'] = $id;
+        DB::beginTransaction();
+        try{
+            $this->topic->create($collection);
+            DB::commit();
+            return response()->json(['data' => 1]);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['data' => 0]);
+        }
     }
 
     public function getCourseById($id){

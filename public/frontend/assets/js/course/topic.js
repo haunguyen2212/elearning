@@ -16,8 +16,26 @@ TOPIC.store = function(){
         formData.append('_token', _token);
         formData.delete('content');
         formData.append('content', content);
-        for(var pair of formData.entries()) {
-            console.log(pair[0]+ ', '+ pair[1]); 
-         }
+        $.ajax({
+            type: 'post',
+            url: url,
+            data: formData,
+            dataType: 'JSON',
+            processData: false,
+            cache: false,
+            contentType: false,
+            beforeSend: function(){
+                $('.txt_error').html('');
+            },
+            success: function(res){
+                window.location.reload();
+            },
+            error: function(err){
+                var errors = err.responseJSON.errors;
+                $.each(errors, function(prefix, val){
+                    $('#ModalCreateTopic .txt_'+prefix).html(val);
+                });
+            }
+        })
     })
 }
