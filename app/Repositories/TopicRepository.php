@@ -62,4 +62,9 @@ class TopicRepository implements TopicRepositoryInterface{
             'is_show' => $collection['is_show'] ?? 1,
         ]);
     }
+
+    public function getCourse($id)
+    {
+        return $this->topic->join('courses', 'course_id', 'courses.id')->where('topics.id', $id)->select('courses.*')->first();
+    }
 }

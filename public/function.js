@@ -30,8 +30,8 @@ function formatDateShow(date){
     return `${day}/${month}/${year}`;
 }
 
-function uploadFile(id){
-    document.getElementById(id).click();
+function uploadFile(selector, number){
+    document.querySelector(selector+'-'+number).click();
 }
 
 function showFileUpload(input, result){

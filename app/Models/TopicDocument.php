@@ -13,6 +13,7 @@ class TopicDocument extends Model
     protected $primaryKey = 'id';
     protected $fillable = [
         'topic_id',
+        'name',
         'link',
         'type',
         'is_show',

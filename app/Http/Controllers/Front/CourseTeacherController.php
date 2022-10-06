@@ -106,6 +106,30 @@ class CourseTeacherController extends Controller
         }
     }
 
+    public function uploadDocument($id ,Request $request){
+        $course = $this->topic->getCourse($id);
+        $document = $request->file('document');
+        if($document){
+            $file = $request->file('document')->getClientOriginalName();
+            $directory = 'frontend/upload/'.$course->code.'/document';
+            if(!(file_exists($directory) && is_dir($directory))){
+                mkdir($directory, 0775, true);
+            }
+            if(file_exists($directory.'/'.$file)){
+                return back()->with('error', __('message.file_exists'));
+            }
+            $document->move(public_path($directory), $file);
+            $collection = [
+                'topic_id' => $id,
+                'name' => $file,
+                'link' => $file,
+                'type' => 1,
+            ];
+            $this->topicDocument->create($collection);
+        }
+        return back();
+    }
+
     public function getCourseById($id){
         $course = $this->course->getFullById($id);
         if(empty($course)){

@@ -43,11 +43,11 @@
                         
                     </h5>
                     <div class="topic-content">
-                        {!! $topic->content !!}     
+                        {!! $topic->content !!}   
                     </div>
                     <div class="topic-link">
                         @foreach ($documents[$key] as $document)
-                            <a href="{{ asset('frontend/upload/TN1001/document/'.$document->link) }}" target="_blank">
+                            <a href="{{ asset('frontend/upload/'.$course->code.'/'.'document/'.$document->link) }}" target="_blank">
                                 @switch($document->type)
                                     @case(1)
                                         <i class="bi bi-file-earmark"></i>
@@ -64,6 +64,16 @@
                                 {{ $document->name ?? $document->link }}
                             </a>
                         @endforeach
+                        <div>
+                            <span class="text-main" style="cursor: pointer" onclick="uploadFile('.document', {{ $topic->id }})">
+                                <i class="bi bi-folder-plus"></i> Thêm tài liệu
+                            </span>
+                            <form class="frm-create-document" method="post" action="{{ route('topic.document.upload', $topic->id) }}" enctype="multipart/form-data">
+                                @csrf
+                                <input type="file" class="form-control input-file {{ 'document-'.$topic->id }}" name="document" multiple>
+                            </form>
+                            
+                        </div>  
                     </div>
                 </div>
             @endforeach
@@ -80,4 +90,9 @@
     </script>
     <script src="{{ asset('frontend/assets/js/course/teacher.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/course/topic.js') }}"></script>
+    <script>
+        $('.frm-create-document').change(function(e){
+            $(this).submit();
+        })
+    </script>
 @endsection

@@ -11,5 +11,6 @@ interface TopicRepositoryInterface{
     public function show($id);
     public function hide($id);
     public function create($collection = []);
+    public function getCourse($id);
 
 }

@@ -6,5 +6,6 @@ interface TopicDocumentRepositoryInterface{
 
     public function getAll($course_id, $orderBy = 'asc');
     public function getActive($course_id, $orderBy = 'asc');
+    public function create($collection = []);
 
 }

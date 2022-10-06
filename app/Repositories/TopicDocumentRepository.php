@@ -23,4 +23,15 @@ class TopicDocumentRepository implements TopicDocumentRepositoryInterface{
     {
         return $this->topicDocument->where('topic_id', $topic_id)->where('is_show', 1)->orderBy('id', $orderBy)->get();
     }
+
+    public function create($collection = [])
+    {
+        return $this->topicDocument->create([
+            'topic_id' => $collection['topic_id'],
+            'name' => $collection['name'],
+            'link' => $collection['link'],
+            'type' => $collection['type'],
+            'is_show' => 1,
+        ]);
+    }
 }
