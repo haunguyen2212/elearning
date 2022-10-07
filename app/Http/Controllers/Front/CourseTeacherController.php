@@ -108,26 +108,44 @@ class CourseTeacherController extends Controller
 
     public function uploadDocument($id ,Request $request){
         $course = $this->topic->getCourse($id);
-        $document = $request->file('document');
-        if($document){
-            $file = $request->file('document')->getClientOriginalName();
-            $directory = 'frontend/upload/'.$course->code.'/document';
-            if(!(file_exists($directory) && is_dir($directory))){
-                mkdir($directory, 0775, true);
+        $documents = $request->file('document');
+        $err = [];
+        DB::beginTransaction();
+        try{
+            if($documents){
+                foreach($documents as $document) {
+                    $file = $document->getClientOriginalName();
+                    $directory = 'frontend/upload/'.$course->code.'/document';
+                    if(!(file_exists($directory) && is_dir($directory))){
+                        mkdir($directory, 0775, true);
+                    }
+                    if(file_exists($directory.'/'.$file)){
+                        array_push($err, __('message.file_exists', ['name' => $file]));
+                        continue;
+                    }
+                    $document->move(public_path($directory), $file);
+                    $collection = [
+                        'topic_id' => $id,
+                        'name' => $file,
+                        'link' => $file,
+                        'type' => 1,
+                    ];
+                    $this->topicDocument->create($collection);
+                }
             }
-            if(file_exists($directory.'/'.$file)){
-                return back()->with('error', __('message.file_exists'));
-            }
-            $document->move(public_path($directory), $file);
-            $collection = [
-                'topic_id' => $id,
-                'name' => $file,
-                'link' => $file,
-                'type' => 1,
-            ];
-            $this->topicDocument->create($collection);
+            DB::commit();
+            if(!empty($err)){
+                return back()->with('err_exists_file', $err);
+            }   
+            return back();
         }
-        return back();
+        catch(\Exception $e){
+            DB::rollBack();
+        }
+    }
+
+    public function deleteTopic($id){
+        return response()->json(['data' => $id, 'status' => 1]);
     }
 
     public function getCourseById($id){

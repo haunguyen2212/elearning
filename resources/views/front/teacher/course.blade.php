@@ -10,6 +10,14 @@
 @section('content')
     <div class="card">
         <div class="card-body px-4">
+            @if (session('err_exists_file'))
+                <div class="alert alert-message alert-dismissible fade show" role="alert">
+                    @foreach (session('err_exists_file') as $value)
+                        <div><i class="bi bi-exclamation-circle"></i> {{ $value }}</div>
+                    @endforeach
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
             <div class="card-title"><i class="bi bi-info-circle-fill"></i> Các thông báo</div>
             <div class="card-content">
                 <div>
@@ -24,14 +32,14 @@
                     <h5 class="topic-title">
                         <div class="d-flex justify-content-between">
                             <span>{!! $topic->title !!}</span>
-                            <span class="pe-2">
+                            <span class="pe-2 topic-control">
                                 @if ($topic->is_show == 1)
                                     <i class="bi bi-eye me-1 hide-topic" title="Hiển thị" data-url="{{ route('course.hide.teacher', $topic->id) }}"></i>
                                 @else
                                     <i class="bi bi-eye-slash me-1 show-topic" title="Ẩn" data-url="{{ route('course.show.teacher', $topic->id) }}"></i>
                                 @endif
                                 <i class="bi bi-pen me-1" title="Chỉnh sửa"></i>
-                                <i class="bi bi-x-lg me-1" title="Xóa"></i>
+                                <i class="bi bi-x-lg me-1 delete-topic" data-url="{{ route('topic.delete', $topic->id) }}" data-bs-toggle="modal" data-bs-target="#ModalDeleteTopic" title="Xóa"></i>
                                 @if ($topic->pin == 1)
                                     <i class="bi bi-pin-angle-fill unpin-topic" title="Ghim" data-url="{{ route('course.unpin.teacher', $topic->id) }}"></i>
                                 @else
@@ -70,7 +78,7 @@
                             </span>
                             <form class="frm-create-document" method="post" action="{{ route('topic.document.upload', $topic->id) }}" enctype="multipart/form-data">
                                 @csrf
-                                <input type="file" class="form-control input-file {{ 'document-'.$topic->id }}" name="document" multiple>
+                                <input type="file" class="form-control input-file {{ 'document-'.$topic->id }}" name="document[]" multiple>
                             </form>
                             
                         </div>  
@@ -81,6 +89,7 @@
         </div>
     </div>
     @include('front.teacher.modal.create_topic')
+    @include('front.teacher.modal.delete_topic')
 @endsection
 
 @section('script')
@@ -90,9 +99,4 @@
     </script>
     <script src="{{ asset('frontend/assets/js/course/teacher.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/course/topic.js') }}"></script>
-    <script>
-        $('.frm-create-document').change(function(e){
-            $(this).submit();
-        })
-    </script>
 @endsection

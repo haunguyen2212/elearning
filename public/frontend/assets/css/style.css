@@ -334,12 +334,24 @@ a{
     margin-top: 15px;
 }
 
+.topic-content p,
+.topic-content dl, 
+.topic-content ol, 
+.topic-content ul
+{
+    margin-bottom: 0 !important;
+}
+
 .topic-link{
-    padding: 10px 0;
+    padding: 0;
 }
 
 .topic-link a{
     display: block;
+}
+
+.topic-control i{
+    cursor: pointer;
 }
 
 .page-link{
@@ -381,4 +393,10 @@ a{
 
   input[type=file].input-file{
     display: none;
+  }
+
+  .alert-message{
+    background-color: #f6f9ff;
+    color: red;
+    border-color: #EEE;
   }

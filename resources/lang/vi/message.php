@@ -21,5 +21,5 @@ return [
     'registration_success' => 'Đăng ký thành công',
     'course_lock' => 'Khóa học đã ẩn thành công',
     'course_unlock' => 'Khóa học đã được hiện thị',
-    'file_exists' => 'File đã tồn tại',
+    'file_exists' => 'File :name đã tồn tại',
 ];

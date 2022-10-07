@@ -6,10 +6,13 @@ $(document).ready(function(){
 
 TOPIC.init = function(){
     TOPIC.store();
+    TOPIC.uploadDocument();
+    TOPIC.delete();
 }
 
 TOPIC.store = function(){
     $('.btn-store-topic').click(function(e){
+        e.preventDefault();
         var url = $('#ModalCreateTopic').attr('data-url');
         let content = CKEDITOR.instances['content_topic_create'].getData();
         var formData = new FormData($('form#frm-create-topic')[0]);
@@ -35,6 +38,39 @@ TOPIC.store = function(){
                 $.each(errors, function(prefix, val){
                     $('#ModalCreateTopic .txt_'+prefix).html(val);
                 });
+            }
+        })
+    })
+}
+
+TOPIC.uploadDocument = function(){
+    $('.frm-create-document').change(function(e){
+        e.preventDefault();
+        $(this).submit();
+    })
+}
+
+TOPIC.delete = function(){
+    $('.delete-topic').click(function(e){
+        e.preventDefault();
+        var url = $(this).attr('data-url');
+        $('#ModalDeleteTopic').attr('data-url', url);
+    });
+
+    $('.btn-confirm-delete-topic').click(function(e){
+        e.preventDefault();
+        var url = $('#ModalDeleteTopic').attr('data-url');
+        $.ajax({
+            type: 'delete',
+            url: url,
+            data:{
+                _token:_token,
+            },
+            success: function(res){
+                console.log(res);
+            },
+            error: function(err){
+
             }
         })
     })

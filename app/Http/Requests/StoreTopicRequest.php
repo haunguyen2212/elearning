@@ -25,7 +25,7 @@ class StoreTopicRequest extends FormRequest
     {
         return [
             'title' => 'required|max:100',
-            'content' => 'required|max:5000',
+            'content' => 'nullable|max:500',
         ];
     }
 
@@ -34,7 +34,6 @@ class StoreTopicRequest extends FormRequest
         return [
             'title.required' => '<i class="bi bi-exclamation-circle"></i> Chưa nhập tiêu đề',
             'title.max' => '<i class="bi bi-exclamation-circle"></i> Tiêu đề tối đa 100 ký tự',
-            'content.required' => '<i class="bi bi-exclamation-circle"></i> Chưa nhập nội dung',
             'content.max' => '<i class="bi bi-exclamation-circle"></i> Nội dung tối đa 500 ký tự'
         ];
     }
