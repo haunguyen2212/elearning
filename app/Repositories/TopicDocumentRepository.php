@@ -34,4 +34,45 @@ class TopicDocumentRepository implements TopicDocumentRepositoryInterface{
             'is_show' => 1,
         ]);
     }
+
+    public function getById($id)
+    {
+        return $this->topicDocument->find($id);
+    }
+
+    public function show($id)
+    {
+        return $this->topicDocument->find($id)->update([
+            'is_show' => 1,
+        ]);
+    }
+
+    public function hide($id)
+    {
+        return $this->topicDocument->find($id)->update([
+            'is_show' => 0,
+        ]);
+    }
+
+    public function getTopic($id)
+    {
+        return $this->topicDocument->join('topics', 'topic_id', 'topics.id')
+            ->where('topic_documents.id', $id)
+            ->select('topics.*')
+            ->first();
+    }
+
+    public function getCourse($id)
+    {
+        return $this->topicDocument->join('topics', 'topic_id', 'topics.id')
+            ->join('courses', 'course_id', 'courses.id')
+            ->where('topic_documents.id', $id)
+            ->select('courses.*')
+            ->first();
+    }
+
+    public function delete($id)
+    {
+        return $this->topicDocument->find($id)->delete();
+    }
 }

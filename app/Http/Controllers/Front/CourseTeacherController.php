@@ -34,7 +34,7 @@ class CourseTeacherController extends Controller
         $data['topics'] = $this->topic->getAll($id);
         $data['documents'] = [];
         foreach($data['topics'] as $key => $topic){
-            $data['documents'][$key] = $this->topicDocument->getActive($topic->id);
+            $data['documents'][$key] = $this->topicDocument->getAll($topic->id);
         }
         $data['myTeacherCourses'] = $this->myCourse->getCourseOfTeacher();
         return view('front.teacher.course', $data);
@@ -188,6 +188,51 @@ class CourseTeacherController extends Controller
             DB::rollBack();
             return response()->json(['status' => 0]);
         } 
+    }
+
+    public function showDocument($id){
+        DB::beginTransaction();
+        try{
+            $this->topicDocument->show($id);
+            DB::commit();
+            return response()->json(['status' => 1]);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['status' => 0]);
+        }
+    }
+
+    public function hideDocument($id){
+        DB::beginTransaction();
+        try{
+            $this->topicDocument->hide($id);
+            DB::commit();
+            return response()->json(['status' => 1]);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['status' => 0]);
+        }
+    }
+
+    public function deleteDocument($id){
+        DB::beginTransaction();
+        try{
+            $document = $this->topicDocument->getById($id);
+            $course = $this->topicDocument->getCourse($id);
+            $file = 'frontend/upload/'.$course->code.'/document'.'/'.$document->link;
+            if(file_exists($file) && is_file($file)){
+                unlink($file);
+            }
+            $this->topicDocument->delete($id);
+            DB::commit();
+            return response()->json(['data' => $file,'status' => 1]);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['status' => 0]);
+        }
     }
 
     public function getCourseById($id){

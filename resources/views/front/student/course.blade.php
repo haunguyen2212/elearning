@@ -20,14 +20,21 @@
             @foreach ($topics as $key => $topic)
                 <div class="topic">
                     <h5 class="topic-title">
-                        {{ $topic->title }}
+                        <div class="d-flex justify-content-between">
+                            <span>{{ $topic->title }}</span>
+                            <span class="pe-2 topic-control">
+                                @if ($topic->pin == 1)
+                                    <i class="bi bi-pin-angle-fill" title="Đang ghim"></i>
+                                @endif
+                            </span>
+                        </div>
                     </h5>
                     <div class="topic-content">
                         {!! $topic->content !!}     
                     </div>
                     <div class="topic-link">
                         @foreach ($documents[$key] as $document)
-                            <a href="{{ $document->link }}">
+                            <a href="{{ asset('frontend/upload/'.$course->code.'/'.'document/'.$document->link) }}" target="_blank">
                                 @switch($document->type)
                                     @case(1)
                                         <i class="bi bi-file-earmark"></i>

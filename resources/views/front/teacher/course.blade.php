@@ -78,7 +78,8 @@
                     </div>
                     <div class="topic-link">
                         @foreach ($documents[$key] as $document)
-                            <a href="{{ asset('frontend/upload/'.$course->code.'/'.'document/'.$document->link) }}" target="_blank">
+                        <div class="topic-document {{ $document->is_show == 0 ? 'hide' : '' }}">
+                            <a href="{{ asset('frontend/upload/'.$course->code.'/'.'document/'.$document->link) }}" target="_blank" class="{{ $document->is_show == 0 ? 'hide' : '' }}">
                                 @switch($document->type)
                                     @case(1)
                                         <i class="bi bi-file-earmark"></i>
@@ -94,6 +95,25 @@
                                 @endswitch
                                 {{ $document->name ?? $document->link }}
                             </a>
+                            <span class="d-flex align-items-center">
+                                <span class="ps-1 document-setting" data-doc="{{ $document->id }}"><i class="bi bi-gear" title="Tùy chỉnh"></i></span>
+                                <div class="group-control-document-{{ $document->id }} ps-1" style="display: none">
+                                    @if ($document->is_show == 1)
+                                        <span class="ps-1 document-control hide-topic-document" data-url="{{ route('topic_document.hide', $document->id) }}">
+                                            <i class="bi bi-eye" title="Đang hiển thị"></i>
+                                        </span>
+                                    @else
+                                        <span class="ps-1 document-control show-topic-document" data-url="{{ route('topic_document.show', $document->id) }}">
+                                            <i class="bi bi-eye-slash" title="Đang ẩn"></i>
+                                        </span>
+                                    @endif  
+                                    <span class="ps-1 document-control"><i class="bi bi-pen" title="Đổi tên"></i></span>
+                                    <span class="ps-1 document-control delete-topic-document" data-url="{{ route('topic_document.delete', $document->id) }}">
+                                        <i class="bi bi-x-lg" title="Xóa"></i>
+                                    </span>
+                                </div>
+                            </span>
+                        </div>
                         @endforeach
                         <div>
                             <span class="text-main" style="cursor: pointer" onclick="uploadFile('.document', {{ $topic->id }})">
@@ -124,4 +144,12 @@
     </script>
     <script src="{{ asset('frontend/assets/js/course/teacher.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/course/topic.js') }}"></script>
+    <script src="{{ asset('frontend/assets/js/course/topic_document.js') }}"></script>
+    <script>
+        $('.document-setting').click(function(){
+            var id = $(this).attr('data-doc');
+            $(this).hide();
+            $('.group-control-document-'+id).toggle();
+        })
+    </script>
 @endsection

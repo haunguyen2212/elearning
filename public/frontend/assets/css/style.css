@@ -350,6 +350,36 @@ a{
     display: block;
 }
 
+.topic-document{
+    display: flex;
+    align-items: center;
+}
+
+.topic-document a.hide{
+    text-decoration: line-through;
+    color: var(--text-grey);
+}
+
+.document-setting{
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    color: #0d6efd;
+    cursor: pointer;
+}
+
+.document-control{
+    font-size: 13px;
+    color: #0d6efd;
+    cursor: pointer;
+}
+
+.topic-document.hide .document-setting,
+.topic-document.hide .document-control
+{
+    color: var(--text-grey);
+}
+
 .topic-control i{
     cursor: pointer;
 }
