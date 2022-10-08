@@ -18,6 +18,18 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
+            @if (session('success'))
+                <div class="alert alert-message alert-dismissible fade show" role="alert">
+                    <div><i class="bi bi-exclamation-circle"></i> {{ session('success') }}</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-message alert-dismissible fade show" role="alert">
+                    <div><i class="bi bi-exclamation-circle"></i> {{ session('error') }}</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
             <div class="card-title"><i class="bi bi-info-circle-fill"></i> Các thông báo</div>
             <div class="card-content">
                 <div>
@@ -38,8 +50,19 @@
                                 @else
                                     <i class="bi bi-eye-slash me-1 show-topic" title="Ẩn" data-url="{{ route('course.show.teacher', $topic->id) }}"></i>
                                 @endif
-                                <i class="bi bi-pen me-1" title="Chỉnh sửa"></i>
-                                <i class="bi bi-x-lg me-1 delete-topic" data-url="{{ route('topic.delete', $topic->id) }}" data-bs-toggle="modal" data-bs-target="#ModalDeleteTopic" title="Xóa"></i>
+                                <i class="bi bi-pen me-1 edit-topic" 
+                                    data-url-edit="{{ route('topic.edit', $topic->id) }}" 
+                                    data-url-update="{{ route('topic.update', $topic->id) }}"
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#ModalEditTopic" 
+                                    title="Chỉnh sửa"
+                                ></i>
+                                <i class="bi bi-x-lg me-1 delete-topic" 
+                                    data-url="{{ route('topic.delete', $topic->id) }}" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#ModalDeleteTopic" 
+                                    title="Xóa"
+                                ></i>
                                 @if ($topic->pin == 1)
                                     <i class="bi bi-pin-angle-fill unpin-topic" title="Ghim" data-url="{{ route('course.unpin.teacher', $topic->id) }}"></i>
                                 @else
@@ -89,6 +112,7 @@
         </div>
     </div>
     @include('front.teacher.modal.create_topic')
+    @include('front.teacher.modal.edit_topic')
     @include('front.teacher.modal.delete_topic')
 @endsection
 
@@ -96,6 +120,7 @@
     <script src="{{ asset('backend/assets/vendor/ckeditor/ckeditor.js') }}"></script>
     <script>
         CKEDITOR.replace('content_topic_create');
+        CKEDITOR.replace('content_topic_edit');
     </script>
     <script src="{{ asset('frontend/assets/js/course/teacher.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/course/topic.js') }}"></script>

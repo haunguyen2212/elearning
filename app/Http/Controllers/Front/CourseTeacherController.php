@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTopicRequest;
+use App\Http\Requests\UpdateTopicRequest;
 use App\Libraries\MyCourse;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
 use App\Repositories\Interfaces\TopicDocumentRepositoryInterface;
@@ -144,8 +145,49 @@ class CourseTeacherController extends Controller
         }
     }
 
+    public function editTopic($id){
+        $data = $this->topic->getById($id);
+        if(empty($data)){
+            session()->flash('error', __('message.not_found', ['name' => 'chủ đề']));
+            return response()->json(['status' => 0]);
+        }
+        return response()->json(['data' => $data, 'status' => 1]);
+    }
+
+    public function updateTopic($id, UpdateTopicRequest $request){
+        DB::beginTransaction();
+        try{
+            $collection = $request->except(['_token', '_method']);
+            $this->topic->update($id, $collection);
+            DB::commit();
+            return response()->json(['status' => 1]);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            session()->flash('error', __('message.update_error', ['name' => 'chủ đề']));
+            return response()->json(['status' => 0]);
+        }
+    }
+
     public function deleteTopic($id){
-        return response()->json(['data' => $id, 'status' => 1]);
+        DB::beginTransaction();
+        try{
+            $course = $this->topic->getCourse($id);
+            $documents = $this->topic->getAllDocument($id);
+            foreach($documents as $document){
+                $file = 'frontend/upload/'.$course->code.'/document'.'/'.$document->link;
+                if(file_exists($file) && is_file($file)){
+                    unlink($file);
+                }
+            }
+            $this->topic->delete($id);
+            DB::commit();
+            return response()->json(['data' => $documents,'status' => 1]);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['status' => 0]);
+        } 
     }
 
     public function getCourseById($id){

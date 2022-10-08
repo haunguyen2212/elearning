@@ -22,4 +22,5 @@ return [
     'course_lock' => 'Khóa học đã ẩn thành công',
     'course_unlock' => 'Khóa học đã được hiện thị',
     'file_exists' => 'File :name đã tồn tại',
+    'not_found' => 'Không tìm thấy :name',
 ];

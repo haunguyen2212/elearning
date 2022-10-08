@@ -67,4 +67,30 @@ class TopicRepository implements TopicRepositoryInterface{
     {
         return $this->topic->join('courses', 'course_id', 'courses.id')->where('topics.id', $id)->select('courses.*')->first();
     }
+
+    public function getAllDocument($id)
+    {
+        return $this->topic->join('topic_documents', 'topic_id', 'topics.id')
+            ->where('topics.id', $id)
+            ->select('topic_documents.*')
+            ->get();
+    }
+
+    public function getById($id)
+    {
+        return $this->topic->find($id);
+    }
+
+    public function update($id, $collection = [])
+    {
+        return $this->topic->find($id)->update([
+            'title' => $collection['title'],
+            'content' => $collection['content'],
+        ]);
+    }
+
+    public function delete($id)
+    {
+        return $this->topic->find($id)->delete();
+    }
 }

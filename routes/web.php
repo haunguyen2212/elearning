@@ -34,5 +34,7 @@ Route::group(['prefix' => 'teacher', 'middleware' => 'isTeacher'], function(){
     Route::post('course/{id}/store', [Front\CourseTeacherController::class, 'storeTopic'])->name('course.topic.store');
     Route::post('topic/{id}/upload', [Front\CourseTeacherController::class, 'uploadDocument'])->name('topic.document.upload');
     Route::delete('topic/{id}/delete', [Front\CourseTeacherController::class, 'deleteTopic'])->name('topic.delete');
+    Route::get('topic/{id}/edit', [Front\CourseTeacherController::class, 'editTopic'])->name('topic.edit');
+    Route::patch('topic/{id}/update', [Front\CourseTeacherController::class, 'updateTopic'])->name('topic.update');
 });
 
