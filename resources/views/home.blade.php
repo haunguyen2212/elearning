@@ -18,7 +18,7 @@
               </div>
             </div>
           </div>
-          <ul class="list-item">
+          <ul class="list-item ps-1">
 
               @foreach ($courses as $course)
                   <li>

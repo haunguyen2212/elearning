@@ -100,22 +100,53 @@
                 <div class="row">
 
                   @if (auth()->guard('teacher')->check())
-                    @if (isset($myTeacherCourses))
+
+                    @if (isset($listStudent))
                       <div class="col-12">
                         <div class="card">
                           <div class="card-body pb-0">
-                            <h5 class="card-title">Khóa học của tôi</h5>
-                            <ul class="list-item">
-                              @foreach ($myTeacherCourses as $myCourse)
-                                <li>
-                                  <a href="{{ route('course.view.teacher',$myCourse->id) }}"><i class="bi bi-caret-right-fill"></i> {{ $myCourse->code .' - '. $myCourse->name }}</a>
-                                </li>
+                            <h5 class="card-title">Danh sách học sinh</h5>
+                            <ul class="list-item ps-0 mb-0">
+                              @foreach ($listStudent as $student)
+                                  <div class="d-flex justify-content-between student-name-wrap">
+                                    <div class="student-name">
+                                      <a href="">
+                                        @if ($student->active == 1)
+                                          <i class="bi bi-person"></i>
+                                        @else
+                                          <i class="bi bi-person-x"></i>
+                                        @endif
+                                        {{ $student->username .' - '. $student->name }}
+                                      </a>
+                                    </div>
+                                    <div class="student-control">
+                                      <i class="bi bi-dash-circle" title="Xóa khỏi khóa học"></i>
+                                    </div>
+                                  </div>
                               @endforeach
                             </ul> 
                           </div>
                         </div>
-                      </div>
+                      </div>            
                     @endif
+
+                    @if (isset($myTeacherCourses))
+                        <div class="col-12">
+                          <div class="card">
+                            <div class="card-body pb-0">
+                              <h5 class="card-title">Khóa học của tôi</h5>
+                              <ul class="list-item ps-0">
+                                @foreach ($myTeacherCourses as $myCourse)
+                                  <li>
+                                    <a href="{{ route('course.view.teacher',$myCourse->id) }}"><i class="bi bi-caret-right"></i> {{ $myCourse->code .' - '. $myCourse->name }}</a>
+                                  </li>
+                                @endforeach
+                              </ul> 
+                            </div>
+                          </div>
+                        </div>
+                      @endif
+
                   @endif
 
                   @if (auth()->guard('student')->check())
@@ -125,7 +156,7 @@
                         <div class="card">
                           <div class="card-body pb-0">
                             <h5 class="card-title">Khóa học của tôi</h5>
-                            <ul class="list-item">
+                            <ul class="list-item ps-1">
                               @foreach ($myStudentCourses as $myCourse)
                                 <li>
                                   <a href="{{ route('course.view.student', $myCourse->course_id) }}"><i class="bi bi-caret-right-fill"></i> {{ $myCourse->code .' - '. $myCourse->course_name }}</a>
@@ -136,25 +167,27 @@
                         </div>
                       </div>
                     @endif
-
                   @endif
 
-                  @if (isset($notices))
-                    <div class="col-12">
-                      <div class="card">
-                        <div class="card-body pt-0">
-                          <h5 class="card-title">Thông báo</h5>
-                          <ul class="list-item">
-                            @foreach ($notices as $key => $notice)
-                              <li>
-                                <a href="{{ asset('backend/assets/document/notices/'.$notice->link) }}"> {{ $key+1 .'. '. ($notice->name ?? $notice->link) }}</a>
-                              </li>
-                            @endforeach
-                          </ul>
+                  @if (!isset($listStudent))
+                    @if (isset($notices))
+                      <div class="col-12">
+                        <div class="card">
+                          <div class="card-body pt-0">
+                            <h5 class="card-title">Thông báo</h5>
+                            <ul class="list-item ps-1">
+                              @foreach ($notices as $key => $notice)
+                                <li>
+                                  <a href="{{ asset('backend/assets/document/notices/'.$notice->link) }}"> {{ $key+1 .'. '. ($notice->name ?? $notice->link) }}</a>
+                                </li>
+                              @endforeach
+                            </ul>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    @endif
                   @endif
+                  
                   
                 </div>
                 

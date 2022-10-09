@@ -430,3 +430,30 @@ a{
     color: red;
     border-color: #EEE;
   }
+
+  .student-name{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.05rem;
+    padding: 5px 0;
+  }
+
+  .student-name a{
+    color: var(--main-color) !important;
+  }
+
+  .student-name-wrap{
+    border-bottom: 1px dotted #ccc;
+  }
+
+  .student-control{
+    display: flex;
+    align-items: center;
+    color:  var(--main-color);
+    padding-left: 2px;
+  }
+
+  .student-control i{
+    cursor: pointer;
+  }

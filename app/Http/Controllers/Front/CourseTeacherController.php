@@ -38,6 +38,7 @@ class CourseTeacherController extends Controller
             $data['documents'][$key] = $this->topicDocument->getAll($topic->id);
         }
         $data['myTeacherCourses'] = $this->myCourse->getCourseOfTeacher();
+        $data['listStudent'] = $this->course->getStudentOfCourse($id);
         return view('front.teacher.course', $data);
     }
 

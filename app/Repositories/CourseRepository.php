@@ -154,4 +154,14 @@ class CourseRepository implements CourseRepositoryInterface
             ->select('courses.*', DB::raw('teachers.name as teacher_name'))
             ->paginate($offset);
     }
+
+    public function getStudentOfCourse($id)
+    {
+        return $this->course->join('course_involvement', 'course_id', 'courses.id')
+            ->leftJoin('students', 'student_id', 'students.id')
+            ->where('courses.id', $id)
+            ->select('students.*')
+            ->orderBy('students.username', 'asc')
+            ->get();
+    }
 }
