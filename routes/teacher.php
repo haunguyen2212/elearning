@@ -23,4 +23,6 @@ Route::group(['prefix' => 'teacher', 'middleware' => 'isTeacher'], function(){
     Route::patch('topic-document/{id}/show', [Front\CourseTeacherController::class, 'showDocument'])->name('topic_document.show');
     Route::patch('topic-document/{id}/hide', [Front\CourseTeacherController::class, 'hideDocument'])->name('topic_document.hide');
     Route::delete('topic-document/{id}/delete', [Front\CourseTeacherController::class, 'deleteDocument'])->name('topic_document.delete');
+    Route::get('topic-document/{id}/rename', [Front\CourseTeacherController::class, 'editRenameDocument'])->name('topic_document.rename.get');
+    Route::patch('topic-document/{id}/rename', [Front\CourseTeacherController::class, 'updateRenameDocument'])->name('topic_document.rename.patch');
 });

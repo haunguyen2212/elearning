@@ -13,5 +13,6 @@ interface TopicDocumentRepositoryInterface{
     public function getTopic($id);
     public function getCourse($id);
     public function delete($id);
+    public function rename($id, $collection = []);
 
 }

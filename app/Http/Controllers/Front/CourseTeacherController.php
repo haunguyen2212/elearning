@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RenameTopicDocumentRequest;
 use App\Http\Requests\StoreTopicRequest;
 use App\Http\Requests\UpdateTopicRequest;
 use App\Libraries\MyCourse;
@@ -228,6 +229,28 @@ class CourseTeacherController extends Controller
             $this->topicDocument->delete($id);
             DB::commit();
             return response()->json(['data' => $file,'status' => 1]);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['status' => 0]);
+        }
+    }
+
+    public function editRenameDocument($id){
+        $data = $this->topicDocument->getById($id);
+        if(empty($data)){
+            return response()->json(['status' => 0]);
+        }
+        return response()->json(['data' => $data, 'status' => 1]);
+    }
+
+    public function updateRenameDocument($id, RenameTopicDocumentRequest $request){
+        DB::beginTransaction();
+        try{
+            $collection = $request->except(['_token', '_method']);
+            $this->topicDocument->rename($id, $collection);
+            DB::commit();
+            return response()->json(['status' => 1]);
         }
         catch(\Exception $e){
             DB::rollBack();

@@ -75,4 +75,11 @@ class TopicDocumentRepository implements TopicDocumentRepositoryInterface{
     {
         return $this->topicDocument->find($id)->delete();
     }
+
+    public function rename($id, $collection = [])
+    {
+        return $this->topicDocument->find($id)->update([
+            'name' => $collection['name'],
+        ]);
+    }
 }

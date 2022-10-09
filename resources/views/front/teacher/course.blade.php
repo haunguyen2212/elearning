@@ -107,7 +107,9 @@
                                             <i class="bi bi-eye-slash" title="Đang ẩn"></i>
                                         </span>
                                     @endif  
-                                    <span class="ps-1 document-control"><i class="bi bi-pen" title="Đổi tên"></i></span>
+                                    <span class="ps-1 document-control rename-topic-document" data-url="{{ route('topic_document.rename.get', $document->id) }}" data-bs-toggle="modal" data-bs-target="#ModalRenameTopicDocument">
+                                        <i class="bi bi-pen" title="Đổi tên"></i>
+                                    </span>
                                     <span class="ps-1 document-control delete-topic-document" data-url="{{ route('topic_document.delete', $document->id) }}">
                                         <i class="bi bi-x-lg" title="Xóa"></i>
                                     </span>
@@ -134,6 +136,7 @@
     @include('front.teacher.modal.create_topic')
     @include('front.teacher.modal.edit_topic')
     @include('front.teacher.modal.delete_topic')
+    @include('front.teacher.modal.rename_topic_document')
 @endsection
 
 @section('script')
