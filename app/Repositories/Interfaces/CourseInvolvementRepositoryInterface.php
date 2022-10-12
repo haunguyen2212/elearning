@@ -10,4 +10,5 @@ interface CourseInvolvementRepositoryInterface{
     public function countStudentEnrol($course_id);
     public function getCourseNameStudent($student_id);
     public function getCourseOfStudentOfCurrent($school_year, $orderBy = 'asc');
+    public function delete($course_id, $student_id);
 }

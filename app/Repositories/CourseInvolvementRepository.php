@@ -59,4 +59,9 @@ class CourseInvolvementRepository implements CourseInvolvementRepositoryInterfac
             ->orderBy('id', $orderBy)
             ->get();
     }
+
+    public function delete($course_id, $student_id)
+    {
+        return $this->courseInvolvement->where('student_id', $student_id)->where('course_id', $course_id)->delete();
+    }
 }

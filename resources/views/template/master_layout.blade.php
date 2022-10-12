@@ -101,35 +101,8 @@
 
                   @if (auth()->guard('teacher')->check())
 
-                    @if (isset($listStudent))
-                      <div class="col-12">
-                        <div class="card">
-                          <div class="card-body pb-0">
-                            <h5 class="card-title">Danh sách học sinh</h5>
-                            <ul class="list-item ps-0 mb-0">
-                              @foreach ($listStudent as $student)
-                                  <div class="d-flex justify-content-between student-name-wrap">
-                                    <div class="student-name">
-                                      <a href="">
-                                        @if ($student->active == 1)
-                                          <i class="bi bi-person"></i>
-                                        @else
-                                          <i class="bi bi-person-x"></i>
-                                        @endif
-                                        {{ $student->username .' - '. $student->name }}
-                                      </a>
-                                    </div>
-                                    <div class="student-control">
-                                      <i class="bi bi-dash-circle" title="Xóa khỏi khóa học"></i>
-                                    </div>
-                                  </div>
-                              @endforeach
-                            </ul> 
-                          </div>
-                        </div>
-                      </div>            
-                    @endif
-
+                  @yield('right')
+                    
                     @if (isset($myTeacherCourses))
                         <div class="col-12">
                           <div class="card">
@@ -169,7 +142,6 @@
                     @endif
                   @endif
 
-                  @if (!isset($listStudent))
                     @if (isset($notices))
                       <div class="col-12">
                         <div class="card">
@@ -186,7 +158,6 @@
                         </div>
                       </div>
                     @endif
-                  @endif
                   
                   
                 </div>

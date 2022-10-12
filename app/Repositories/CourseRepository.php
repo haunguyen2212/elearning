@@ -164,4 +164,11 @@ class CourseRepository implements CourseRepositoryInterface
             ->orderBy('students.username', 'asc')
             ->get();
     }
+
+    public function updateNotice($id, $collection = [])
+    {
+        return $this->course->find($id)->update([
+            'notice' => $collection['notice'],
+        ]);
+    }
 }

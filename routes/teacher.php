@@ -10,6 +10,7 @@ Route::group(['prefix' => 'teacher', 'middleware' => 'isTeacher'], function(){
     Route::get('registration/{id}/edit', [Front\RoomRegistrationController::class, 'edit'])->name('teacher.registration.edit');
     Route::put('registration/{id}/update', [Front\RoomRegistrationController::class, 'update'])->name('teacher.registration.update');
     Route::delete('registration/{id}/delete', [Front\RoomRegistrationController::class, 'destroy'])->name('teacher.registration.destroy');
+    
     Route::get('course/{id}/view', [Front\CourseTeacherController::class, 'index'])->name('course.view.teacher');
     Route::patch('topic/{id}/pin', [Front\CourseTeacherController::class, 'pinTopic'])->name('course.pin.teacher');
     Route::patch('topic/{id}/unpin', [Front\CourseTeacherController::class, 'unpinTopic'])->name('course.unpin.teacher');
@@ -25,4 +26,9 @@ Route::group(['prefix' => 'teacher', 'middleware' => 'isTeacher'], function(){
     Route::delete('topic-document/{id}/delete', [Front\CourseTeacherController::class, 'deleteDocument'])->name('topic_document.delete');
     Route::get('topic-document/{id}/rename', [Front\CourseTeacherController::class, 'editRenameDocument'])->name('topic_document.rename.get');
     Route::patch('topic-document/{id}/rename', [Front\CourseTeacherController::class, 'updateRenameDocument'])->name('topic_document.rename.patch');
+    Route::get('course/{course_id}/student/{student_id}/delete', [Front\CourseTeacherController::class, 'confirmDeleteStudent'])->name('course.teacher.confirm_delete_student');
+    Route::delete('course/{course_id}/student/{student_id}/delete', [Front\CourseTeacherController::class, 'deleteStudent'])->name('course.teacher.delete_student');
+    Route::patch('course/{id}/notice/update', [Front\CourseTeacherController::class, 'updateNotice'])->name('course.notice.update');
+
+    Route::get('student-information/{id}', [Front\StudentInformationController::class, 'index'])->name('teacher.view.student_information');
 });

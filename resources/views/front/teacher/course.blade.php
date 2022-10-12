@@ -7,6 +7,42 @@
     <li class="breadcrumb-item active">{{ $course->name }}</li>
 @endsection
 
+@section('right')
+    @if (isset($listStudent))
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body pb-0">
+                <h5 class="card-title">Danh sách học sinh</h5>
+                <ul class="list-item ps-0 mb-0">
+                    @foreach ($listStudent as $student)
+                        <div class="d-flex justify-content-between student-name-wrap">
+                        <div class="student-name">
+                            <a href="{{ route('teacher.view.student_information', $student->id) }}">
+                            @if ($student->active == 1)
+                                <i class="bi bi-person"></i>
+                            @else
+                                <i class="bi bi-person-x"></i>
+                            @endif
+                            {{ $student->username .' - '. $student->name }}
+                            </a>
+                        </div>
+                        <div class="student-control">
+                            <i class="bi bi-dash-circle delete-student" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#ModalDeleteStudent" 
+                                data-url="{{ route('course.teacher.delete_student', ['course_id' => $course->id, 'student_id' => $student->id]) }}"
+                                title="Xóa khỏi khóa học"></i>
+                        </div>
+                        </div>
+                    @endforeach
+                </ul> 
+            </div>
+        </div>
+    </div>
+    @include('front.teacher.modal.delete_student')            
+    @endif
+@endsection
+
 @section('content')
     <div class="card">
         <div class="card-body px-4">
@@ -30,9 +66,16 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
-            <div class="card-title"><i class="bi bi-info-circle-fill"></i> Các thông báo</div>
+            <div class="card-title mb-0">
+                <i class="bi bi-info-circle-fill"></i> Các thông báo
+                <i class="bi bi-pen-fill edit-course-notice" 
+                    data-url="{{ route('course.notice.update', $course->id) }}" 
+                    data-bs-toggle="modal"
+                    data-bs-target="#ModalEditCourseNotice"
+                    style="cursor: pointer"></i>
+            </div>
             <div class="card-content">
-                <div>
+                <div class="mb-1">
                     {!! $course->notice !!}
                 </div>
             </div>
@@ -133,6 +176,7 @@
             
         </div>
     </div>
+    @include('front.teacher.modal.edit_course_notice')
     @include('front.teacher.modal.create_topic')
     @include('front.teacher.modal.edit_topic')
     @include('front.teacher.modal.delete_topic')
@@ -144,6 +188,7 @@
     <script>
         CKEDITOR.replace('content_topic_create');
         CKEDITOR.replace('content_topic_edit');
+        CKEDITOR.replace('content_course_notice_edit');
     </script>
     <script src="{{ asset('frontend/assets/js/course/teacher.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/course/topic.js') }}"></script>

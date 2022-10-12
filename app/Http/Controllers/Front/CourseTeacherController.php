@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RenameTopicDocumentRequest;
 use App\Http\Requests\StoreTopicRequest;
+use App\Http\Requests\UpdateCourseNoticeRequest;
 use App\Http\Requests\UpdateTopicRequest;
 use App\Libraries\MyCourse;
+use App\Repositories\Interfaces\CourseInvolvementRepositoryInterface;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
+use App\Repositories\Interfaces\StudentRepositoryInterface;
 use App\Repositories\Interfaces\TopicDocumentRepositoryInterface;
 use App\Repositories\Interfaces\TopicRepositoryInterface;
 use Illuminate\Http\Request;
@@ -16,17 +19,21 @@ use Illuminate\Support\Facades\DB;
 class CourseTeacherController extends Controller
 {
 
-    private $myCourse, $course, $topic, $topicDocument;
+    private $myCourse, $course, $topic, $topicDocument, $student, $courseInvolvement;
 
     public function __construct(
         CourseRepositoryInterface $courseRepository,
         TopicRepositoryInterface $topicRepository,
-        TopicDocumentRepositoryInterface $topicDocumentRepository
+        TopicDocumentRepositoryInterface $topicDocumentRepository,
+        StudentRepositoryInterface $studentRepository,
+        CourseInvolvementRepositoryInterface $courseInvolvementRepository
     )
     {
         $this->course = $courseRepository;
         $this->topic = $topicRepository;
         $this->topicDocument = $topicDocumentRepository;
+        $this->student = $studentRepository;
+        $this->courseInvolvement = $courseInvolvementRepository;
         $this->myCourse = new MyCourse();
     }
 
@@ -257,6 +264,41 @@ class CourseTeacherController extends Controller
             DB::rollBack();
             return response()->json(['status' => 0]);
         }
+    }
+
+    public function confirmDeleteStudent($course_id, $student_id){
+        $data = $this->student->getById($student_id);
+        if(empty($data)){
+            return response()->json(['status' => 0]);
+        }
+        return response()->json(['data' => $data, 'status' => 1]);
+    }
+
+    public function deleteStudent($course_id, $student_id){
+        DB::beginTransaction();
+        try{
+            $this->courseInvolvement->delete($course_id, $student_id);
+            DB::commit();
+            return response()->json(['status' => 1]);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['status' => 0]);
+        }
+    }
+
+    public function updateNotice($id, UpdateCourseNoticeRequest $request){
+        DB::beginTransaction();
+        try{
+            $collection = $request->except(['_token', '_method']);
+            $this->course->updateNotice($id, $collection);
+            DB::commit();
+            return response()->json(['status' => 1]);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['status' => 0]);
+        }   
     }
 
     public function getCourseById($id){
