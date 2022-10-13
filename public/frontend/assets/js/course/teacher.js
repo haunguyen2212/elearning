@@ -12,6 +12,7 @@ COURSE.init = function(){
     COURSE.deleteStudent();
     COURSE.editNotice();
     COURSE.updateNotice();
+    COURSE.changeEnrol();
 }
 
 COURSE.pin = function(){
@@ -131,7 +132,7 @@ COURSE.deleteStudent = function(){
             },
             success: function(res){
                 if(res.status == 1){
-                    window.location.reload();
+                    window.location.href = url_back;
                 }
             },
             error: function(err){
@@ -172,6 +173,28 @@ COURSE.updateNotice = function(){
                 $.each(errors, function(prefix, val){
                     $('#ModalEditCourseNotice .txt_'+prefix).html(val);
                 });
+            }
+        })
+    })
+}
+
+COURSE.changeEnrol = function(){
+    $('.btn-change-enrol').click(function(e){
+        e.preventDefault();
+        var url = $(this).attr('data-url');
+        $.ajax({
+            type: 'get',
+            url:url,
+            data:{
+                _token:_token,
+            },
+            success: function(res){
+                if(res.status == 1){
+                    window.location.reload();
+                }
+            },
+            error: function(err){
+
             }
         })
     })

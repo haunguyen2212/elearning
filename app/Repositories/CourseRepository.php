@@ -171,4 +171,11 @@ class CourseRepository implements CourseRepositoryInterface
             'notice' => $collection['notice'],
         ]);
     }
+
+    public function changeEnrol($id, $value = 1)
+    {
+        return $this->course->find($id)->update([
+            'is_enrol' => $value,
+        ]);
+    }
 }

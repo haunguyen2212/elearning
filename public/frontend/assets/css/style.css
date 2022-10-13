@@ -457,3 +457,13 @@ a{
   .student-control i{
     cursor: pointer;
   }
+
+  .bg-main{
+    background-color: var(--main-color);
+    color: #fff;
+  }
+
+  .bg-main:hover{
+    background-color: var(--main-color);
+    color: #fff;
+  }

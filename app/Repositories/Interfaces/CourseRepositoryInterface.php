@@ -24,5 +24,6 @@ interface CourseRepositoryInterface{
     public function getCourseOfTeacherOfCurrent($school_year, $orderBy = 'asc');
     public function getStudentOfCourse($id);
     public function updateNotice($id, $collection = []);
+    public function changeEnrol($id, $value = 1);
 
 }

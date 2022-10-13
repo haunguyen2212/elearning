@@ -3,7 +3,6 @@
 @section('title', 'Khoá học')
 
 @section('breadcrumb')
-    <li class="breadcrumb-item active">Khóa học</li>
     <li class="breadcrumb-item active">{{ $course->name }}</li>
 @endsection
 
@@ -17,7 +16,7 @@
                     @foreach ($listStudent as $student)
                         <div class="d-flex justify-content-between student-name-wrap">
                         <div class="student-name">
-                            <a href="{{ route('teacher.view.student_information', $student->id) }}">
+                            <a href="{{ route('course.view.student_information', [$course->id, $student->id]) }}">
                             @if ($student->active == 1)
                                 <i class="bi bi-person"></i>
                             @else
@@ -66,14 +65,30 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
-            <div class="card-title mb-0">
-                <i class="bi bi-info-circle-fill"></i> Các thông báo
-                <i class="bi bi-pen-fill edit-course-notice" 
-                    data-url="{{ route('course.notice.update', $course->id) }}" 
-                    data-bs-toggle="modal"
-                    data-bs-target="#ModalEditCourseNotice"
-                    style="cursor: pointer"></i>
-            </div>
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="bd-highlight">
+                    <div class="card-title mb-0">
+                        <i class="bi bi-info-circle-fill"></i> Các thông báo
+                        <i class="bi bi-pen-fill edit-course-notice" 
+                            data-url="{{ route('course.notice.update', $course->id) }}" 
+                            data-bs-toggle="modal"
+                            data-bs-target="#ModalEditCourseNotice"
+                            style="cursor: pointer"></i>
+                    </div>
+                 </div>
+                 <div class="bd-highlight">
+                        @if ($course->is_enrol == 1)
+                            <button class="btn btn-sm rounded-circle bg-main btn-change-enrol" data-url="{{ route('course.enrol.change', ['id' => $course->id, 'value' => 0]) }}">
+                                <i class="bi bi-unlock-fill" title="Cho phép ghi danh"></i>
+                            </button>
+                        @else
+                            <button class="btn btn-sm rounded-circle bg-main btn-change-enrol" data-url="{{ route('course.enrol.change', ['id' => $course->id, 'value' => 1]) }}">
+                                <i class="bi bi-lock-fill" title="Không cho phép ghi danh"></i>
+                            </button>
+                        @endif
+                 </div>
+           </div>
+            
             <div class="card-content">
                 <div class="mb-1">
                     {!! $course->notice !!}
@@ -189,6 +204,7 @@
         CKEDITOR.replace('content_topic_create');
         CKEDITOR.replace('content_topic_edit');
         CKEDITOR.replace('content_course_notice_edit');
+        var url_back = "{{ route('course.view.teacher', $course->id) }}";
     </script>
     <script src="{{ asset('frontend/assets/js/course/teacher.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/course/topic.js') }}"></script>

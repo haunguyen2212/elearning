@@ -301,6 +301,20 @@ class CourseTeacherController extends Controller
         }   
     }
 
+    public function changeEnrol($id, $value){
+        $status = ($value == 1) ? 1 : 0;
+        DB::beginTransaction();
+        try{
+            $this->course->changeEnrol($id, $status);
+            DB::commit();
+            return response()->json(['status' => 1]);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['status' => 0]);
+        }
+    }
+
     public function getCourseById($id){
         $course = $this->course->getFullById($id);
         if(empty($course)){
