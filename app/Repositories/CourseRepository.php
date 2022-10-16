@@ -183,4 +183,9 @@ class CourseRepository implements CourseRepositoryInterface
     {
         return $this->course->where('id', $id)->where('school_year_id', $school_year)->count() > 0;
     }
+
+    public function checkCourseOfTeacher($teacher_id, $course_id)
+    {
+        return $this->course->where('id', $course_id)->where('teacher_id', $teacher_id)->count() > 0;
+    }
 }

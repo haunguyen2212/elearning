@@ -9,6 +9,7 @@ use App\Http\Requests\StoreTopicRequest;
 use App\Http\Requests\UpdateCourseNoticeRequest;
 use App\Http\Requests\UpdateTopicRequest;
 use App\Libraries\MyCourse;
+use App\Libraries\TeacherPolicy;
 use App\Repositories\Interfaces\CourseInvolvementRepositoryInterface;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
 use App\Repositories\Interfaces\StudentRepositoryInterface;
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\DB;
 class CourseTeacherController extends Controller
 {
 
-    private $myCourse, $course, $topic, $topicDocument, $student, $courseInvolvement;
+    private $myCourse, $course, $topic, $topicDocument, $student, $courseInvolvement, $policy;
 
     public function __construct(
         CourseRepositoryInterface $courseRepository,
@@ -36,9 +37,11 @@ class CourseTeacherController extends Controller
         $this->student = $studentRepository;
         $this->courseInvolvement = $courseInvolvementRepository;
         $this->myCourse = new MyCourse();
+        $this->policy = new TeacherPolicy();
     }
 
     public function index($id){
+        $this->policy->course($id);
         $data['course'] = $this->getCourseById($id);
         $data['topics'] = $this->topic->getAll($id);
         $data['documents'] = [];
@@ -103,6 +106,7 @@ class CourseTeacherController extends Controller
     }
 
     public function storeTopic($id, StoreTopicRequest $request){
+        $this->policy->course($id);
         $collection = $request->except(['_token']);
         $collection['course_id'] = $id;
         DB::beginTransaction();
@@ -295,6 +299,7 @@ class CourseTeacherController extends Controller
     }
 
     public function deleteStudent($course_id, $student_id){
+        $this->policy->course($course_id);
         DB::beginTransaction();
         try{
             $this->courseInvolvement->delete($course_id, $student_id);
@@ -308,6 +313,7 @@ class CourseTeacherController extends Controller
     }
 
     public function updateNotice($id, UpdateCourseNoticeRequest $request){
+        $this->policy->course($id);
         DB::beginTransaction();
         try{
             $collection = $request->except(['_token', '_method']);
@@ -322,6 +328,7 @@ class CourseTeacherController extends Controller
     }
 
     public function changeEnrol($id, $value){
+        $this->policy->course($id);
         $status = ($value == 1) ? 1 : 0;
         DB::beginTransaction();
         try{
