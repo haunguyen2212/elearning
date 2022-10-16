@@ -55,7 +55,7 @@
             @endif
             @if (session('success'))
                 <div class="alert alert-message alert-dismissible fade show" role="alert">
-                    <div><i class="bi bi-exclamation-circle"></i> {{ session('success') }}</div>
+                    <div class="text-main"><i class="bi bi-exclamation-circle"></i> {{ session('success') }}</div>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif

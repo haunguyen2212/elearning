@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RenameTopicDocumentRequest;
+use App\Http\Requests\StoreLinkDocumentRequest;
 use App\Http\Requests\StoreTopicRequest;
 use App\Http\Requests\UpdateCourseNoticeRequest;
 use App\Http\Requests\UpdateTopicRequest;
@@ -199,7 +200,7 @@ class CourseTeacherController extends Controller
         } 
     }
 
-    public function storeLink($topic_id, Request $request){
+    public function storeLink($topic_id, StoreLinkDocumentRequest $request){
         DB::beginTransaction();
         try{
             $collection = [
@@ -325,11 +326,18 @@ class CourseTeacherController extends Controller
         DB::beginTransaction();
         try{
             $this->course->changeEnrol($id, $status);
+            if($status == 1){
+                session()->flash('success', __('message.accept_enrol'));
+            }
+            else{
+                session()->flash('success', __('message.deny_enrol'));
+            }
             DB::commit();
             return response()->json(['status' => 1]);
         }
         catch(\Exception $e){
             DB::rollBack();
+            session()->flash('error', __('message.error'));
             return response()->json(['status' => 0]);
         }
     }

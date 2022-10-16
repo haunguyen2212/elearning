@@ -25,5 +25,6 @@ interface CourseRepositoryInterface{
     public function getStudentOfCourse($id);
     public function updateNotice($id, $collection = []);
     public function changeEnrol($id, $value = 1);
+    public function checkCourseOfCurrent($school_year, $id);
 
 }

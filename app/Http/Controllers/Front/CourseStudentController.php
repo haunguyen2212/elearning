@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Libraries\MyCourse;
 use App\Libraries\Policy;
+use App\Libraries\StudentPolicy;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
 use App\Repositories\Interfaces\TopicDocumentRepositoryInterface;
 use App\Repositories\Interfaces\TopicRepositoryInterface;
@@ -24,11 +25,11 @@ class CourseStudentController extends Controller
         $this->topic = $topicRepository;
         $this->topicDocument = $topicDocumentRepository;
         $this->myCourse = new MyCourse();
-        $this->policy = new Policy();
+        $this->policy = new StudentPolicy();
     }
 
     public function index($id){
-        $this->policy->courseStudent($id);
+        $this->policy->course($id);
         $course = $this->getCourseById($id);
         $myStudentCourses = $this->myCourse->getCourseOfStudent();
         $topics = $this->topic->getActive($id);

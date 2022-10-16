@@ -178,4 +178,9 @@ class CourseRepository implements CourseRepositoryInterface
             'is_enrol' => $value,
         ]);
     }
+
+    public function checkCourseOfCurrent($school_year, $id)
+    {
+        return $this->course->where('id', $id)->where('school_year_id', $school_year)->count() > 0;
+    }
 }

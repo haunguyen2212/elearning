@@ -23,4 +23,6 @@ return [
     'course_unlock' => 'Khóa học đã được hiện thị',
     'file_exists' => 'File :name đã tồn tại',
     'not_found' => 'Không tìm thấy :name',
+    'accept_enrol' => 'Khóa học hiện tại sẽ cho phép ghi danh',
+    'deny_enrol' => 'Khóa học hiện tại sẽ không thể ghi danh',
 ];

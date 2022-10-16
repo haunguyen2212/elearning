@@ -131,6 +131,7 @@ TOPIC_DOCUMENT.rename = function(){
 TOPIC_DOCUMENT.createLink = function(){
     $('.add-link-topic-document').click(function(e){
         e.preventDefault();
+        $('.txt_error').html('');
         var url = $(this).attr('data-url');
         $('#ModalCreateLinkTopicDocument').attr('data-url', url);
     })
@@ -150,13 +151,19 @@ TOPIC_DOCUMENT.storeLink = function(){
                 name:name,
                 link:link,
             },
+            beforeSend: function(){
+                $('.txt_error').html('');
+            },
             success: function(res){
                 if(res.status == 1){
                     window.location.reload();
                 }
             },
             error: function(err){
-                
+                var errors = err.responseJSON.errors;
+                $.each(errors, function(prefix, val){
+                    $('#ModalCreateLinkTopicDocument .txt_'+prefix).html(val);
+                });
             }
         })
     })
