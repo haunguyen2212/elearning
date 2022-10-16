@@ -27,6 +27,7 @@ Route::group(['prefix' => 'teacher', 'middleware' => 'isTeacher'], function(){
     Route::delete('topic-document/{id}/delete', [Front\CourseTeacherController::class, 'deleteDocument'])->name('topic_document.delete');
     Route::get('topic-document/{id}/rename', [Front\CourseTeacherController::class, 'editRenameDocument'])->name('topic_document.rename.get');
     Route::patch('topic-document/{id}/rename', [Front\CourseTeacherController::class, 'updateRenameDocument'])->name('topic_document.rename.patch');
+    Route::post('topic/{id}/store-link', [Front\CourseTeacherController::class, 'storeLink'])->name('topic.link.store');
     Route::get('course/{course_id}/student/{student_id}/delete', [Front\CourseTeacherController::class, 'confirmDeleteStudent'])->name('course.teacher.confirm_delete_student');
     Route::delete('course/{course_id}/student/{student_id}/delete', [Front\CourseTeacherController::class, 'deleteStudent'])->name('course.teacher.delete_student');
     Route::patch('course/{id}/notice/update', [Front\CourseTeacherController::class, 'updateNotice'])->name('course.notice.update');

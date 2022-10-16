@@ -199,6 +199,25 @@ class CourseTeacherController extends Controller
         } 
     }
 
+    public function storeLink($topic_id, Request $request){
+        DB::beginTransaction();
+        try{
+            $collection = [
+                'topic_id' => $topic_id,
+                'name' => $request->name,
+                'link' => $request->link,
+                'type' => 3,
+            ];
+            $this->topicDocument->create($collection);
+            DB::commit();
+            return response()->json(['status' => 1]);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['status' => 0]);
+        }
+    }
+
     public function showDocument($id){
         DB::beginTransaction();
         try{

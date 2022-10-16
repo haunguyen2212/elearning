@@ -60,7 +60,7 @@ class HomeController extends Controller
             return back()->with('error', __('message.enrol_expired'));
         }
 
-        if(!$this->courseInvolvement->checkEnrol(Auth::guard('student')->id(), $id)){
+        if($this->courseInvolvement->checkEnrol(Auth::guard('student')->id(), $id)){
             return back()->with('error', __('message.enrolled'));
         }
 

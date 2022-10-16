@@ -137,22 +137,26 @@
                     <div class="topic-link">
                         @foreach ($documents[$key] as $document)
                         <div class="topic-document {{ $document->is_show == 0 ? 'hide' : '' }}">
-                            <a href="{{ asset('frontend/upload/'.$course->code.'/'.'document/'.$document->link) }}" target="_blank" class="{{ $document->is_show == 0 ? 'hide' : '' }}">
                                 @switch($document->type)
                                     @case(1)
-                                        <i class="bi bi-file-earmark"></i>
+                                        <a href="{{ asset('frontend/upload/'.$course->code.'/'.'document/'.$document->link) }}" target="_blank" class="{{ $document->is_show == 0 ? 'hide' : '' }}">
+                                            <i class="bi bi-file-earmark"></i> {{ $document->name ?? $document->link }}
+                                        </a>
                                         @break
                                     @case(2)
                                         <i class="bi bi-image-fill"></i>
                                     @break
                                     @case(3)
-                                        <i class="bi bi-link-45deg"></i>
+                                    <a href="{{ $document->link }}" target="_blank" class="{{ $document->is_show == 0 ? 'hide' : '' }}">
+                                        <i class="bi bi-link-45deg"></i> {{ $document->name ?? $document->link }}
+                                    </a>   
                                     @break
                                     @default
-                                        <i class="bi bi-file-earmark"></i>
+                                        <a href="{{ asset('frontend/upload/'.$course->code.'/'.'document/'.$document->link) }}" target="_blank" class="{{ $document->is_show == 0 ? 'hide' : '' }}">
+                                            <i class="bi bi-file-earmark"></i> {{ $document->name ?? $document->link }}
+                                        </a>
                                 @endswitch
-                                {{ $document->name ?? $document->link }}
-                            </a>
+
                             <span class="d-flex align-items-center">
                                 <span class="ps-1 document-setting" data-doc="{{ $document->id }}"><i class="bi bi-gear" title="Tùy chỉnh"></i></span>
                                 <div class="group-control-document-{{ $document->id }} ps-1" style="display: none">
@@ -183,6 +187,14 @@
                                 @csrf
                                 <input type="file" class="form-control input-file {{ 'document-'.$topic->id }}" name="document[]" multiple>
                             </form>
+                            <span class="text-main add-link-topic-document" 
+                                style="cursor: pointer" 
+                                data-url="{{ route('topic.link.store', $topic->id) }}"
+                                data-bs-toggle="modal"
+                                data-bs-target="#ModalCreateLinkTopicDocument"
+                                >
+                                <i class="bi bi-link-45deg"></i> Thêm liên kết
+                            </span>
                             
                         </div>  
                     </div>
@@ -196,6 +208,7 @@
     @include('front.teacher.modal.edit_topic')
     @include('front.teacher.modal.delete_topic')
     @include('front.teacher.modal.rename_topic_document')
+    @include('front.teacher.modal.create_link_topic_document')
 @endsection
 
 @section('script')

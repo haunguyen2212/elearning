@@ -26,7 +26,7 @@ class CourseInvolvementRepository implements CourseInvolvementRepositoryInterfac
     public function checkEnrol($student_id, $course_id)
     {
         $count = $this->courseInvolvement->where('student_id', $student_id)->where('course_id', $course_id)->count();
-        return $count == 0;
+        return $count > 0;
     }
 
     public function countStudentEnrol($course_id){

@@ -9,6 +9,8 @@ TOPIC_DOCUMENT.init = function(){
     TOPIC_DOCUMENT.hide();
     TOPIC_DOCUMENT.delete();
     TOPIC_DOCUMENT.rename();
+    TOPIC_DOCUMENT.createLink();
+    TOPIC_DOCUMENT.storeLink();
 }
 
 TOPIC_DOCUMENT.show = function(){
@@ -121,6 +123,40 @@ TOPIC_DOCUMENT.rename = function(){
                 $.each(errors, function(prefix, val){
                     $('#ModalRenameTopicDocument .txt_'+prefix).html(val);
                 });
+            }
+        })
+    })
+}
+
+TOPIC_DOCUMENT.createLink = function(){
+    $('.add-link-topic-document').click(function(e){
+        e.preventDefault();
+        var url = $(this).attr('data-url');
+        $('#ModalCreateLinkTopicDocument').attr('data-url', url);
+    })
+}
+
+TOPIC_DOCUMENT.storeLink = function(){
+    $('.btn-store-link-document').click(function(e){
+        e.preventDefault();
+        var url = $('#ModalCreateLinkTopicDocument').attr('data-url');
+        var name = $('#ModalCreateLinkTopicDocument #name-link-document').val();
+        var link = $('#ModalCreateLinkTopicDocument #url-link-document').val();
+        $.ajax({
+            type: 'post',
+            url: url,
+            data:{
+                _token:_token,
+                name:name,
+                link:link,
+            },
+            success: function(res){
+                if(res.status == 1){
+                    window.location.reload();
+                }
+            },
+            error: function(err){
+                
             }
         })
     })

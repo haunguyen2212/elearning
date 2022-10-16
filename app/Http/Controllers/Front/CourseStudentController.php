@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Libraries\MyCourse;
+use App\Libraries\Policy;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
 use App\Repositories\Interfaces\TopicDocumentRepositoryInterface;
 use App\Repositories\Interfaces\TopicRepositoryInterface;
@@ -11,7 +12,7 @@ use Illuminate\Http\Request;
 
 class CourseStudentController extends Controller
 {
-    private $course, $topic, $topicDocument, $myCourse;
+    private $course, $topic, $topicDocument, $myCourse, $policy;
 
     public function __construct(
         CourseRepositoryInterface $courseRepository,
@@ -23,9 +24,11 @@ class CourseStudentController extends Controller
         $this->topic = $topicRepository;
         $this->topicDocument = $topicDocumentRepository;
         $this->myCourse = new MyCourse();
+        $this->policy = new Policy();
     }
 
     public function index($id){
+        $this->policy->courseStudent($id);
         $course = $this->getCourseById($id);
         $myStudentCourses = $this->myCourse->getCourseOfStudent();
         $topics = $this->topic->getActive($id);

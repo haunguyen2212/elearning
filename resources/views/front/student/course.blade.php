@@ -33,23 +33,26 @@
                         {!! $topic->content !!}     
                     </div>
                     <div class="topic-link">
-                        @foreach ($documents[$key] as $document)
-                            <a href="{{ asset('frontend/upload/'.$course->code.'/'.'document/'.$document->link) }}" target="_blank">
+                        @foreach ($documents[$key] as $document)         
                                 @switch($document->type)
                                     @case(1)
-                                        <i class="bi bi-file-earmark"></i>
+                                        <a href="{{ asset('frontend/upload/'.$course->code.'/'.'document/'.$document->link) }}" target="_blank">
+                                            <i class="bi bi-file-earmark"></i> {{ $document->name ?? $document->link }}
+                                        </a>
                                         @break
                                     @case(2)
                                         <i class="bi bi-image-fill"></i>
                                     @break
                                     @case(3)
-                                        <i class="bi bi-link-45deg"></i>
+                                        <a href="{{ $document->link }}" target="_blank">
+                                            <i class="bi bi-link-45deg"></i> {{ $document->name ?? $document->link }}
+                                        </a>
                                     @break
                                     @default
-                                        <i class="bi bi-file-earmark"></i>
+                                        <a href="{{ asset('frontend/upload/'.$course->code.'/'.'document/'.$document->link) }}" target="_blank">
+                                            <i class="bi bi-file-earmark"></i> {{ $document->name ?? $document->link }}
+                                        </a>
                                 @endswitch
-                                {{ $document->name ?? $document->link }}
-                            </a>
                         @endforeach
                     </div>
                 </div>
