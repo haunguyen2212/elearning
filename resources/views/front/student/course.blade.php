@@ -54,6 +54,11 @@
                                         </a>
                                 @endswitch
                         @endforeach
+                        @foreach ($exercises[$key] as $exercise)         
+                            <a href="">
+                                <i class="bi bi-journal"></i> {{ $exercise->name }}
+                            </a>
+                        @endforeach
                     </div>
                 </div>
             @endforeach

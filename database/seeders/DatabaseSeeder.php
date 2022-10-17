@@ -32,6 +32,9 @@ class DatabaseSeeder extends Seeder
             RoomSeeder::class,
             RoomAssignmentSeeder::class,
             ClassroomSeeder::class,
+            ExerciseSeeder::class,
+            ExerciseDocumentSeeder::class,
+            SubmitExerciseSeeder::class,
        ]);
     }
 }
