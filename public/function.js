@@ -34,6 +34,10 @@ function uploadFile(selector, number){
     document.querySelector(selector+'-'+number).click();
 }
 
+function uploadExercise(selector){
+    document.querySelector(selector).click();
+}
+
 function showFileUpload(input, result){
     const ipnFileElement = document.querySelector('#'+input)
     const resultElement = document.querySelector('#'+result)

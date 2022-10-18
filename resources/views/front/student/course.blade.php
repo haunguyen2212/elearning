@@ -3,7 +3,6 @@
 @section('title', 'Khoá học')
 
 @section('breadcrumb')
-    <li class="breadcrumb-item active">Khóa học của tôi</li>
     <li class="breadcrumb-item active">{{ $course->name }}</li>
 @endsection
 
@@ -55,7 +54,7 @@
                                 @endswitch
                         @endforeach
                         @foreach ($exercises[$key] as $exercise)         
-                            <a href="">
+                            <a href="{{ route('student.exercise.index', ['course_id' => $course->id, 'id' => $exercise->id]) }}">
                                 <i class="bi bi-journal"></i> {{ $exercise->name }}
                             </a>
                         @endforeach

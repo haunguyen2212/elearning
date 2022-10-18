@@ -19,3 +19,8 @@ Route::group(['prefix' => 'course', 'middleware' => 'isStudent'], function(){
     Route::get('view/{id}', [Front\CourseStudentController::class, 'index'])->name('course.view.student');
 });
 
+Route::group(['middleware' => 'isStudent', 'as' => 'student.'], function(){
+    Route::get('course-detail/{course_id}/exercise/{id}', [Front\ExerciseStudentController::class, 'index'])->name('exercise.index');
+    Route::post('course-detail/{course_id}/exercise/{id}/upload', [Front\ExerciseStudentController::class, 'upload'])->name('exercise.upload');
+});
+
