@@ -22,5 +22,6 @@ Route::group(['prefix' => 'course', 'middleware' => 'isStudent'], function(){
 Route::group(['middleware' => 'isStudent', 'as' => 'student.'], function(){
     Route::get('course-detail/{course_id}/exercise/{id}', [Front\ExerciseStudentController::class, 'index'])->name('exercise.index');
     Route::post('course-detail/{course_id}/exercise/{id}/upload', [Front\ExerciseStudentController::class, 'upload'])->name('exercise.upload');
+    Route::delete('course-detail/{course_id}/exercise/{id}/delete', [Front\ExerciseStudentController::class, 'delete'])->name('exercise.delete');
 });
 

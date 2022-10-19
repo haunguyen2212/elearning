@@ -32,4 +32,14 @@ class SubmitExerciseRepository implements SubmitExerciseRepositoryInterface{
         ]);
     }
 
+    public function delete($id)
+    {
+        return $this->submitExercise->find($id)->delete();
+    }
+
+    public function getById($id)
+    {
+        return $this->submitExercise->find($id);
+    }
+
 }

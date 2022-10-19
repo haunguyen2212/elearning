@@ -13,11 +13,13 @@ use App\Repositories\CourseRepository;
 use App\Repositories\Interfaces\TeacherRepositoryInterface;
 use App\Repositories\Interfaces\DepartmentRepositoryInterface;
 use App\Repositories\DepartmentRepository;
+use App\Repositories\ExerciseDocumentRepository;
 use App\Repositories\ExerciseRepository;
 use App\Repositories\HomeroomTeacherRepository;
 use App\Repositories\Interfaces\ClassroomRepositoryInterface;
 use App\Repositories\Interfaces\CourseInvolvementRepositoryInterface;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
+use App\Repositories\Interfaces\ExerciseDocumentRepositoryInterface;
 use App\Repositories\Interfaces\ExerciseRepositoryInterface;
 use App\Repositories\Interfaces\HomeroomTeacherRepositoryInterface;
 use App\Repositories\Interfaces\NoticeRepositoryInterface;
@@ -68,6 +70,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ClassroomRepositoryInterface::class, ClassroomRepository::class);
         $this->app->bind(ExerciseRepositoryInterface::class, ExerciseRepository::class);
         $this->app->bind(SubmitExerciseRepositoryInterface::class, SubmitExerciseRepository::class);
+        $this->app->bind(ExerciseDocumentRepositoryInterface::class, ExerciseDocumentRepository::class);
     }
 
     /**

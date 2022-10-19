@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Libraries\MyCourse;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
+use App\Repositories\Interfaces\ExerciseDocumentRepositoryInterface;
 use App\Repositories\Interfaces\ExerciseRepositoryInterface;
 use App\Repositories\Interfaces\SubmitExerciseRepositoryInterface;
 use Illuminate\Http\Request;
@@ -12,17 +13,19 @@ use Illuminate\Support\Facades\DB;
 
 class ExerciseStudentController extends Controller
 {
-    private $course, $myCourse, $exercise, $submitExercise;
+    private $course, $myCourse, $exercise, $submitExercise, $exerciseDocument;
 
     public function __construct(
         CourseRepositoryInterface $courseRepository,
         ExerciseRepositoryInterface $exerciseRepository,
-        SubmitExerciseRepositoryInterface $submitExerciseRepository
+        SubmitExerciseRepositoryInterface $submitExerciseRepository,
+        ExerciseDocumentRepositoryInterface $exerciseDocumentRepository
     )
     {
         $this->course = $courseRepository;
         $this->exercise = $exerciseRepository;
         $this->submitExercise = $submitExerciseRepository;
+        $this->exerciseDocument = $exerciseDocumentRepository;
         $this->myCourse = new MyCourse();
     }
 
@@ -30,6 +33,7 @@ class ExerciseStudentController extends Controller
         $data['course'] = $this->course->getFullById($course_id);
         $data['myStudentCourses'] = $this->myCourse->getCourseOfStudent();
         $data['exercise'] = $this->exercise->getById($id);
+        $data['exerciseDocuments'] = $this->exerciseDocument->getActive($id);
         $data['submitFiles'] = $this->submitExercise->getAll($id, auth()->guard('student')->id());
         return view('front.student.exercise', $data);
     }
@@ -70,6 +74,25 @@ class ExerciseStudentController extends Controller
         catch(\Exception $e){
             DB::rollBack();
             return back();
+        }
+    }
+
+    public function delete($course_id, $id){
+        DB::beginTransaction();
+        try{
+            $document = $this->submitExercise->getById($id);
+            $course = $this->course->getFullById($course_id);
+            $file = 'frontend/upload/'.$course->code.'/'.auth()->guard('student')->user()->username.'/'.$document->link;
+            if(file_exists($file) && is_file($file)){
+                unlink($file);
+            }
+            $this->submitExercise->delete($id);
+            DB::commit();
+            return response()->json(['status' => 1]);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['status' => 0]);
         }
     }
 }
