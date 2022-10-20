@@ -1,4 +1,4 @@
-<div class="modal fade mt-5" id="ModalCreateLinkTopicDocument" tabindex="-1" aria-labelledby="ModalCreateLinkTopicDocumentLabel" aria-hidden="true" data-url={{ route('course.topic.store', request()->id) }}>
+<div class="modal fade mt-5" id="ModalCreateLinkTopicDocument" tabindex="-1" aria-labelledby="ModalCreateLinkTopicDocumentLabel" aria-hidden="true" data-url="{{ route('course.topic.store', request()->id) }}">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">

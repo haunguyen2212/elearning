@@ -355,7 +355,9 @@ a{
     align-items: center;
 }
 
-.topic-document a.hide{
+.topic-document a.hide,
+.exercise a.hide
+{
     text-decoration: line-through;
     color: var(--text-grey);
 }

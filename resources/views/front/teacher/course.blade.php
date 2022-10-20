@@ -6,6 +6,10 @@
     <li class="breadcrumb-item active">{{ $course->name }}</li>
 @endsection
 
+@section('style')
+    <link rel="stylesheet" href="{{ asset('backend/assets/vendor/jquery-ui/datetimepicker.css') }}" />
+@endsection
+
 @section('right')
     @if (isset($listStudent))
     <div class="col-12">
@@ -179,7 +183,16 @@
                             </span>
                         </div>
                         @endforeach
-                        <div>
+
+                        @foreach ($exercises[$key] as $exercise)
+                            <div class="exercise {{ $exercise->is_show == 0 ? 'hide' : '' }}">
+                                <a href="" class="{{ $exercise->is_show == 0 ? 'hide' : '' }}">
+                                    <i class="bi bi-journal"></i> {{ $exercise->name }}
+                                </a>
+                            </div>            
+                        @endforeach
+
+                        <div class="d-flex">
                             <span class="text-main" style="cursor: pointer" onclick="uploadFile('.document', {{ $topic->id }})">
                                 <i class="bi bi-folder-plus"></i> Thêm tài liệu
                             </span>
@@ -187,16 +200,26 @@
                                 @csrf
                                 <input type="file" class="form-control input-file {{ 'document-'.$topic->id }}" name="document[]" multiple>
                             </form>
+                            <span> &nbsp;-&nbsp; </span>
                             <span class="text-main add-link-topic-document" 
                                 style="cursor: pointer" 
                                 data-url="{{ route('topic.link.store', $topic->id) }}"
                                 data-bs-toggle="modal"
                                 data-bs-target="#ModalCreateLinkTopicDocument"
                                 >
-                                <i class="bi bi-link-45deg"></i> Thêm liên kết
+                                Thêm liên kết
                             </span>
-                            
-                        </div>  
+                        </div> 
+                        <div>
+                            <span class="text-main add-exercise" 
+                                style="cursor: pointer"
+                                data-bs-toggle="modal"
+                                data-bs-target="#ModalCreateExercise"
+                                data-url="{{ route('teacher.exercise.store', $topic->id) }}"
+                                >
+                                <i class="bi bi-file-earmark-plus"></i> Thêm bài tập
+                            </span>
+                        </div> 
                     </div>
                 </div>
             @endforeach
@@ -209,6 +232,7 @@
     @include('front.teacher.modal.delete_topic')
     @include('front.teacher.modal.rename_topic_document')
     @include('front.teacher.modal.create_link_topic_document')
+    @include('front.teacher.modal.create_exercise')
 @endsection
 
 @section('script')
@@ -217,11 +241,20 @@
         CKEDITOR.replace('content_topic_create');
         CKEDITOR.replace('content_topic_edit');
         CKEDITOR.replace('content_course_notice_edit');
+        CKEDITOR.replace('content_exercise_create');
         var url_back = "{{ route('course.view.teacher', $course->id) }}";
     </script>
     <script src="{{ asset('frontend/assets/js/course/teacher.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/course/topic.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/course/topic_document.js') }}"></script>
+    <script src="{{ asset('frontend/assets/js/exercise/teacher.js') }}"></script>
+    <script src="{{ asset('backend/assets/vendor/jquery-ui/datetimepicker.js') }}" ></script>
+    <script>
+        $('#expiration_date_exercise_create').datetimepicker({
+            format: 'd-m-Y H:i:s',
+            step: 30
+        });
+    </script>
     <script>
         $('.document-setting').click(function(){
             var id = $(this).attr('data-doc');

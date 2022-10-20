@@ -32,4 +32,15 @@ class ExerciseRepository implements ExerciseRepositoryInterface{
         return $this->exercise->find($id);
     }
 
+    public function create($collection = [])
+    {
+        return $this->exercise->create([
+            'topic_id' => $collection['topic_id'],
+            'name' => $collection['name'],
+            'content' => $collection['content'],
+            'assignment_date' => Carbon::now()->format('Y-m-d H:i:s'),
+            'expiration_date' => date('Y-m-d H:i:s', strtotime($collection['expiration_date'])),
+        ]);
+    }
+
 }

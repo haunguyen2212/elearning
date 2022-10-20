@@ -32,5 +32,10 @@ Route::group(['prefix' => 'teacher', 'middleware' => 'isTeacher'], function(){
     Route::delete('course/{course_id}/student/{student_id}/delete', [Front\CourseTeacherController::class, 'deleteStudent'])->name('course.teacher.delete_student');
     Route::patch('course/{id}/notice/update', [Front\CourseTeacherController::class, 'updateNotice'])->name('course.notice.update');
 
+    Route::group(['as' => 'teacher.exercise.'], function(){
+        Route::post('topic/{topic_id}/exercise/create', [Front\ExerciseTeacherController::class, 'store'])->name('store');
+    });
+    
+
     Route::get('course/{course_id}/student-information/{student_id}', [Front\StudentInformationController::class, 'index'])->name('course.view.student_information');
 });

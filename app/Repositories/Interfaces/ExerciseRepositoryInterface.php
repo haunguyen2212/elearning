@@ -7,5 +7,6 @@ interface ExerciseRepositoryInterface{
     public function getAll($topic_id);
     public function getActive($topic_id);
     public function getById($id);
+    public function create($collection = []);
 
 }
