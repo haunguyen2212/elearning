@@ -34,6 +34,8 @@ Route::group(['prefix' => 'teacher', 'middleware' => 'isTeacher'], function(){
 
     Route::group(['as' => 'teacher.exercise.'], function(){
         Route::post('topic/{topic_id}/exercise/create', [Front\ExerciseTeacherController::class, 'store'])->name('store');
+        Route::get('course-detail/{course_id}/exercise/{id}', [Front\ExerciseTeacherController::class, 'index'])->name('index');
+        Route::post('course-detail/{course_id}/exercise/{id}/upload', [Front\ExerciseTeacherController::class, 'upload'])->name('upload');
     });
     
 

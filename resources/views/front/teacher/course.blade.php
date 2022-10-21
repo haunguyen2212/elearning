@@ -73,10 +73,11 @@
                 <div class="bd-highlight">
                     <div class="card-title mb-0">
                         <i class="bi bi-info-circle-fill"></i> Các thông báo
-                        <i class="bi bi-pen-fill edit-course-notice" 
+                        <i class="bi bi-chevron-double-right edit-course-notice" 
                             data-url="{{ route('course.notice.update', $course->id) }}" 
                             data-bs-toggle="modal"
                             data-bs-target="#ModalEditCourseNotice"
+                            title="Chỉnh sửa"
                             style="cursor: pointer"></i>
                     </div>
                  </div>
@@ -186,7 +187,7 @@
 
                         @foreach ($exercises[$key] as $exercise)
                             <div class="exercise {{ $exercise->is_show == 0 ? 'hide' : '' }}">
-                                <a href="" class="{{ $exercise->is_show == 0 ? 'hide' : '' }}">
+                                <a href="{{ route('teacher.exercise.index', ['course_id' => $course->id, 'id' => $exercise->id]) }}" class="{{ $exercise->is_show == 0 ? 'hide' : '' }}">
                                     <i class="bi bi-journal"></i> {{ $exercise->name }}
                                 </a>
                             </div>            

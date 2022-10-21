@@ -1,6 +1,6 @@
 @extends('template.master_layout')
 
-@section('title', 'Khoá học')
+@section('title', 'Bài tập')
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('course.view.student', $course->id) }}">{{ $course->name }}</a></li>

@@ -31,4 +31,12 @@ class ExerciseDocumentRepository implements ExerciseDocumentRepositoryInterface{
         return $this->exerciseDocument->find($id);
     }
 
+    public function create($collection = [])
+    {
+        return $this->exerciseDocument->create([
+            'exercise_id' => $collection['exercise_id'],
+            'name' => $collection['name'],
+            'link' => $collection['link'],
+        ]);
+    }
 }
