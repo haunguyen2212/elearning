@@ -350,19 +350,24 @@ a{
     display: block;
 }
 
-.topic-document{
+.topic-document,
+.exercise,
+.quiz{
     display: flex;
     align-items: center;
 }
 
 .topic-document a.hide,
-.exercise a.hide
+.exercise a.hide,
+.quiz a.hide
 {
     text-decoration: line-through;
     color: var(--text-grey);
 }
 
-.document-setting{
+.document-setting,
+.exercise-setting,
+.quiz-setting{
     font-size: 13px;
     display: flex;
     align-items: center;
@@ -370,19 +375,27 @@ a{
     cursor: pointer;
 }
 
-.document-control{
+.document-control,
+.exercise-control,
+.quiz-control{
     font-size: 13px;
     color: #0d6efd;
     cursor: pointer;
 }
 
 .topic-document.hide .document-setting,
-.topic-document.hide .document-control
+.topic-document.hide .document-control,
+.exercise.hide .exercise-setting,
+.exercise.hide .exercise-control,
+.quiz.hide .quiz-setting,
+.quiz.hide .quiz-control
 {
     color: var(--text-grey);
 }
 
-.topic-control i{
+.topic-control i,
+.exercise-control i,
+.quiz-control i{
     cursor: pointer;
 }
 

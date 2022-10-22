@@ -7,6 +7,9 @@ $(document).ready(function(){
 EXERCISE.init = function(){
     EXERCISE.create();
     EXERCISE.store();
+    EXERCISE.hide();
+    EXERCISE.show();
+    EXERCISE.delete();
 }
 
 EXERCISE.create = function(){
@@ -48,6 +51,80 @@ EXERCISE.store = function(){
                 $.each(errors, function(prefix, val){
                     $('#ModalCreateExercise .txt_'+prefix).html(val);
                 });
+            }
+        })
+    })
+}
+
+EXERCISE.hide = function(){
+    $('.hide-exercise').click(function(e){
+        e.preventDefault();
+        var url = $(this).attr('data-url');
+        $.ajax({
+            type: 'post',
+            url:url,
+            data:{
+                _token:_token,
+                _method:'patch',
+            },
+            success: function(res){
+                if(res.status == 1){
+                    window.location.reload();
+                }
+            },
+            error: function(err){
+
+            }
+        })
+    })
+}
+
+EXERCISE.show = function(){
+    $('.show-exercise').click(function(e){
+        e.preventDefault();
+        var url = $(this).attr('data-url');
+        $.ajax({
+            type: 'post',
+            url:url,
+            data:{
+                _token:_token,
+                _method:'patch',
+            },
+            success: function(res){
+                if(res.status == 1){
+                    window.location.reload();
+                }
+            },
+            error: function(err){
+                
+            }
+        })
+    })
+}
+
+EXERCISE.delete = function(){
+    $('.delete-exercise').click(function(e){
+        e.preventDefault();
+        var url = $(this).attr('data-url');
+        $('#ModalDeleteExercise').attr('data-url', url);
+    });
+
+    $('.btn-confirm-delete-exercise').click(function(e){
+        e.preventDefault();
+        var url = $('#ModalDeleteExercise').attr('data-url');
+        $.ajax({
+            type: 'delete',
+            url:url,
+            data:{
+                _token:_token,
+            },
+            success: function(res){
+                if(res.status == 1){
+                    window.location.reload();
+                }
+            },
+            error: function(err){
+                
             }
         })
     })

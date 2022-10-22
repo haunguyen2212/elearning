@@ -104,4 +104,70 @@ class ExerciseTeacherController extends Controller
             return back();
         }
     }
+
+    public function deleteDocument($course_id, $id){
+        DB::beginTransaction();
+        try{
+            $course = $this->course->getFullById($course_id);
+            $document = $this->exerciseDocument->getById($id);
+            $file = 'frontend/upload/'.$course->code.'/exercise'.'/'.$document->link;
+            if(file_exists($file) && is_file($file)){
+                unlink($file);
+            }
+            $this->exerciseDocument->delete($id);
+            DB::commit();
+            return response()->json(['status' => 1]);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['status' => 0]);
+        }
+    }
+
+    public function hide($id){
+        DB::beginTransaction();
+        try{
+            $this->exercise->hide($id);
+            DB::commit();
+            return response()->json(['status' => 1]);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['status' => 0]);
+        }
+    }
+
+    public function show($id){
+        DB::beginTransaction();
+        try{
+            $this->exercise->show($id);
+            DB::commit();
+            return response()->json(['status' => 1]);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['status' => 0]);
+        }
+    }
+
+    public function delete($course_id, $id){
+        DB::beginTransaction();
+        try{
+            $course = $this->course->getFullById($course_id);
+            $documents = $this->exerciseDocument->getAll($id);
+            foreach($documents as $document){
+                $file = 'frontend/upload/'.$course->code.'/exercise'.'/'.$document->link;
+                if(file_exists($file) && is_file($file)){
+                    unlink($file);
+            }
+            }
+            $this->exercise->delete($id);
+            DB::commit();
+            return response()->json(['status' => 1]);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['status' => 0]);
+        }
+    }
 }

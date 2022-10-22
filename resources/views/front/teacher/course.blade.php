@@ -190,6 +190,26 @@
                                 <a href="{{ route('teacher.exercise.index', ['course_id' => $course->id, 'id' => $exercise->id]) }}" class="{{ $exercise->is_show == 0 ? 'hide' : '' }}">
                                     <i class="bi bi-journal"></i> {{ $exercise->name }}
                                 </a>
+                                <span class="d-flex align-items-center">
+                                    <span class="ps-1 exercise-setting" data-exercise="{{ $exercise->id }}"><i class="bi bi-gear" title="Tùy chỉnh"></i></span>
+                                    <div class="group-control-exercise-{{ $exercise->id }} ps-1" style="display: none">
+                                        @if ($exercise->is_show == 1)
+                                            <span class="ps-1 exercise-control hide-exercise" data-url="{{ route('teacher.exercise.hide', $exercise->id) }}">
+                                                <i class="bi bi-eye" title="Đang hiển thị"></i>
+                                            </span>
+                                        @else
+                                            <span class="ps-1 exercise-control show-exercise" data-url="{{ route('teacher.exercise.show', $exercise->id) }}">
+                                                <i class="bi bi-eye-slash" title="Đang ẩn"></i>
+                                            </span>
+                                        @endif  
+                                        <span class="ps-1 exercise-control rename-exercise" data-url="{{-- route('topic_exercise.rename.get',$exercise->id) --}}" data-bs-toggle="modal" data-bs-target="#ModalRenameTopicexercise">
+                                            <i class="bi bi-pen" title="Đổi tên"></i>
+                                        </span>
+                                        <span class="ps-1 exercise-control delete-exercise" data-url="{{ route('teacher.exercise.delete', [$course->id, $exercise->id]) }}" data-bs-toggle="modal" data-bs-target="#ModalDeleteExercise">
+                                            <i class="bi bi-x-lg" title="Xóa"></i>
+                                        </span>
+                                    </div>
+                                </span>
                             </div>            
                         @endforeach
 
@@ -234,6 +254,7 @@
     @include('front.teacher.modal.rename_topic_document')
     @include('front.teacher.modal.create_link_topic_document')
     @include('front.teacher.modal.create_exercise')
+    @include('front.teacher.modal.delete_exercise')
 @endsection
 
 @section('script')
@@ -261,6 +282,11 @@
             var id = $(this).attr('data-doc');
             $(this).hide();
             $('.group-control-document-'+id).toggle();
-        })
+        });
+        $('.exercise-setting').click(function(){
+            var id = $(this).attr('data-exercise');
+            $(this).hide();
+            $('.group-control-exercise-'+id).toggle();
+        });
     </script>
 @endsection

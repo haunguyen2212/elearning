@@ -8,5 +8,6 @@ interface ExerciseDocumentRepositoryInterface{
     public function getActive($exercise_id);
     public function getById($id);
     public function create($collection = []);
+    public function delete($id);
 
 }

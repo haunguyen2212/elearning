@@ -36,8 +36,11 @@ Route::group(['prefix' => 'teacher', 'middleware' => 'isTeacher'], function(){
         Route::post('topic/{topic_id}/exercise/create', [Front\ExerciseTeacherController::class, 'store'])->name('store');
         Route::get('course-detail/{course_id}/exercise/{id}', [Front\ExerciseTeacherController::class, 'index'])->name('index');
         Route::post('course-detail/{course_id}/exercise/{id}/upload', [Front\ExerciseTeacherController::class, 'upload'])->name('upload');
+        Route::patch('exercise/{id}/hide', [Front\ExerciseTeacherController::class, 'hide'])->name('hide');
+        Route::patch('exercise/{id}/show', [Front\ExerciseTeacherController::class, 'show'])->name('show');
+        Route::delete('course-detail/{course_id}/exercise/{id}/delete', [Front\ExerciseTeacherController::class, 'delete'])->name('delete');
     });
+    Route::delete('course-detail/{course_id}/exercise-document/{id}/delete', [Front\ExerciseTeacherController::class, 'deleteDocument'])->name('teacher.exercise_document.delete');
     
-
     Route::get('course/{course_id}/student-information/{student_id}', [Front\StudentInformationController::class, 'index'])->name('course.view.student_information');
 });

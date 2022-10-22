@@ -43,4 +43,22 @@ class ExerciseRepository implements ExerciseRepositoryInterface{
         ]);
     }
 
+    public function hide($id)
+    {
+        return $this->exercise->find($id)->update([
+            'is_show' => 0,
+        ]);
+    }
+
+    public function show($id)
+    {
+        return $this->exercise->find($id)->update([
+            'is_show' => 1,
+        ]);
+    }
+
+    public function delete($id)
+    {
+        return $this->exercise->find($id)->delete();
+    }
 }

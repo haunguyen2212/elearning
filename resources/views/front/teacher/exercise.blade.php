@@ -64,6 +64,15 @@
                         @foreach ($exerciseDocuments as $exerciseDocument)
                             <div class="exercise {{ $exerciseDocument->is_show == 0 ? 'hide' : '' }}">
                                 <a href="{{ asset('frontend/upload/'.$course->code.'/'.'exercise/'.$exerciseDocument->link) }}" class="{{ $exerciseDocument->is_show == 0 ? 'hide' : '' }}" target="_blank"><i class="bi bi-file-earmark"></i> {{ $exerciseDocument->link ?? $exerciseDocument->link }}</a>
+                                <span>
+                                    <i class="bi bi-x text-danger btn-delete-exercise-document" 
+                                        title="Xoá" 
+                                        style="cursor: pointer"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#ModalDeleteExerciseDocument"
+                                        data-url="{{ route('teacher.exercise_document.delete', [$course->id, $exerciseDocument->id] ) }}"
+                                    ></i>
+                                </span>
                             </div>
                         @endforeach
                         <span class="text-main fw-bold" style="cursor: pointer" onclick="uploadExercise('.exercise-document-link')">
@@ -115,6 +124,7 @@
             </div>
         </div>
     </div>
+    @include('front.teacher.modal.delete_exercise_document')
 @endsection
 
 @section('script')

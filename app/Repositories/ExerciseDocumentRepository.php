@@ -39,4 +39,9 @@ class ExerciseDocumentRepository implements ExerciseDocumentRepositoryInterface{
             'link' => $collection['link'],
         ]);
     }
+
+    public function delete($id)
+    {
+        return $this->exerciseDocument->find($id)->delete();
+    }
 }
