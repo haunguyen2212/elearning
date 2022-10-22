@@ -38,13 +38,18 @@
                         </ul>
                     </div>
                     <div>
-                        <span class="text-main fw-bold" style="cursor: pointer" onclick="uploadExercise('.exercise-link')">
-                            <i class="bi bi-upload"></i> Nộp bài tập
-                        </span>
-                        <form class="frm-submit-exercise" method="post" action="{{ route('student.exercise.upload', ['course_id' => $course->id, 'id' => $exercise->id]) }}" enctype="multipart/form-data">
-                            @csrf
-                            <input type="file" class="form-control input-file exercise-link" name="link[]" multiple>
-                        </form>
+                        @if ($exercise->expiration_date > \Carbon\Carbon::now()->format('Y-m-d H:i:s'))
+                            <span class="text-main fw-bold" style="cursor: pointer" onclick="uploadExercise('.exercise-link')">
+                                <i class="bi bi-upload"></i> Nộp bài tập
+                            </span>
+                            <form class="frm-submit-exercise" method="post" action="{{ route('student.exercise.upload', ['course_id' => $course->id, 'id' => $exercise->id]) }}" enctype="multipart/form-data">
+                                @csrf
+                                <input type="file" class="form-control input-file exercise-link" name="link[]" multiple>
+                            </form>
+                        @elseif (count($submitFiles) > 0)
+                            <span class="text-main fw-bold">Bài tập đã nộp:</span>
+                        @endif
+                        
                         @foreach ($submitFiles as $submitFile)
                             <div>
                                 <a href="{{ asset('frontend/upload/'.$course->code.'/'.auth()->guard('student')->user()->username.'/'.$submitFile->link) }}" target="_blank"><i class="bi bi-file-earmark"></i> {{ $submitFile->link }}</a>
@@ -61,6 +66,11 @@
                                 @endif
                             </div>
                         @endforeach
+                        @if ($exercise->expiration_date < \Carbon\Carbon::now()->format('Y-m-d H:i:s'))
+                            <span class="text-danger fw-bold">
+                                Đã hết hạn nộp bài tập
+                            </span>
+                        @endif
                     </div>
                     <div class="d-flex justify-content-center mt-3">
                         <a href="{{ route('course.view.student', $course->id) }}" class="btn-slide01">Về khóa học</a>

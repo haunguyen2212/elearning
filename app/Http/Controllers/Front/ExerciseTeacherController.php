@@ -9,21 +9,27 @@ use App\Repositories\Interfaces\CourseRepositoryInterface;
 use App\Repositories\Interfaces\ExerciseDocumentRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Repositories\Interfaces\ExerciseRepositoryInterface;
+use App\Repositories\Interfaces\SubmitExerciseRepositoryInterface;
+use App\Repositories\Interfaces\TopicRepositoryInterface;
 use Illuminate\Support\Facades\DB;
 
 class ExerciseTeacherController extends Controller
 {
-    private $exercise, $course, $myCourse, $exerciseDocument;
+    private $exercise, $course, $myCourse, $exerciseDocument, $topic, $submitExercise;
 
     public function __construct(
         ExerciseRepositoryInterface $exerciseRepository,
         CourseRepositoryInterface $courseRepository,
-        ExerciseDocumentRepositoryInterface $exerciseDocumentRepository
+        ExerciseDocumentRepositoryInterface $exerciseDocumentRepository,
+        TopicRepositoryInterface $topicRepository,
+        SubmitExerciseRepositoryInterface $submitExerciseRepository
     )
     {
         $this->exercise = $exerciseRepository;
         $this->course = $courseRepository;
         $this->exerciseDocument = $exerciseDocumentRepository;
+        $this->topic = $topicRepository;
+        $this->submitExercise = $submitExerciseRepository;
         $this->myCourse = new MyCourse();
     }
 
@@ -33,6 +39,10 @@ class ExerciseTeacherController extends Controller
         $data['exerciseDocuments'] = $this->exerciseDocument->getAll($id);
         $data['myTeacherCourses'] = $this->myCourse->getCourseOfTeacher();
         $data['listStudent'] = $this->course->getStudentOfCourse($course_id);
+        $data['submitExercises'] = [];
+        foreach($data['listStudent'] as $student){
+            $data['submitExercises'][$student->id] = $this->submitExercise->getOfStudentInExercise($id, $student->id);
+        }
         return view('front.teacher.exercise', $data);
     }
 
@@ -45,9 +55,11 @@ class ExerciseTeacherController extends Controller
                 'content' => $request->content,
                 'expiration_date' => $request->expiration_date,
             ];
-            $this->exercise->create($collection);
+            $course = $this->topic->getCourse($topic_id);
+            $store = $this->exercise->create($collection);
+            $url = route('teacher.exercise.index', ['course_id' => $course->id, 'id' => $store->id]);
             DB::commit();
-            return response()->json(['status' => 1]);
+            return response()->json(['data' => $url,'status' => 1]);
         }
         catch(\Exception $e){
             DB::rollBack();

@@ -80,6 +80,34 @@
                             <li><strong class="text-main">Hạn cuối nộp bài:</strong><span> {{ date('d/m/Y H:i:s', strtotime($exercise->expiration_date)) }}</span></li>
                         </ul>
                     </div>
+                    <div>
+                        <table class="table table-borderless table-bordered">
+                            <thead>
+                                <th>Mã học sinh</th>
+                                <th>Họ tên học sinh</th>
+                                <th>Bài đã nộp</th>
+                                <th>Thời gian nộp</th>
+                            </thead>
+                            <tbody>
+                                @foreach ($listStudent as $student)
+                                    <tr>
+                                        <td>{{ $student->username }}</td>
+                                        <td>{{ $student->name }}</td>
+                                        <td>
+                                            @foreach ($submitExercises[$student->id] as $submitExercise)
+                                                <div><a href="{{ asset('frontend/upload/'.$course->code.'/'.$student->username.'/'.$submitExercise->link) }}">{{ $submitExercise->link }}</a></div>
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            @foreach ($submitExercises[$student->id] as $submitExercise)
+                                                <div>{{ date('d/m/Y H:i:s', strtotime($submitExercise->created_at)) }}</div>
+                                            @endforeach
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="d-flex justify-content-center mt-3">
                         <a href="{{ route('course.view.teacher', $course->id) }}" class="btn-slide01">Về khóa học</a>
                    </div>

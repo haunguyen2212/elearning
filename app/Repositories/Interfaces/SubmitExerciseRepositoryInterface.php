@@ -8,5 +8,6 @@ interface SubmitExerciseRepositoryInterface{
     public function create($collection = []);
     public function delete($id);
     public function getById($id);
+    public function getOfStudentInExercise($exercise_id, $student_id);
     
 }

@@ -42,4 +42,8 @@ class SubmitExerciseRepository implements SubmitExerciseRepositoryInterface{
         return $this->submitExercise->find($id);
     }
 
+    public function getOfStudentInExercise($exercise_id, $student_id)
+    {
+        return $this->submitExercise->where('exercise_id', $exercise_id)->where('student_id', $student_id)->get();
+    }
 }

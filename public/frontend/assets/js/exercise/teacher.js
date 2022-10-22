@@ -40,7 +40,7 @@ EXERCISE.store = function(){
             success: function(res){
                 console.log(res);
                 if(res.status == 1){
-                    window.location.reload();
+                    window.location.href = res.data;
                 }
             },
             error: function(err){
