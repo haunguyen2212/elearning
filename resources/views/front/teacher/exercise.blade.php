@@ -89,7 +89,7 @@
                             <li><strong class="text-main">Hạn cuối nộp bài:</strong><span> {{ date('d/m/Y H:i:s', strtotime($exercise->expiration_date)) }}</span></li>
                         </ul>
                     </div>
-                    <div>
+                    <div class="mb-4">
                         <table class="table table-borderless table-bordered">
                             <thead>
                                 <th>Mã học sinh</th>
@@ -117,18 +117,25 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="d-flex justify-content-center mt-3">
-                        <a href="{{ route('course.view.teacher', $course->id) }}" class="btn-slide01">Về khóa học</a>
+                    <div class="d-flex justify-content-center my-3">
+                        <button class="btn-slide03 mx-1 delete-exercise" data-url="{{ route('teacher.exercise.delete', [$course->id, $exercise->id]) }}" data-bs-toggle="modal" data-bs-target="#ModalDeleteExercise">Xoá bài tập</button>
+                        <button class="btn-slide05 mx-1">Sửa bài tập</button>
+                        <a href="{{ route('course.view.teacher', $course->id) }}" class="btn-slide01 mx-1">Về khóa học</a>
                    </div>
                 </div>
             </div>
         </div>
     </div>
     @include('front.teacher.modal.delete_exercise_document')
+    @include('front.teacher.modal.delete_exercise')
 @endsection
 
 @section('script')
-    <script>var url_back = window.location.href;</script>
+    <script>
+        var url_back = window.location.href;
+        var url_previous = '{{ route('course.view.teacher', $course->id) }}';
+    </script>
     <script src="{{ asset('frontend/assets/js/course/teacher.js') }}"></script>
+    <script src="{{ asset('frontend/assets/js/exercise/teacher.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/exercise/exercise_document.js') }}"></script>
 @endsection

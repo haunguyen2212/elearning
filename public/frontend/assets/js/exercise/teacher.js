@@ -120,7 +120,12 @@ EXERCISE.delete = function(){
             },
             success: function(res){
                 if(res.status == 1){
-                    window.location.reload();
+                    if(typeof url_previous === 'undefined'){
+                        window.location.reload();
+                    }
+                    else{
+                        window.location.href = url_previous;
+                    }
                 }
             },
             error: function(err){
