@@ -7,6 +7,10 @@
     <li class="breadcrumb-item active">Bài tập</li>
 @endsection
 
+@section('style')
+    <link rel="stylesheet" href="{{ asset('backend/assets/vendor/jquery-ui/datetimepicker.css') }}" />
+@endsection
+
 @section('right')
     @if (isset($listStudent))
     <div class="col-12">
@@ -119,7 +123,7 @@
                     </div>
                     <div class="d-flex justify-content-center my-3">
                         <button class="btn-slide03 mx-1 delete-exercise" data-url="{{ route('teacher.exercise.delete', [$course->id, $exercise->id]) }}" data-bs-toggle="modal" data-bs-target="#ModalDeleteExercise">Xoá bài tập</button>
-                        <button class="btn-slide05 mx-1">Sửa bài tập</button>
+                        <button class="btn-slide05 mx-1 edit-exercise" data-url="{{ route('teacher.exercise.edit', $exercise->id) }}" data-bs-toggle="modal" data-bs-target="#ModalEditExercise">Sửa bài tập</button>
                         <a href="{{ route('course.view.teacher', $course->id) }}" class="btn-slide01 mx-1">Về khóa học</a>
                    </div>
                 </div>
@@ -128,12 +132,22 @@
     </div>
     @include('front.teacher.modal.delete_exercise_document')
     @include('front.teacher.modal.delete_exercise')
+    @include('front.teacher.modal.edit_exercise')
 @endsection
 
 @section('script')
+    <script src="{{ asset('backend/assets/vendor/ckeditor/ckeditor.js') }}"></script>
+    <script src="{{ asset('backend/assets/vendor/jquery-ui/datetimepicker.js') }}" ></script>
     <script>
         var url_back = window.location.href;
         var url_previous = '{{ route('course.view.teacher', $course->id) }}';
+        CKEDITOR.replace('content_exercise_edit');
+    </script>
+    <script>
+        $('#expiration_date_exercise_edit').datetimepicker({
+            format: 'd-m-Y H:i:s',
+            step: 30
+        });
     </script>
     <script src="{{ asset('frontend/assets/js/course/teacher.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/exercise/teacher.js') }}"></script>

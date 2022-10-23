@@ -10,6 +10,8 @@ EXERCISE.init = function(){
     EXERCISE.hide();
     EXERCISE.show();
     EXERCISE.delete();
+    EXERCISE.edit();
+    EXERCISE.update();
 }
 
 EXERCISE.create = function(){
@@ -130,6 +132,67 @@ EXERCISE.delete = function(){
             },
             error: function(err){
                 
+            }
+        })
+    })
+}
+
+EXERCISE.edit = function(){
+    $('.edit-exercise').click(function(e){
+        e.preventDefault();
+        $('.txt_error').html('');
+        var url = $(this).attr('data-url');
+        $('#ModalEditExercise').attr('data-url', url);
+        $.ajax({
+            type: 'get',
+            url:url,
+            data:{
+                _token:_token,
+            },
+            success: function(res){
+                if(res.status == 1){
+                    $('#ModalEditExercise #name_exercise_edit').val(res.data.name);
+                    $('#ModalEditExercise #expiration_date_exercise_edit').val(formatDateTimeInput(res.data.expiration_date));
+                    CKEDITOR.instances['content_exercise_edit'].setData(res.data.content);
+                }
+            },
+            error: function(err){
+
+            }
+        })
+    })
+}
+
+EXERCISE.update = function(){
+    $('.btn-update-exercise').click(function(e){
+        e.preventDefault();
+        var url = $('#ModalEditExercise').attr('data-url');
+        var name = $('#ModalEditExercise #name_exercise_edit').val();
+        var expiration_date = $('#ModalEditExercise #expiration_date_exercise_edit').val();
+        var content = CKEDITOR.instances['content_exercise_edit'].getData();
+        $.ajax({
+            type: 'post',
+            url:url,
+            data:{
+                _token:_token,
+                _method:'put',
+                name:name,
+                expiration_date:expiration_date,
+                content:content,
+            },
+            beforeSend: function(){
+                $('.txt_error').html('');
+            },
+            success: function(res){
+                if(res.status == 1){
+                    window.location.reload();
+                }
+            },
+            error: function(err){
+                var errors = err.responseJSON.errors;
+                $.each(errors, function(prefix, val){
+                    $('#ModalEditExercise .txt_'+prefix).html(val);
+                });
             }
         })
     })

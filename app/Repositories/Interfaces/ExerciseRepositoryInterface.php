@@ -10,6 +10,7 @@ interface ExerciseRepositoryInterface{
     public function create($collection = []);
     public function hide($id);
     public function show($id);
+    public function update($collection = [], $id);
     public function delete($id);
 
 }

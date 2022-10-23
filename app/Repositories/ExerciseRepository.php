@@ -57,6 +57,15 @@ class ExerciseRepository implements ExerciseRepositoryInterface{
         ]);
     }
 
+    public function update($collection = [], $id)
+    {
+        return $this->exercise->find($id)->update([
+            'name' => $collection['name'],
+            'expiration_date' => date('Y-m-d H:i:s', strtotime($collection['expiration_date'])),
+            'content' => $collection['content'],
+        ]);
+    }
+
     public function delete($id)
     {
         return $this->exercise->find($id)->delete();

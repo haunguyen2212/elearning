@@ -150,6 +150,28 @@ class ExerciseTeacherController extends Controller
         }
     }
 
+    public function edit($id){
+        $data = $this->exercise->getById($id);
+        if(empty($data)){
+            return response()->json(['status' => 0]);
+        }
+        return response()->json(['data' => $data, 'status' => 1]);
+    }
+
+    public function update($id, Request $request){
+        DB::beginTransaction();
+        try{
+            $collection = $request->except(['_token', '_method']);
+            $this->exercise->update($collection, $id);
+            DB::commit();
+            return response()->json(['status' => 1]);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['status' => 0]);
+        }
+    }
+
     public function delete($course_id, $id){
         DB::beginTransaction();
         try{

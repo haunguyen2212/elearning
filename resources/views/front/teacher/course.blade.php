@@ -202,7 +202,7 @@
                                                 <i class="bi bi-eye-slash" title="Đang ẩn"></i>
                                             </span>
                                         @endif  
-                                        <span class="ps-1 exercise-control rename-exercise" data-url="{{-- route('topic_exercise.rename.get',$exercise->id) --}}" data-bs-toggle="modal" data-bs-target="#ModalRenameTopicexercise">
+                                        <span class="ps-1 exercise-control edit-exercise" data-url="{{ route('teacher.exercise.edit', $exercise->id) }}" data-bs-toggle="modal" data-bs-target="#ModalEditExercise">
                                             <i class="bi bi-pen" title="Đổi tên"></i>
                                         </span>
                                         <span class="ps-1 exercise-control delete-exercise" data-url="{{ route('teacher.exercise.delete', [$course->id, $exercise->id]) }}" data-bs-toggle="modal" data-bs-target="#ModalDeleteExercise">
@@ -255,6 +255,7 @@
     @include('front.teacher.modal.create_link_topic_document')
     @include('front.teacher.modal.create_exercise')
     @include('front.teacher.modal.delete_exercise')
+    @include('front.teacher.modal.edit_exercise')
 @endsection
 
 @section('script')
@@ -264,6 +265,7 @@
         CKEDITOR.replace('content_topic_edit');
         CKEDITOR.replace('content_course_notice_edit');
         CKEDITOR.replace('content_exercise_create');
+        CKEDITOR.replace('content_exercise_edit');
         var url_back = "{{ route('course.view.teacher', $course->id) }}";
     </script>
     <script src="{{ asset('frontend/assets/js/course/teacher.js') }}"></script>
@@ -272,7 +274,7 @@
     <script src="{{ asset('frontend/assets/js/exercise/teacher.js') }}"></script>
     <script src="{{ asset('backend/assets/vendor/jquery-ui/datetimepicker.js') }}" ></script>
     <script>
-        $('#expiration_date_exercise_create').datetimepicker({
+        $('#expiration_date_exercise_create, #expiration_date_exercise_edit').datetimepicker({
             format: 'd-m-Y H:i:s',
             step: 30
         });
