@@ -9,20 +9,22 @@ use App\Repositories\Interfaces\CourseRepositoryInterface;
 use App\Repositories\Interfaces\ExerciseDocumentRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Repositories\Interfaces\ExerciseRepositoryInterface;
+use App\Repositories\Interfaces\ExerciseScoreRepositoryInterface;
 use App\Repositories\Interfaces\SubmitExerciseRepositoryInterface;
 use App\Repositories\Interfaces\TopicRepositoryInterface;
 use Illuminate\Support\Facades\DB;
 
 class ExerciseTeacherController extends Controller
 {
-    private $exercise, $course, $myCourse, $exerciseDocument, $topic, $submitExercise;
+    private $exercise, $course, $myCourse, $exerciseDocument, $topic, $submitExercise, $exerciseScore;
 
     public function __construct(
         ExerciseRepositoryInterface $exerciseRepository,
         CourseRepositoryInterface $courseRepository,
         ExerciseDocumentRepositoryInterface $exerciseDocumentRepository,
         TopicRepositoryInterface $topicRepository,
-        SubmitExerciseRepositoryInterface $submitExerciseRepository
+        SubmitExerciseRepositoryInterface $submitExerciseRepository,
+        ExerciseScoreRepositoryInterface $exerciseScoreRepository
     )
     {
         $this->exercise = $exerciseRepository;
@@ -30,6 +32,7 @@ class ExerciseTeacherController extends Controller
         $this->exerciseDocument = $exerciseDocumentRepository;
         $this->topic = $topicRepository;
         $this->submitExercise = $submitExerciseRepository;
+        $this->exerciseScore = $exerciseScoreRepository;
         $this->myCourse = new MyCourse();
     }
 
@@ -40,8 +43,10 @@ class ExerciseTeacherController extends Controller
         $data['myTeacherCourses'] = $this->myCourse->getCourseOfTeacher();
         $data['listStudent'] = $this->course->getStudentOfCourse($course_id);
         $data['submitExercises'] = [];
+        $data['scores'] = [];
         foreach($data['listStudent'] as $student){
             $data['submitExercises'][$student->id] = $this->submitExercise->getOfStudentInExercise($id, $student->id);
+            $data['scores'][$student->id] = $this->exercise->getScoreStudent($id, $student->id);
         }
         return view('front.teacher.exercise', $data);
     }
@@ -184,6 +189,33 @@ class ExerciseTeacherController extends Controller
             }
             }
             $this->exercise->delete($id);
+            DB::commit();
+            return response()->json(['status' => 1]);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['status' => 0]);
+        }
+    }
+
+    public function updateScore($exercise_id, $student_id, Request $request){
+        if(!isset($request->score) || $request->score < 0 || $request->score > 10){
+            return response()->json(['status' => 0]);
+        }
+        DB::beginTransaction();
+        try{
+            $collection = [
+                'exercise_id' => $exercise_id,
+                'student_id' => $student_id,
+                'score' => $request->score,
+            ];
+            $count = $this->exerciseScore->getById($exercise_id, $student_id);
+            if(empty($count)){  
+                $this->exerciseScore->create($collection);
+            }
+            else{
+                $this->exerciseScore->update($collection);
+            }
             DB::commit();
             return response()->json(['status' => 1]);
         }

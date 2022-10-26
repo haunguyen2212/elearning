@@ -12,5 +12,6 @@ interface ExerciseRepositoryInterface{
     public function show($id);
     public function update($collection = [], $id);
     public function delete($id);
+    public function getScoreStudent($id, $student_id);
 
 }

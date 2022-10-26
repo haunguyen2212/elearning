@@ -9,6 +9,7 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('backend/assets/vendor/jquery-ui/datetimepicker.css') }}" />
+    <link rel="stylesheet" href="{{ asset('frontend/assets/css/exercise_score.css') }}">
 @endsection
 
 @section('right')
@@ -100,6 +101,7 @@
                                 <th>Họ tên học sinh</th>
                                 <th>Bài đã nộp</th>
                                 <th>Thời gian nộp</th>
+                                <th>Điểm</th>
                             </thead>
                             <tbody>
                                 @foreach ($listStudent as $student)
@@ -115,6 +117,18 @@
                                             @foreach ($submitExercises[$student->id] as $submitExercise)
                                                 <div>{{ date('d/m/Y H:i:s', strtotime($submitExercise->created_at)) }}</div>
                                             @endforeach
+                                        </td>
+                                        <td class="score-style">
+                                            <span class="show">
+                                                <input type="number" 
+                                                    class="edit-score" 
+                                                    data-url="{{ route('teacher.exercise.score.update', ['id' => $exercise->id, 'student_id' => $student->id]) }}"
+                                                    value="{{ $scores[$student->id]['score'] ?? '' }}" 
+                                                    min="0" 
+                                                    max="10" 
+                                                    readonly
+                                                >
+                                            </span>
                                         </td>
                                     </tr>
                                 @endforeach

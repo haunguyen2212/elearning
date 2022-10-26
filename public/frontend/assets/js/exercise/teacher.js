@@ -12,6 +12,8 @@ EXERCISE.init = function(){
     EXERCISE.delete();
     EXERCISE.edit();
     EXERCISE.update();
+    EXERCISE.editScore();
+    EXERCISE.updateScore();
 }
 
 EXERCISE.create = function(){
@@ -193,6 +195,41 @@ EXERCISE.update = function(){
                 $.each(errors, function(prefix, val){
                     $('#ModalEditExercise .txt_'+prefix).html(val);
                 });
+            }
+        })
+    })
+}
+
+EXERCISE.editScore = function(){
+    $('.edit-score').click(function(e){
+        e.preventDefault();
+       $(this).removeAttr('readonly');
+    })
+}
+
+EXERCISE.updateScore = function(){
+    $('.edit-score').change(function(e){
+        var url = $(this).attr('data-url');
+        var score = $(this).val();
+        if(score < 0 || score > 10){
+            $(this).addClass('error');
+        }
+        else{
+            $(this).removeClass('error');
+        }
+        $.ajax({
+            type: 'post',
+            url:url,
+            data:{
+                _token:_token,
+                _method:'patch',
+                score:score,
+            },
+            success: function(res){
+                console.log(res);
+            },
+            error: function(err){
+
             }
         })
     })

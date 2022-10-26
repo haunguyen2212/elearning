@@ -41,6 +41,7 @@ Route::group(['prefix' => 'teacher', 'middleware' => 'isTeacher'], function(){
         Route::get('exercise/{id}/edit', [Front\ExerciseTeacherController::class, 'edit'])->name('edit');
         Route::put('exercise/{id}/edit', [Front\ExerciseTeacherController::class, 'update'])->name('update');
         Route::delete('course-detail/{course_id}/exercise/{id}/delete', [Front\ExerciseTeacherController::class, 'delete'])->name('delete');
+        Route::patch('exercise/{id}/student/{student_id}/update-score', [Front\ExerciseTeacherController::class, 'updateScore'])->name('score.update');
     });
     Route::delete('course-detail/{course_id}/exercise-document/{id}/delete', [Front\ExerciseTeacherController::class, 'deleteDocument'])->name('teacher.exercise_document.delete');
     

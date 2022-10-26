@@ -1,0 +1,19 @@
+.score-style .show input{
+    width: 50px;
+    text-align: center;
+}
+
+.score-style .show input{
+    border: none;
+}
+
+.score-style input:focus-visible{
+    border: 1px solid gray;
+    outline: none;
+}
+
+.score-style input.error{
+    border: 1px solid red;
+    color: red;
+    outline: none;
+}

@@ -70,4 +70,12 @@ class ExerciseRepository implements ExerciseRepositoryInterface{
     {
         return $this->exercise->find($id)->delete();
     }
+
+    public function getScoreStudent($id, $student_id)
+    {
+        return $this->exercise->leftJoin('exercise_score', 'exercise_id', 'exercises.id')
+            ->where('exercise_id', $id)
+            ->where('student_id', $student_id)
+            ->first();
+    }
 }
