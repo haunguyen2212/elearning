@@ -40,4 +40,9 @@ class ExerciseScoreRepository implements ExerciseScoreRepositoryInterface{
             ]);
     }
 
+    public function getScore($exercise_id, $student_id)
+    {
+        return $this->exerciseScore->where('exercise_id', $exercise_id)->where('student_id', $student_id)->first();
+    }
+
 }

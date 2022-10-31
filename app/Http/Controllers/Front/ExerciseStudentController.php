@@ -7,25 +7,28 @@ use App\Libraries\MyCourse;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
 use App\Repositories\Interfaces\ExerciseDocumentRepositoryInterface;
 use App\Repositories\Interfaces\ExerciseRepositoryInterface;
+use App\Repositories\Interfaces\ExerciseScoreRepositoryInterface;
 use App\Repositories\Interfaces\SubmitExerciseRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ExerciseStudentController extends Controller
 {
-    private $course, $myCourse, $exercise, $submitExercise, $exerciseDocument;
+    private $course, $myCourse, $exercise, $submitExercise, $exerciseDocument, $exerciseScore;
 
     public function __construct(
         CourseRepositoryInterface $courseRepository,
         ExerciseRepositoryInterface $exerciseRepository,
         SubmitExerciseRepositoryInterface $submitExerciseRepository,
-        ExerciseDocumentRepositoryInterface $exerciseDocumentRepository
+        ExerciseDocumentRepositoryInterface $exerciseDocumentRepository,
+        ExerciseScoreRepositoryInterface $exerciseScoreRepository
     )
     {
         $this->course = $courseRepository;
         $this->exercise = $exerciseRepository;
         $this->submitExercise = $submitExerciseRepository;
         $this->exerciseDocument = $exerciseDocumentRepository;
+        $this->exerciseScore = $exerciseScoreRepository;
         $this->myCourse = new MyCourse();
     }
 
@@ -35,6 +38,7 @@ class ExerciseStudentController extends Controller
         $data['exercise'] = $this->exercise->getById($id);
         $data['exerciseDocuments'] = $this->exerciseDocument->getActive($id);
         $data['submitFiles'] = $this->submitExercise->getAll($id, auth()->guard('student')->id());
+        $data['score'] = $this->exerciseScore->getScore($id, auth()->guard('student')->id());
         return view('front.student.exercise', $data);
     }
 

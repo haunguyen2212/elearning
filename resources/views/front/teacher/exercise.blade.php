@@ -60,7 +60,7 @@
                 </div>
             @endif
             <div class="card-title mb-0">{!! $exercise->name !!}</div>
-            <div class="card-content">
+            <div class="card-content exercise-main">
                 <div>
                     <p class="mb-0 exercise-content">
                         {!! $exercise->content !!}

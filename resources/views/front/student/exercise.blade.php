@@ -18,8 +18,20 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
-            <div class="card-title mb-0">{!! $exercise->name !!}</div>
-            <div class="card-content">
+            <div class="card-title mb-0">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="bd-highlight">
+                        {!! $exercise->name !!}
+                    </div class="bd-highlight">
+                    <div>
+                        @if (isset($score))
+                            <span class="text-danger"><small>Điểm : </small><strong>{{ $score->score }}</strong></span>
+                        @endif
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="card-content exercise-main">
                 <div>
                     <p class="mb-0">
                         {!! $exercise->content !!}

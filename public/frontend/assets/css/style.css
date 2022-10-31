@@ -591,3 +591,7 @@ a{
     background-color: var(--main-color);
     color: #fff;
   }
+
+  .exercise-main p{
+    margin-bottom: 0;
+  }
