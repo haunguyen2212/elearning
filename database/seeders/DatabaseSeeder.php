@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             HomeroomTeacherSeeder::class,
             CourseSeeder::class,
             CourseInvolvementSeeder::class,
+            SubjectSeeder::class,
             QuizSeeder::class,
             QuestionSeeder::class,
             TopicSeeder::class,

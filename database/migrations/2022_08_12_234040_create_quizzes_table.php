@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateQuestionsTable extends Migration
+class CreateQuizzesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,21 +13,17 @@ class CreateQuestionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('questions', function (Blueprint $table) {
+        Schema::create('quizzes', function (Blueprint $table) {
             $table->id();
-            $table->string('question', 1000);
-            $table->char('correct_answer', 1);
-            $table->string('answer_a');
-            $table->string('answer_b');
-            $table->string('answer_c')->nullable();
-            $table->string('answer_d')->nullable();
-            $table->string('image', 100)->nullable();
-            $table->string('explain', 3000)->nullable();
-            $table->char('level', 1)->default('1');
             $table->bigInteger('teacher_id')->unsigned()->nullable();
+            $table->bigInteger('topic_id')->unsigned();
             $table->bigInteger('subject_id')->unsigned();
-            $table->char('shared', 1)->default('0');
+            $table->string('name', 200);
+            $table->dateTime('start_time');
+            $table->dateTime('end_time');
+            $table->char('is_show', 1)->default('1');
             $table->timestamps();
+            $table->foreign('topic_id')->references('id')->on('topics')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('teacher_id')->references('id')->on('teachers')->onUpdate('cascade')->onDelete('set null');
             $table->foreign('subject_id')->references('id')->on('subjects')->onUpdate('cascade')->onDelete('cascade');
         });
@@ -40,6 +36,6 @@ class CreateQuestionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('questions');
+        Schema::dropIfExists('quizzes');
     }
 }

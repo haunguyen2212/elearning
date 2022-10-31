@@ -12,7 +12,6 @@ class Question extends Model
     protected $table = 'questions';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'quiz_id',
         'question',
         'image',
         'correct_answer',
@@ -20,5 +19,9 @@ class Question extends Model
         'answer_b',
         'answer_c',
         'answer_d',
+        'explain',
+        'level',
+        'teacher_id',
+        'shared',
     ];
 }
