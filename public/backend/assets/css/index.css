@@ -42,3 +42,26 @@ td{
 .table-responsive table tbody tr td{
     vertical-align: middle;
 }
+
+.btn-outline-main{
+    color: var(--main-color);
+    border-color: var(--main-color);
+}
+
+.btn-outline-main:hover{
+    color: #fff;
+    background-color: var(--main-color);
+    border-color: var(--main-color);
+}
+
+.search-master input:focus,
+.search-master select:focus,
+.search-master button:focus{
+    box-shadow: none;
+    border-color: #ced4da;
+}
+
+.search-master input[type="checkbox"]:checked{
+    background-color: var(--main-color);
+    border-color: var(--main-color);
+}

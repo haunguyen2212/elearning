@@ -34,6 +34,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'isAdmin'], function(){
     Route::get('course/{id}/lock', [Admin\CourseController::class, 'lock'])->name('course.lock');
     Route::get('course/{id}/unlock', [Admin\CourseController::class, 'unlock'])->name('course.unlock');
 
+    Route::resource('question', Admin\QuestionController::class);
     Route::resource('notice', Admin\NoticeController::class)->except(['show']);
 
     Route::resource('room', Admin\RoomController::class)->except(['show']);

@@ -185,6 +185,19 @@
       </li>
 
       <li class="nav-item">
+        <a id="quiz-link" class="nav-link collapsed" data-bs-target="#quiz-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-text"></i><span>Thi trắc nghiệm</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="quiz-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+          <li>
+            <a id="list-question" href="{{ route('question.index') }}">
+              <i class="bi bi-circle"></i><span>Danh sách câu hỏi</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <li class="nav-item">
         <a id="room-registration-link" class="nav-link collapsed" data-bs-target="#room-registration-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-card-list"></i><span>Đăng ký phòng</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>

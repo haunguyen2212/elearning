@@ -25,18 +25,22 @@ use App\Repositories\Interfaces\ExerciseRepositoryInterface;
 use App\Repositories\Interfaces\ExerciseScoreRepositoryInterface;
 use App\Repositories\Interfaces\HomeroomTeacherRepositoryInterface;
 use App\Repositories\Interfaces\NoticeRepositoryInterface;
+use App\Repositories\Interfaces\QuestionRepositoryInterface;
 use App\Repositories\Interfaces\RoomAssignmentRepositoryInterface;
 use App\Repositories\Interfaces\RoomRegistrationRepositoryInterface;
 use App\Repositories\Interfaces\RoomRepositoryInterface;
 use App\Repositories\Interfaces\SchoolYearRepositoryInterface;
+use App\Repositories\Interfaces\SubjectRepositoryInterface;
 use App\Repositories\Interfaces\SubmitExerciseRepositoryInterface;
 use App\Repositories\Interfaces\TopicDocumentRepositoryInterface;
 use App\Repositories\Interfaces\TopicRepositoryInterface;
 use App\Repositories\NoticeRepository;
+use App\Repositories\QuestionRepository;
 use App\Repositories\RoomAssignmentRepository;
 use App\Repositories\RoomRegistrationRepository;
 use App\Repositories\RoomRepository;
 use App\Repositories\SchoolYearRepository;
+use App\Repositories\SubjectRepository;
 use App\Repositories\SubmitExerciseRepository;
 use App\Repositories\TeacherRepository;
 use App\Repositories\TopicDocumentRepository;
@@ -74,6 +78,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(SubmitExerciseRepositoryInterface::class, SubmitExerciseRepository::class);
         $this->app->bind(ExerciseDocumentRepositoryInterface::class, ExerciseDocumentRepository::class);
         $this->app->bind(ExerciseScoreRepositoryInterface::class, ExerciseScoreRepository::class);
+        $this->app->bind(QuestionRepositoryInterface::class, QuestionRepository::class);
+        $this->app->bind(SubjectRepositoryInterface::class, SubjectRepository::class);
     }
 
     /**

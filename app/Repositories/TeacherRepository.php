@@ -113,4 +113,9 @@ class TeacherRepository implements TeacherRepositoryInterface{
     {
         return $this->teacher->count();
     }
+
+    public function getDropdown()
+    {
+        return $this->teacher->select('id', 'name')->get();
+    }
 }
