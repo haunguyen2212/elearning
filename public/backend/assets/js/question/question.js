@@ -58,9 +58,6 @@ function getDataFilter() {
     if (level.length > 0) {
         Object.assign(params, {'level': level.toString()});
     }
-    else{
-        Object.assign(params, {'level': ''});
-    }
 
     var shared = [];
     $('.shared').each(function () {
@@ -70,9 +67,6 @@ function getDataFilter() {
     })
     if (shared.length > 0) {
         Object.assign(params, {'shared': shared.toString()});
-    }
-    else{
-        Object.assign(params, {'shared': ''});
     }
 
     return params;

@@ -23,19 +23,36 @@ class QuestionController extends Controller
         $this->subject = $subjectRepository;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $data['questions'] = $this->question->getAll();
+        $search = $this->getDataSearch($request);
+        $data['questions'] = $this->question->getAll($search);
         $data['subjects'] = $this->subject->getDropdown();
         $data['teachers'] = $this->teacher->getDropdown();
         return view('admin.question.index', $data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function getDataSearch($request){
+        $data = [];
+        if(isset($request->keyword)){
+            $data['keyword'] = $request->keyword;
+        }
+        if(isset($request->subject)){
+            $data['subject'] = $request->subject;
+        }
+        if(isset($request->teacher)){
+            $data['teacher'] = $request->teacher;
+        }
+        if(isset($request->level)){
+            $data['level'] = explode(',', $request->level);
+        }
+        if(isset($request->shared)){
+            $data['shared'] = explode(',', $request->shared);
+        }
+        return $data;
+    }
+
+
     public function create()
     {
         //

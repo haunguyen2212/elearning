@@ -65,3 +65,11 @@ td{
     background-color: var(--main-color);
     border-color: var(--main-color);
 }
+
+.question-content p{
+    margin-bottom: 0;
+}
+
+.question-content>span{
+    display: flex;
+}

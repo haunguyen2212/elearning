@@ -9,6 +9,17 @@
 @endsection
 
 @section('content')
+    @php
+      function checkedCheckbox($name, $value){
+        if(isset(request()->{$name})){
+          $listChecked = explode(',', request()->{$name});
+          if(!in_array($value, $listChecked)){
+            return '';
+          }
+        }
+        return 'checked';
+      }
+    @endphp
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -47,15 +58,15 @@
                             <div class="mb-3">
                                 <label class="form-label fw-bold text-main">Cấp độ câu hỏi</label> <br>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input level" type="checkbox" id="level1" name="level[]" value="1" checked>
+                                    <input class="form-check-input level" type="checkbox" id="level1" name="level[]" value="1" {{ checkedCheckbox('level', 1) }}>
                                     <label class="form-check-label" for="level1">Dễ</label>
                                   </div>
                                   <div class="form-check form-check-inline">
-                                    <input class="form-check-input level" type="checkbox" id="level2" name="level[]" value="2" checked>
+                                    <input class="form-check-input level" type="checkbox" id="level2" name="level[]" value="2" {{ checkedCheckbox('level', 2) }}>
                                     <label class="form-check-label" for="level2">Trung bình</label>
                                   </div>
                                   <div class="form-check form-check-inline">
-                                    <input class="form-check-input level" type="checkbox" id="level3" name="level[]" value="3"  checked>
+                                    <input class="form-check-input level" type="checkbox" id="level3" name="level[]" value="3"  {{ checkedCheckbox('level', 3) }}>
                                     <label class="form-check-label" for="level3">Khó</label>
                                   </div>
                             </div>
@@ -64,11 +75,11 @@
                             <div class="mb-3">
                                 <label class="form-label fw-bold text-main">Loại câu hỏi</label> <br>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input shared" type="checkbox" id="shared1" value="1" name="shared[]" checked>
+                                    <input class="form-check-input shared" type="checkbox" id="shared1" value="1" name="shared[]" {{ checkedCheckbox('shared', 1) }}>
                                     <label class="form-check-label" for="shared1">Chung</label>
                                   </div>
                                   <div class="form-check form-check-inline">
-                                    <input class="form-check-input shared" type="checkbox" id="shared0" value="0" name="shared[]" checked>
+                                    <input class="form-check-input shared" type="checkbox" id="shared0" value="0" name="shared[]" {{ checkedCheckbox('shared', 0) }}>
                                     <label class="form-check-label" for="shared0">Riêng</label>
                                   </div>
                             </div>
@@ -115,25 +126,61 @@
                         <thead>
                           <tr>
                             <th width="5%">ID</th>
-                            <th width="20%">Câu hỏi</th>
-                            <th width="15%">Đáp án 1</th>
-                            <th width="15%">Đáp án 2</th>
-                            <th width="15%">Đáp án 3</th>
-                            <th width="15%">Đáp án 4</th>
-                            <th width="10%">Đáp án</th>
-                            <th width="5%">Xem</th>
+                            <th width="40%">Câu hỏi</th>
+                            <th width="12.5%">Môn học</th>
+                            <th width="12.5%">Giáo viên</th>
+                            <th width="10%">Cấp độ</th>
+                            <th width="10%">Loại</th>
+                            <th width="10%">Xem</th>
                           </tr>
                         </thead>
                         <tbody>
                             @foreach ($questions as $question)
                                 <tr>
-                                    <td>{{ $question->id }}</td>
-                                    <td>{!! $question->question !!}</td>
-                                    <td>{!! $question->answer_a !!}</td>
-                                    <td>{!! $question->answer_b !!}</td>
-                                    <td>{!! $question->answer_c !!}</td>
-                                    <td>{!! $question->answer_d !!}</td>
-                                    <td class="ps-4">{{ $question->correct_answer }}</td>
+                                    <td>
+                                      <div>{{ $question->id }}</div>
+                                    </td>
+                                    <td class="question-content">
+                                      <span>{!! $question->question !!}</span>
+                                      <span>A.&nbsp;{!! $question->answer_a !!}</span>
+                                      <span>B.&nbsp;{!! $question->answer_b !!}</span>
+                                      <span>
+                                        @if (isset($question->answer_c) && $question->answer_c !== '')
+                                         C.&nbsp;{!! $question->answer_c !!}
+                                        @endif
+                                      </span>
+                                      <span>
+                                        @if (isset($question->answer_d) && $question->answer_d !== '')
+                                         D.&nbsp;{!! $question->answer_d !!}
+                                        @endif
+                                      </span>
+                                    </td>
+                                    <td>{!! $question->subject_name ?? '' !!}</td>
+                                    <td>{!! $question->teacher_name ?? '<strong>Quản trị viên</strong>' !!}</td>
+                                    <td>
+                                      @switch($question->level)
+                                        @case(1)
+                                          <span>Dễ</span>
+                                          @break
+                                        @case(2)
+                                          <span>Trung bình</span>
+                                          @break
+                                        @case(3)
+                                          <span>Khó</span>
+                                          @break
+                                      @endswitch
+                                    </td>
+                                    <td>
+                                      @switch($question->shared)
+                                        @case(0)
+                                          <span>Riêng</span>
+                                          @break
+                                        @case(1)
+                                          <span>Chung</span>
+                                        @break
+                                          
+                                      @endswitch
+                                    </td>
                                     <td>
                                         <a href="" class="btn btn-sm btn-main"><i class="bi bi-pencil-square"></i></a>
                                     </td>
