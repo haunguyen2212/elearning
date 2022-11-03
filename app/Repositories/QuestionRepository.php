@@ -45,12 +45,30 @@ class QuestionRepository implements QuestionRepositoryInterface{
             $query->whereIn('shared', $search['shared']);
         }
 
-        return $query->paginate($offset);
+        return $query->orderBy('id', 'desc')->paginate($offset);
     }
 
     public function getById($id)
     {
         return $this->question->where('id', $id)->first();
+    }
+
+    public function create($collection = [])
+    {
+        return $this->question->create([
+            'question' => $collection['question'],
+            'answer_a' => $collection['answer_a'],
+            'answer_b' => $collection['answer_b'],
+            'answer_c' => $collection['answer_c'],
+            'answer_d' => $collection['answer_d'],
+            'correct_answer' => $collection['correct_answer'],
+            'explain' => $collection['explain'] ?? NULL,
+            'level' => $collection['level'],
+            'shared' => $collection['shared'],
+            'teacher_id' => $collection['teacher_id'] ?? NULL,
+            'subject_id' => $collection['subject_id'],
+            'image' => $collection['image'] ?? NULL,
+        ]);
     }
 
 }

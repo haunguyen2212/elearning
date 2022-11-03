@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreQuestionRequest;
 use App\Repositories\Interfaces\QuestionRepositoryInterface;
 use App\Repositories\Interfaces\SubjectRepositoryInterface;
 use App\Repositories\Interfaces\TeacherRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class QuestionController extends Controller
 {
@@ -55,18 +57,26 @@ class QuestionController extends Controller
 
     public function create()
     {
-        //
+        $data = $this->subject->getDropdown();
+        if(!empty($data)){
+            return response()->json(['data' => $data, 'status' => 1]);
+        }
+        return response()->json(['status' => 0]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(StoreQuestionRequest $request)
     {
-        //
+        $collection = $request->except(['_token', 'image']);
+        DB::beginTransaction();
+        try{
+            $this->question->create($collection);
+            DB::commit();
+            return response()->json(['status' => 1]);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['status' => 0]);
+        } 
     }
 
     /**

@@ -23,5 +23,6 @@ class Question extends Model
         'level',
         'teacher_id',
         'shared',
+        'subject_id',
     ];
 }

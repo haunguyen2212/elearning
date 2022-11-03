@@ -6,4 +6,5 @@ interface QuestionRepositoryInterface{
 
     public function getAll($search = [], $offset = 10);
     public function getById($id);
+    public function create($collection = []);
 }

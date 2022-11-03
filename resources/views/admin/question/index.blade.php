@@ -103,9 +103,9 @@
                     </div>
                     <div class="bd-highlight">
                       <h5 class="card-title">
-                        <a class="btn btn-sm btn-main" href="">
+                        <button type="button" class="btn btn-sm btn-main btn-create" data-bs-toggle="modal" data-bs-target="#ModalCreate">
                           <i class="bi bi-plus"></i><span class="text-white"> Thêm mới</span> 
-                        </a>
+                        </button>
                       </h5>
                     </div>
                   </div>
@@ -128,9 +128,9 @@
                             <th width="5%">ID</th>
                             <th width="40%">Câu hỏi</th>
                             <th width="12.5%">Môn học</th>
-                            <th width="12.5%">Giáo viên</th>
                             <th width="10%">Cấp độ</th>
                             <th width="10%">Loại</th>
+                            <th width="12.5%">Giáo viên</th>
                             <th width="10%">Xem</th>
                           </tr>
                         </thead>
@@ -156,33 +156,33 @@
                                       </span>
                                     </td>
                                     <td>{!! $question->subject_name ?? '' !!}</td>
-                                    <td>{!! $question->teacher_name ?? '<strong>Quản trị viên</strong>' !!}</td>
-                                    <td>
+                                    <td class="public-status">
                                       @switch($question->level)
                                         @case(1)
-                                          <span>Dễ</span>
+                                          <span style="background-color: #ffffcc">Dễ</span>
                                           @break
                                         @case(2)
-                                          <span>Trung bình</span>
+                                          <span style="background-color: #C6EAD8">Trung bình</span>
                                           @break
                                         @case(3)
-                                          <span>Khó</span>
+                                          <span style="background-color: #FFC7C7">Khó</span>
                                           @break
                                       @endswitch
                                     </td>
-                                    <td>
+                                    <td class="public-status">
                                       @switch($question->shared)
                                         @case(0)
-                                          <span>Riêng</span>
+                                          <span style="background-color: #FFC7C7">Riêng</span>
                                           @break
                                         @case(1)
-                                          <span>Chung</span>
+                                          <span style="background-color: #C6EAD8">Chung</span>
                                         @break
                                           
                                       @endswitch
                                     </td>
+                                    <td>{!! $question->teacher_name ?? '<strong>Quản trị viên</strong>' !!}</td>
                                     <td>
-                                        <a href="" class="btn btn-sm btn-main"><i class="bi bi-pencil-square"></i></a>
+                                        <a href="" class="btn btn-sm btn-main rounded-circle"><i class="bi bi-pencil-square"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -195,10 +195,20 @@
               </div>
         </div>
     </div>
+    @include('admin.question.modal.create')
 @endsection
 
 
 @section('script')
+    <script src="{{ asset('backend/assets/vendor/ckeditor/ckeditor.js') }}"></script>
+    <script>
+        CKEDITOR.replace('question_create');
+        CKEDITOR.replace('answer_a_create');
+        CKEDITOR.replace('answer_b_create');
+        CKEDITOR.replace('answer_c_create');
+        CKEDITOR.replace('answer_d_create');
+        CKEDITOR.replace('explain_create');
+    </script>
     <script>
         $('#quiz-nav').addClass('show');
         $('#quiz-link').removeClass('collapsed');

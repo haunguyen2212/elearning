@@ -338,7 +338,7 @@ class QuestionSeeder extends Seeder
                 'shared' => 0,
             ],
             [
-                'question' => '<p>Tính góc C của tam giác ABC biết a ≠ b và a(a<sub>2</sub> – c<sub>) = b(b<sub> – c<sub>).</p>',
+                'question' => '<p>Tính góc C của tam giác ABC biết a ≠ b và a(a<sup>2</sup> – c<sup>2</sup>) = b(b<sup>2</sup> – c<sup>2</sup>).</p>',
                 'correct_answer' => '2',
                 'answer_a' => '<p>C = 150°</p>',
                 'answer_b' => '<p>C = 120°</p>',

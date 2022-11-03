@@ -73,3 +73,9 @@ td{
 .question-content>span{
     display: flex;
 }
+
+.public-status span{
+    border-radius: 16px;
+    padding: 8px 10px;
+    min-width: 40px;
+}
