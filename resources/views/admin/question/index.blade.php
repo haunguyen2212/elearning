@@ -182,7 +182,7 @@
                                     </td>
                                     <td>{!! $question->teacher_name ?? '<strong>Quản trị viên</strong>' !!}</td>
                                     <td>
-                                        <a href="" class="btn btn-sm btn-main rounded-circle"><i class="bi bi-pencil-square"></i></a>
+                                        <a href="{{ route('question.show', $question->id) }}" class="btn btn-sm btn-main rounded-circle"><i class="bi bi-pencil-square"></i></a>
                                     </td>
                                 </tr>
                             @endforeach

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreQuestionRequest;
+use App\Http\Requests\UpdateQuestionRequest;
 use App\Repositories\Interfaces\QuestionRepositoryInterface;
 use App\Repositories\Interfaces\SubjectRepositoryInterface;
 use App\Repositories\Interfaces\TeacherRepositoryInterface;
@@ -69,6 +70,12 @@ class QuestionController extends Controller
         $collection = $request->except(['_token', 'image']);
         DB::beginTransaction();
         try{
+            $image = $request->file('image');
+            if($image){
+                $new_name = rand().'.'.$image->getClientOriginalExtension();
+                $image->move(public_path('backend/assets/img/question'), $new_name);
+                $collection['image'] = $new_name;
+            }
             $this->question->create($collection);
             DB::commit();
             return response()->json(['status' => 1]);
@@ -79,48 +86,72 @@ class QuestionController extends Controller
         } 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
-        //
+        $data['question'] = $this->question->getFullById($id);
+        return view('admin.question.show', $data);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
-        //
+        $data['subject'] = $this->subject->getDropdown();
+        $data['question'] = $this->question->getById($id);
+        if(empty($data['subject']) || empty($data['question'])){
+            return response()->json(['status' => 0]);
+        }
+        return response()->json(['data' => $data, 'status' => 1]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+
+    public function update(UpdateQuestionRequest $request, $id)
     {
-        //
+        $collection = $request->except(['_token', '_method', 'image']);
+        DB::beginTransaction();
+        try{
+            $image = $request->file('image');
+            if($image){
+                $new_name = rand().'.'.$image->getClientOriginalExtension();
+                $image->move(public_path('backend/assets/img/question'), $new_name);
+                $old_img = $this->question->getById($id)->image;
+                if(!empty($old_img)){
+                    $destinationPath = public_path('backend/assets/img/question/').$old_img;
+                    if(file_exists($destinationPath)){
+                        unlink($destinationPath);
+                    }
+                }
+                $collection['image'] = $new_name;
+            }
+            $this->question->update($id, $collection);
+            DB::commit();
+            return response()->json(['status' => 1]);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['status' => 0]);
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
-        //
+        DB::beginTransaction();
+        try{
+            $question = $this->question->getById($id);
+            if(!empty($question->image)){
+                $destinationPath = public_path('backend/assets/img/question/').$question->image;
+                if(file_exists($destinationPath)){
+                    unlink($destinationPath);
+                }
+            }
+            $this->question->delete($id);
+            DB::commit();
+            return response()->json(['status' => 1]);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['status' => 0]);
+        }
     }
 }

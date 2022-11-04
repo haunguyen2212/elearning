@@ -9,6 +9,9 @@ QUESTION.init = function(){
     QUESTION.search();
     QUESTION.create();
     QUESTION.store();
+    QUESTION.edit();
+    QUESTION.update();
+    QUESTION.delete();
 }
 
 QUESTION.search = function(){
@@ -81,6 +84,109 @@ QUESTION.store = function(){
                 $.each(errors, function(prefix, val){
                     $('#ModalCreate .err-'+prefix).html(val);
                 });
+            }
+        })
+    })
+}
+
+QUESTION.edit = function(){
+    $('.btn-edit').click(function(e){
+        e.preventDefault();
+        $('.text-danger').html('');
+        var url = $(this).attr('data-url-edit');
+        $('#ModalEdit').attr('data-url', $(this).attr('data-url-update'));
+        $.ajax({
+            type: 'get',
+            url: url,
+            data:{
+                _token:_token,
+            },
+            success: function(res){
+                if(res.status == 1){
+                    var str = '<option value="">Chưa chọn môn học</option>';
+                    $.each(res.data.subject, function(prefix, val){
+                        str += '<option value="'+val.id+'">'+val.name+'</option>';
+                    });
+                    $('#subject_edit').html(str);
+                    var question = res.data.question;
+                    $('#subject_edit option[value='+question.subject_id+']').attr('selected','selected');
+                    $('#correct_answer'+question.correct_answer).prop("checked", true);
+                    $('#level'+question.level).prop("checked", true);
+                    $('#shared'+question.shared).prop("checked", true);
+                    CKEDITOR.instances['question_edit'].setData(question.question);
+                    CKEDITOR.instances['answer_a_edit'].setData(question.answer_a);
+                    CKEDITOR.instances['answer_b_edit'].setData(question.answer_b);
+                    CKEDITOR.instances['answer_c_edit'].setData(question.answer_c);
+                    CKEDITOR.instances['answer_d_edit'].setData(question.answer_d);
+                    CKEDITOR.instances['explain_edit'].setData(question.explain);
+                }
+            },
+            error: function(err){
+
+            }
+        })
+    })
+}
+
+QUESTION.update = function(){
+    $('.sm-edit').click(function(e){
+        e.preventDefault();
+        var url = $('#ModalEdit').attr('data-url');
+        var formData = new FormData($('#frm-edit')[0]);
+        formData.set('question', CKEDITOR.instances['question_edit'].getData());
+        formData.set('answer_a', CKEDITOR.instances['answer_a_edit'].getData());
+        formData.set('answer_b', CKEDITOR.instances['answer_b_edit'].getData());
+        formData.set('answer_c', CKEDITOR.instances['answer_c_edit'].getData());
+        formData.set('answer_d', CKEDITOR.instances['answer_d_edit'].getData());
+        formData.set('explain', CKEDITOR.instances['explain_edit'].getData());
+        $.ajax({
+            type: 'post',
+            url:url,
+            data: formData,
+            contentType: false,
+            processData: false,
+            cache: false,
+            beforeSend: function(){
+                $('.text-danger').html('');
+            },
+            success: function(res){
+                if(res.status == 1){
+                    window.location.reload();
+                }
+            },
+            error: function(err){
+                var errors = err.responseJSON.errors;
+                $.each(errors, function(prefix, val){
+                    $('#ModalEdit .err-'+prefix).html(val);
+                });
+            }
+        })
+    })
+}
+
+QUESTION.delete = function(){
+    $('.btn-delete').click(function(e){
+        e.preventDefault();
+        var url = $(this).attr('data-url');
+        $('#ModalDelete').attr('data-url', url);
+    });
+
+    $('.sm-delete').click(function(e){
+        var url = $('#ModalDelete').attr('data-url');
+        $.ajax({
+            type: 'delete',
+            url:url,
+            data:{
+                _token:_token,
+            },
+            success: function(res){
+                console.log(res);
+                if(res.status == 1){
+                    window.location.href = url_back;
+                }
+            },
+            error: function(err){
+
             }
         })
     })

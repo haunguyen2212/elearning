@@ -66,12 +66,26 @@ td{
     border-color: var(--main-color);
 }
 
-.question-content p{
+.question-content p,
+.question-style p{
     margin-bottom: 0;
 }
 
 .question-content>span{
     display: flex;
+}
+
+.question-text p{
+    display: inline;
+}
+
+.question-image{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.question-image img{
+    max-width: 200px;
 }
 
 .public-status span{

@@ -53,6 +53,15 @@ class QuestionRepository implements QuestionRepositoryInterface{
         return $this->question->where('id', $id)->first();
     }
 
+    public function getFullById($id)
+    {
+        return $this->question->leftJoin('teachers', 'teacher_id', 'teachers.id')
+            ->leftJoin('subjects', 'subject_id', 'subjects.id')
+            ->where('questions.id', $id)
+            ->select('questions.*', DB::raw('teachers.name as teacher_name, subjects.name as subject_name'))
+            ->first();
+    }
+
     public function create($collection = [])
     {
         return $this->question->create([
@@ -69,6 +78,45 @@ class QuestionRepository implements QuestionRepositoryInterface{
             'subject_id' => $collection['subject_id'],
             'image' => $collection['image'] ?? NULL,
         ]);
+    }
+
+    public function update($id, $collection)
+    {
+        $query = $this->question->find($id);
+        if(!empty($collection['image'])){
+            return $query->update([
+                'question' => $collection['question'],
+                'answer_a' => $collection['answer_a'],
+                'answer_b' => $collection['answer_b'],
+                'answer_c' => $collection['answer_c'],
+                'answer_d' => $collection['answer_d'],
+                'correct_answer' => $collection['correct_answer'],
+                'explain' => $collection['explain'] ?? NULL,
+                'level' => $collection['level'],
+                'shared' => $collection['shared'],
+                'subject_id' => $collection['subject_id'],
+                'image' => $collection['image'],
+            ]);
+        }
+        else{
+            return $query->update([
+                'question' => $collection['question'],
+                'answer_a' => $collection['answer_a'],
+                'answer_b' => $collection['answer_b'],
+                'answer_c' => $collection['answer_c'],
+                'answer_d' => $collection['answer_d'],
+                'correct_answer' => $collection['correct_answer'],
+                'explain' => $collection['explain'] ?? NULL,
+                'level' => $collection['level'],
+                'shared' => $collection['shared'],
+                'subject_id' => $collection['subject_id'],
+            ]);
+        }
+    }
+
+    public function delete($id)
+    {
+        return $this->question->find($id)->delete();
     }
 
 }
