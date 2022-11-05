@@ -18,6 +18,8 @@ class Quiz extends Model
         'subject_id',
         'start_time',
         'end_time',
+        'duration',
+        'password',
         'is_show',
     ];
 }

@@ -154,7 +154,7 @@ EXERCISE.edit = function(){
             success: function(res){
                 if(res.status == 1){
                     $('#ModalEditExercise #name_exercise_edit').val(res.data.name);
-                    $('#ModalEditExercise #expiration_date_exercise_edit').val(formatDateTimeInput(res.data.expiration_date));
+                    $('#ModalEditExercise #expiration_date_exercise_edit').val(formatDateTimeMinusSecond(res.data.expiration_date));
                     CKEDITOR.instances['content_exercise_edit'].setData(res.data.content);
                 }
             },

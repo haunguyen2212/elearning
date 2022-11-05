@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreExerciseRequest;
+use App\Http\Requests\UpdateExerciseRequest;
 use App\Libraries\MyCourse;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
 use App\Repositories\Interfaces\ExerciseDocumentRepositoryInterface;
@@ -163,7 +164,7 @@ class ExerciseTeacherController extends Controller
         return response()->json(['data' => $data, 'status' => 1]);
     }
 
-    public function update($id, Request $request){
+    public function update($id, UpdateExerciseRequest $request){
         DB::beginTransaction();
         try{
             $collection = $request->except(['_token', '_method']);

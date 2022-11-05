@@ -231,7 +231,7 @@
                                 Thêm liên kết
                             </span>
                         </div> 
-                        <div>
+                        <div class="d-flex">
                             <span class="text-main add-exercise" 
                                 style="cursor: pointer"
                                 data-bs-toggle="modal"
@@ -239,6 +239,15 @@
                                 data-url="{{ route('teacher.exercise.store', $topic->id) }}"
                                 >
                                 <i class="bi bi-file-earmark-plus"></i> Thêm bài tập
+                            </span>
+                            <span> &nbsp;-&nbsp; </span>
+                            <span class="text-main add-quiz" 
+                                style="cursor: pointer"
+                                data-bs-toggle="modal"
+                                data-bs-target="#ModalCreateQuiz"
+                                data-url="{{ route('teacher.quiz.store', $topic->id) }}"
+                                >
+                                Thi trắc nghiệm
                             </span>
                         </div> 
                     </div>
@@ -256,6 +265,7 @@
     @include('front.teacher.modal.create_exercise')
     @include('front.teacher.modal.delete_exercise')
     @include('front.teacher.modal.edit_exercise')
+    @include('front.teacher.modal.create_quiz')
 @endsection
 
 @section('script')
@@ -272,10 +282,15 @@
     <script src="{{ asset('frontend/assets/js/course/topic.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/course/topic_document.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/exercise/teacher.js') }}"></script>
+    <script src="{{ asset('frontend/assets/js/quiz/teacher.js') }}"></script>
     <script src="{{ asset('backend/assets/vendor/jquery-ui/datetimepicker.js') }}" ></script>
     <script>
         $('#expiration_date_exercise_create, #expiration_date_exercise_edit').datetimepicker({
-            format: 'd-m-Y H:i:s',
+            format: 'd-m-Y H:i',
+            step: 30
+        });
+        $('#start_time_quiz_create, #end_time_quiz_create').datetimepicker({
+            format: 'd-m-Y H:i',
             step: 30
         });
     </script>

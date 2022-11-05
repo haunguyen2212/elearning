@@ -43,6 +43,12 @@ Route::group(['prefix' => 'teacher', 'middleware' => 'isTeacher'], function(){
         Route::delete('course-detail/{course_id}/exercise/{id}/delete', [Front\ExerciseTeacherController::class, 'delete'])->name('delete');
         Route::patch('exercise/{id}/student/{student_id}/update-score', [Front\ExerciseTeacherController::class, 'updateScore'])->name('score.update');
     });
+
+    Route::group(['as' => 'teacher.quiz.'], function(){
+        Route::get('course-detail/{course_id}/quiz/{id}', [Front\QuizTeacherController::class, 'index'])->name('index');
+        Route::post('topic/{topic_id}/quiz/create', [Front\QuizTeacherController::class, 'store'])->name('store');
+    });
+
     Route::delete('course-detail/{course_id}/exercise-document/{id}/delete', [Front\ExerciseTeacherController::class, 'deleteDocument'])->name('teacher.exercise_document.delete');
     
     Route::get('course/{course_id}/student-information/{student_id}', [Front\StudentInformationController::class, 'index'])->name('course.view.student_information');

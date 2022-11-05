@@ -159,7 +159,7 @@
     </script>
     <script>
         $('#expiration_date_exercise_edit').datetimepicker({
-            format: 'd-m-Y H:i:s',
+            format: 'd-m-Y H:i',
             step: 30
         });
     </script>
