@@ -21,6 +21,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 1,
                 'introduce' => NULL,
+                'subject_id' => 1,
             ],
             [
                 'name' => 'Toán 10 (Nguyễn Thanh Huy)',
@@ -28,6 +29,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 2,
                 'introduce' => NULL,
+                'subject_id' => 1,
             ],
             [
                 'name' => 'Toán 10 (Nguyễn Thành Long)',
@@ -35,6 +37,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 3,
                 'introduce' => NULL,
+                'subject_id' => 1,
             ],
             [
                 'name' => 'Toán 10 (Nguyễn Việt Tiến)',
@@ -42,6 +45,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 12,
                 'introduce' => NULL,
+                'subject_id' => 1,
             ],
             [
                 'name' => 'Ngữ Văn 10 (Nguyễn Duy Quang)',
@@ -49,6 +53,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 5,
                 'introduce' => NULL,
+                'subject_id' => 2,
             ],
             [
                 'name' => 'Ngữ Văn 10 (Lâm Thị Kim Thi)',
@@ -56,6 +61,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 6,
                 'introduce' => NULL,
+                'subject_id' => 2,
             ],
             [
                 'name' => 'Ngữ Văn 10 (Nguyễn Anh Thư)',
@@ -63,6 +69,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 10,
                 'introduce' => NULL,
+                'subject_id' => 2,
             ],
             [
                 'name' => 'Ngữ Văn 10 (Lê Như Quỳnh)',
@@ -70,6 +77,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 8,
                 'introduce' => NULL,
+                'subject_id' => 2,
             ],
             [
                 'name' => 'Vật Lý 10 (Nguyễn Anh Quân)',
@@ -77,6 +85,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 13,
                 'introduce' => NULL,
+                'subject_id' => 3,
             ],
             [
                 'name' => 'Vật Lý 10 (Nguyễn Việt Hoàng)',
@@ -84,6 +93,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 14,
                 'introduce' => NULL,
+                'subject_id' => 3,
             ],
             [
                 'name' => 'Vật Lý 10 (Trần Anh Duy)',
@@ -91,6 +101,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 15,
                 'introduce' => NULL,
+                'subject_id' => 3,
             ],
             [
                 'name' => 'Hóa học 10 (Trần Gia Hưng)',
@@ -98,6 +109,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 18,
                 'introduce' => NULL,
+                'subject_id' => 4,
             ],
             [
                 'name' => 'Hóa học 10 (Võ Nguyễn Hoài Nam)',
@@ -105,6 +117,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 19,
                 'introduce' => NULL,
+                'subject_id' => 4,
             ],
             [
                 'name' => 'Hóa học 10 (Trần Thị Thanh Tuyền)',
@@ -112,6 +125,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 20,
                 'introduce' => NULL,
+                'subject_id' => 4,
             ],
             [
                 'name' => 'Lịch sử 10 (Lê Thùy Linh)',
@@ -119,6 +133,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 24,
                 'introduce' => NULL,
+                'subject_id' => 5,
             ],
             [
                 'name' => 'Lịch sử 10 (Phan Thị Diệu Hiền)',
@@ -126,6 +141,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 25,
                 'introduce' => NULL,
+                'subject_id' => 5,
             ],
             [
                 'name' => 'Địa lý 10 (Phạm Hồng Ngọc)',
@@ -133,6 +149,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 27,
                 'introduce' => NULL,
+                'subject_id' => 6,
             ],
             [
                 'name' => 'Địa lý 10 (Phạm Thị Hồng Thủy)',
@@ -140,6 +157,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 28,
                 'introduce' => NULL,
+                'subject_id' => 6,
             ],
             [
                 'name' => 'Sinh học 10 (Hoàng Quốc Việt)',
@@ -147,6 +165,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 31,
                 'introduce' => NULL,
+                'subject_id' => 7,
             ],
             [
                 'name' => 'Sinh học 10 (Nguyễn Trần Trung Tín)',
@@ -154,6 +173,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 29,
                 'introduce' => NULL,
+                'subject_id' => 7,
             ],
             [
                 'name' => 'Tiếng Anh 10 (Kiều Tố Linh)',
@@ -161,6 +181,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 32,
                 'introduce' => NULL,
+                'subject_id' => 8,
             ],
             [
                 'name' => 'Tiếng Anh 10 (Nguyễn Hoàng Đông)',
@@ -168,6 +189,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 33,
                 'introduce' => NULL,
+                'subject_id' => 8,
             ],
             [
                 'name' => 'Tiếng Anh 10 (Võ Hoàng Yến)',
@@ -175,6 +197,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 34,
                 'introduce' => NULL,
+                'subject_id' => 8,
             ],
             [
                 'name' => 'Tin học 10 (Nguyễn Hồ Hải Đăng)',
@@ -182,6 +205,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 41,
                 'introduce' => NULL,
+                'subject_id' => 9,
             ],
             [
                 'name' => 'Thể dục 10 (Trần Thanh Tân)',
@@ -189,6 +213,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 38,
                 'introduce' => NULL,
+                'subject_id' => 10,
             ],
             [
                 'name' => 'Quốc phòng 10 (Nguyễn Quốc Mạnh)',
@@ -196,6 +221,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 39,
                 'introduce' => NULL,
+                'subject_id' => 11,
             ],
             [
                 'name' => 'Giáo dục công dân 10 (Lâm Thị Kim Thi)',
@@ -203,6 +229,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 6,
                 'introduce' => NULL,
+                'subject_id' => 12,
             ],
             [
                 'name' => 'Giáo dục công dân 10 (Nguyễn Hà Tú Anh)',
@@ -210,6 +237,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 9,
                 'introduce' => NULL,
+                'subject_id' => 12,
             ],
             [
                 'name' => 'Công nghệ 10 (Nguyễn Anh Quân)',
@@ -217,6 +245,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 13,
                 'introduce' => NULL,
+                'subject_id' => 13,
             ],
             [
                 'name' => 'Toán 11 (Lê Thị Thúy Vy)',
@@ -224,6 +253,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 4,
                 'introduce' => NULL,
+                'subject_id' => 14,
             ],
             [
                 'name' => 'Toán 11 (Nguyễn Trí Bảo)',
@@ -231,6 +261,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 11,
                 'introduce' => NULL,
+                'subject_id' => 14,
             ],
             [
                 'name' => 'Toán 11 (Nguyễn Thanh Huy)',
@@ -238,6 +269,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 2,
                 'introduce' => NULL,
+                'subject_id' => 14,
             ],
             [
                 'name' => 'Ngữ Văn 11 (Nguyễn Thị Mỹ Duyên)',
@@ -245,6 +277,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 7,
                 'introduce' => NULL,
+                'subject_id' => 15,
             ],
             [
                 'name' => 'Ngữ Văn 11 (Nguyễn Hà Tú Anh)',
@@ -252,6 +285,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 9,
                 'introduce' => NULL,
+                'subject_id' => 15,
             ],
             [
                 'name' => 'Ngữ Văn 11 (Nguyễn Anh Thư)',
@@ -259,6 +293,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 10,
                 'introduce' => NULL,
+                'subject_id' => 15,
             ],
             [
                 'name' => 'Vật Lý 11 (Nguyễn Thị Đan Thanh)',
@@ -266,6 +301,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 16,
                 'introduce' => NULL,
+                'subject_id' => 16,
             ],
             [
                 'name' => 'Vật Lý 11 (Võ Xuân Trúc)',
@@ -273,6 +309,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 17,
                 'introduce' => NULL,
+                'subject_id' => 16,
             ],
             [
                 'name' => 'Hóa học 11 (Trần Thị Thanh Tuyền)',
@@ -280,6 +317,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 20,
                 'introduce' => NULL,
+                'subject_id' => 17,
             ],
             [
                 'name' => 'Hóa học 11 (Nguyễn Văn Sáu)',
@@ -287,6 +325,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 21,
                 'introduce' => NULL,
+                'subject_id' => 17,
             ],
             [
                 'name' => 'Lịch sử 11 (Nguyễn Văn Chính)',
@@ -294,6 +333,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 23,
                 'introduce' => NULL,
+                'subject_id' => 18,
             ],
             [
                 'name' => 'Lịch sử 11 (Phan Thị Diệu Hiền)',
@@ -301,6 +341,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 25,
                 'introduce' => NULL,
+                'subject_id' => 18,
             ],
             [
                 'name' => 'Địa lý 11 (Nguyễn Thị Minh)',
@@ -308,6 +349,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 26,
                 'introduce' => NULL,
+                'subject_id' => 19,
             ],
             [
                 'name' => 'Địa lý 11 (Phạm Thị Hồng Thủy)',
@@ -315,6 +357,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 28,
                 'introduce' => NULL,
+                'subject_id' => 19,
             ],
             [
                 'name' => 'Sinh học 11 (Nguyễn Thị Kim Thúy)',
@@ -322,6 +365,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 30,
                 'introduce' => NULL,
+                'subject_id' => 20,
             ],
             [
                 'name' => 'Sinh học 11 (Hoàng Quốc Việt)',
@@ -329,6 +373,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 31,
                 'introduce' => NULL,
+                'subject_id' => 20,
             ],
             [
                 'name' => 'Tiếng Anh 11 (Võ Hoàng Yến)',
@@ -336,6 +381,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 34,
                 'introduce' => NULL,
+                'subject_id' => 21,
             ],
             [
                 'name' => 'Tiếng Anh 11 (Phan Huỳnh Anh)',
@@ -343,6 +389,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 35,
                 'introduce' => NULL,
+                'subject_id' => 21,
             ],
             [
                 'name' => 'Tiếng Anh 11 (Nguyễn Hoàng Đông)',
@@ -350,6 +397,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 33,
                 'introduce' => NULL,
+                'subject_id' => 21,
             ],
             [
                 'name' => 'Tin học 11 (Võ Nguyễn Trường An)',
@@ -357,6 +405,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 40,
                 'introduce' => NULL,
+                'subject_id' => 22,
             ],
             [
                 'name' => 'Thể dục 10 (Trần Bá Dương)',
@@ -364,6 +413,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 36,
                 'introduce' => NULL,
+                'subject_id' => 23,
             ],
             [
                 'name' => 'Quốc phòng 11 (Nguyễn Quốc Mạnh)',
@@ -371,6 +421,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 39,
                 'introduce' => NULL,
+                'subject_id' => 24,
             ],
             [
                 'name' => 'Công nghệ 11 (Nguyễn Anh Quân)',
@@ -378,6 +429,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 13,
                 'introduce' => NULL,
+                'subject_id' => 26,
             ],
             [
                 'name' => 'Giáo dục công dân 11 (Nguyễn Anh Thư)',
@@ -385,6 +437,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 10,
                 'introduce' => NULL,
+                'subject_id' => 25,
             ],
             [
                 'name' => 'Toán 12 (Nguyễn Thị Mỹ Linh)',
@@ -392,6 +445,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 1,
                 'introduce' => NULL,
+                'subject_id' => 27,
             ],
             [
                 'name' => 'Toán 12 (Nguyễn Việt Tiến)',
@@ -399,6 +453,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 12,
                 'introduce' => NULL,
+                'subject_id' => 27,
             ],
             [
                 'name' => 'Toán 12 (Nguyễn Trí Bảo)',
@@ -406,6 +461,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 11,
                 'introduce' => NULL,
+                'subject_id' => 27,
             ],
             [
                 'name' => 'Vật Lý 12 (Võ Xuân Trúc)',
@@ -413,6 +469,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 17,
                 'introduce' => NULL,
+                'subject_id' => 29,
             ],
             [
                 'name' => 'Vật Lý 12 (Trần Anh Duy)',
@@ -420,6 +477,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 15,
                 'introduce' => NULL,
+                'subject_id' => 29,
             ],
             [
                 'name' => 'Hóa học 12 (Nguyễn Văn Thảo)',
@@ -427,6 +485,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 22,
                 'introduce' => NULL,
+                'subject_id' => 30,
             ],
             [
                 'name' => 'Hóa học 12 (Nguyễn Văn Sáu)',
@@ -434,6 +493,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 21,
                 'introduce' => NULL,
+                'subject_id' => 30,
             ],
             [
                 'name' => 'Lịch sử 12 (Nguyễn Văn Chính)',
@@ -441,6 +501,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 23,
                 'introduce' => NULL,
+                'subject_id' => 31,
             ],
             [
                 'name' => 'Lịch sử 12 (Lê Thùy Linh)',
@@ -448,6 +509,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 24,
                 'introduce' => NULL,
+                'subject_id' => 31,
             ],
             [
                 'name' => 'Địa lý 12 (Nguyễn Thị Minh)',
@@ -455,6 +517,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 26,
                 'introduce' => NULL,
+                'subject_id' => 32,
             ],
             [
                 'name' => 'Địa lý 12 (Phạm Hồng Ngọc)',
@@ -462,6 +525,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 27,
                 'introduce' => NULL,
+                'subject_id' => 32,
             ],
             [
                 'name' => 'Sinh học 12 (Nguyễn Trần Trung Tín)',
@@ -469,6 +533,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 29,
                 'introduce' => NULL,
+                'subject_id' => 33,
             ],
             [
                 'name' => 'Sinh học 12 (Nguyễn Thị Kim Thúy)',
@@ -476,6 +541,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 30,
                 'introduce' => NULL,
+                'subject_id' => 33,
             ],
             [
                 'name' => 'Tiếng Anh 12 (Kiều Tố Linh)',
@@ -483,6 +549,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 32,
                 'introduce' => NULL,
+                'subject_id' => 34,
             ],
             [
                 'name' => 'Tiếng Anh 12 (Phan Huỳnh Anh)',
@@ -490,6 +557,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 35,
                 'introduce' => NULL,
+                'subject_id' => 34,
             ],
             [
                 'name' => 'Công nghệ 12 (Nguyễn Việt Hoàng)',
@@ -497,6 +565,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 14,
                 'introduce' => NULL,
+                'subject_id' => 39,
             ],
             [
                 'name' => 'Thể dục 12 (Trần Bá Dương)',
@@ -504,6 +573,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 36,
                 'introduce' => NULL,
+                'subject_id' => 36,
             ],
             [
                 'name' => 'Thể dục 12 (Lê Văn Xuân)',
@@ -511,6 +581,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 37,
                 'introduce' => NULL,
+                'subject_id' => 36,
             ],
             [
                 'name' => 'Quốc phòng 12 (Lê Văn Xuân)',
@@ -518,6 +589,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 37,
                 'introduce' => NULL,
+                'subject_id' => 37,
             ],
             [
                 'name' => 'Quốc phòng 12 (Nguyễn Quốc Mạnh)',
@@ -525,6 +597,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 39,
                 'introduce' => NULL,
+                'subject_id' => 37,
             ],
             [
                 'name' => 'Tin học 12 (Nguyễn Hồ Hải Đăng)',
@@ -532,6 +605,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 41,
                 'introduce' => NULL,
+                'subject_id' => 35,
             ],
             [
                 'name' => 'Tin học 12 (Võ Nguyễn Trường An)',
@@ -539,6 +613,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 40,
                 'introduce' => NULL,
+                'subject_id' => 35,
             ],
             [
                 'name' => 'Giáo dục công dân 12 (Nguyễn Thị Mỹ Duyên)',
@@ -546,6 +621,7 @@ class CourseSeeder extends Seeder
                 'school_year_id' => 3,
                 'teacher_id' => 7,
                 'introduce' => NULL,
+                'subject_id' => 38,
             ],
         ]);
     }

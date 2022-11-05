@@ -22,6 +22,9 @@
                         <div class="col-12 col-md-12 mb-1">
                             <strong class="text-main">Tên khóa học:</strong> {{ $course->name }}
                         </div>
+                        <div class="col-12 col-md-12 mb-1">
+                            <strong class="text-main">Môn học:</strong> {{ $course->subject_name }}
+                        </div>
                         <div class="col-12 col-md-6 mb-1">
                             <strong class="text-main">Giáo viên:</strong> {{ $course->teacher_name }}
                         </div>

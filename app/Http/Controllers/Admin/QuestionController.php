@@ -32,6 +32,9 @@ class QuestionController extends Controller
         $data['questions'] = $this->question->getAll($search);
         $data['subjects'] = $this->subject->getDropdown();
         $data['teachers'] = $this->teacher->getDropdown();
+        if($search != []){
+            $data['questions']->appends($request->toArray());
+        }
         return view('admin.question.index', $data);
     }
 

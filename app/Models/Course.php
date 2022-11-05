@@ -20,5 +20,6 @@ class Course extends Model
         'code',
         'school_year_id',
         'notice',
+        'subject_id',
     ];
 }

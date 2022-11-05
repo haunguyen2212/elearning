@@ -23,29 +23,33 @@ class CourseRepository implements CourseRepositoryInterface
 
     public function getAllActive($offset = 10){
         return $this->course->leftJoin('teachers', 'teacher_id', '=', 'teachers.id')
-            ->where('is_show', 1)->select('courses.*', DB::raw('teachers.name as teacher_name'))->paginate($offset);
+            ->leftJoin('subjects', 'subject_id', 'subjects.id')
+            ->where('is_show', 1)->select('courses.*', DB::raw('teachers.name as teacher_name, subjects.name as subject_name'))->paginate($offset);
     }
 
     public function getFullInfo($offset = 10)
     {
         return $this->course->leftJoin('teachers', 'teacher_id', 'teachers.id')
-            ->select('courses.id', 'courses.name', 'code', 'introduce', 'is_enrol', 'courses.is_show', 'notice', 'teacher_id' ,DB::raw('teachers.name as teacher_name'))
+            ->leftJoin('subjects', 'subject_id', 'subjects.id')
+            ->select('courses.id', 'courses.name', 'code', 'introduce', 'is_enrol', 'courses.is_show', 'notice', 'teacher_id', 'subject_id' ,DB::raw('teachers.name as teacher_name, subjects.name as subject_name'))
             ->paginate($offset);
     }
 
     public function getFullById($id){
         return $this->course->leftJoin('teachers', 'teacher_id', 'teachers.id')
+            ->leftJoin('subjects', 'subject_id', 'subjects.id')
             ->where('courses.id', $id)
-            ->select('courses.id', 'courses.name', 'code', 'introduce', 'is_enrol', 'is_show', 'notice', 'teacher_id' ,DB::raw('teachers.name as teacher_name'))
+            ->select('courses.id', 'courses.name', 'code', 'introduce', 'is_enrol', 'is_show', 'notice', 'teacher_id', 'subject_id' ,DB::raw('teachers.name as teacher_name, subjects.name as subject_name'))
             ->first();
     }
 
     public function getByKey($key, $offset = 10)
     {
         return $this->course->leftJoin('teachers', 'teacher_id', 'teachers.id')
+            ->leftJoin('subjects', 'subject_id', 'subjects.id')
             ->where('code', 'like', '%'.$key.'%')
             ->orWhere('courses.name', 'like', '%'.$key.'%')
-            ->select('courses.*', DB::raw('teachers.name as teacher_name'))
+            ->select('courses.*', DB::raw('teachers.name as teacher_name, subjects.name as subject_name'))
             ->paginate($offset);
     }
 
@@ -68,6 +72,7 @@ class CourseRepository implements CourseRepositoryInterface
             'introduce' => $collection['introduce'] ?? '',
             'is_enrol' => $collection['is_enrol'] ?? '1',
             'school_year_id' => $collection['school_year_id'],
+            'subject_id' => $collection['subject_id'],
         ]);
     }
 
@@ -79,6 +84,7 @@ class CourseRepository implements CourseRepositoryInterface
             'introduce' => $collection['introduce'] ?? '',
             'is_enrol' => $collection['is_enrol'] ?? '1',
             'is_show' => $collection['is_show'],
+            'subject_id' => $collection['subject_id'],
         ]);
     }
 
@@ -109,12 +115,13 @@ class CourseRepository implements CourseRepositoryInterface
     public function getByKeyOfCurrent($school_year, $key, $offset = 10)
     {
         return $this->course->leftJoin('teachers', 'teacher_id', 'teachers.id')
+            ->leftJoin('subjects', 'subject_id', 'subjects.id')
             ->where('school_year_id', $school_year)
             ->where(function ($q) use ($key) {
                 $q->where('code', 'like', '%'.$key.'%')
                 ->orWhere('courses.name', 'like', '%'.$key.'%');
             })
-            ->select('courses.*', DB::raw('teachers.name as teacher_name'))
+            ->select('courses.*', DB::raw('teachers.name as teacher_name, subjects.name as subject_name'))
             ->orderBy('id', 'desc')
             ->paginate($offset);
     }
@@ -122,8 +129,9 @@ class CourseRepository implements CourseRepositoryInterface
     public function getFullInfoOfCurrent($school_year, $offset = 10)
     {
         return $this->course->leftJoin('teachers', 'teacher_id', 'teachers.id')
+            ->leftJoin('subjects', 'subject_id', 'subjects.id')
             ->where('school_year_id', $school_year)
-            ->select('courses.id', 'courses.name', 'code', 'introduce', 'is_enrol', 'courses.is_show', 'notice', 'teacher_id' ,DB::raw('teachers.name as teacher_name'))
+            ->select('courses.id', 'courses.name', 'code', 'introduce', 'is_enrol', 'courses.is_show', 'notice', 'teacher_id' ,DB::raw('teachers.name as teacher_name, subjects.name as subject_name'))
             ->orderBy('id', 'desc')
             ->paginate($offset);
     }
@@ -131,9 +139,10 @@ class CourseRepository implements CourseRepositoryInterface
     public function getAllActiveOfCurrent($school_year, $offset = 10)
     {
         return $this->course->leftJoin('teachers', 'teacher_id', '=', 'teachers.id')
+            ->leftJoin('subjects', 'subject_id', 'subjects.id')
             ->where('courses.school_year_id', $school_year)
             ->where('is_show', 1)
-            ->select('courses.*', DB::raw('teachers.name as teacher_name'))
+            ->select('courses.*', DB::raw('teachers.name as teacher_name, subjects.name as subject_name'))
             ->paginate($offset);
     }
 
@@ -145,13 +154,14 @@ class CourseRepository implements CourseRepositoryInterface
     public function searchByKeyOfCurrent($key, $school_year, $offset = 10)
     {
         return $this->course->leftJoin('teachers', 'teacher_id', '=', 'teachers.id')
+            ->leftJoin('subjects', 'subject_id', 'subjects.id')
             ->where('courses.school_year_id', $school_year)
             ->where(function($q) use ($key){
                 $q->where('courses.code', 'like', '%'.$key.'%')
                     ->orWhere('courses.name', 'like', '%'.$key.'%');
             })
             ->where('is_show', 1)
-            ->select('courses.*', DB::raw('teachers.name as teacher_name'))
+            ->select('courses.*', DB::raw('teachers.name as teacher_name, subjects.name as subject_name'))
             ->paginate($offset);
     }
 

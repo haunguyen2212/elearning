@@ -8,23 +8,26 @@ use App\Http\Requests\UpdateCourseRequest;
 use App\Libraries\SchoolYear;
 use App\Repositories\Interfaces\CourseInvolvementRepositoryInterface;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
+use App\Repositories\Interfaces\SubjectRepositoryInterface;
 use App\Repositories\Interfaces\TeacherRepositoryInterface;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
 
-    private $course, $teacher, $courseInvolvement, $schoolYear;
+    private $course, $teacher, $courseInvolvement, $schoolYear, $subject;
 
     public function __construct(
         CourseRepositoryInterface $courseRepository,
         TeacherRepositoryInterface $teacherRepository,
-        CourseInvolvementRepositoryInterface $courseInvolvementRepository
+        CourseInvolvementRepositoryInterface $courseInvolvementRepository,
+        SubjectRepositoryInterface $subjectRepository
     )
     {
         $this->course = $courseRepository;
         $this->teacher = $teacherRepository;
         $this->courseInvolvement = $courseInvolvementRepository;
+        $this->subject = $subjectRepository;
         $schoolYear = new SchoolYear();
         $this->schoolYear = $schoolYear->current();
     }
@@ -45,6 +48,7 @@ class CourseController extends Controller
     public function create()
     {
         $data['teachers'] = $this->teacher->getAccountActive();
+        $data['subjects'] = $this->subject->getDropdown();
         return view('admin.course.create', $data);
     }
 
@@ -74,6 +78,7 @@ class CourseController extends Controller
     public function edit($id)
     {
         $data['teachers'] = $this->teacher->getAccountActive();
+        $data['subjects'] = $this->subject->getDropdown();
         $data['course'] = $this->course->getFullById($id);
         if(empty($data['course'])){
             abort(404);

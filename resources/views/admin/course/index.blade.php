@@ -53,9 +53,9 @@
                           <tr>
                             <th width="5%">ID</th>
                             <th width="10%">Mã số</th>
-                            <th width="25%">Tên khóa học</th>
+                            <th width="30%">Tên khóa học</th>
                             <th width="15%">Giáo viên</th>
-                            <th width="20%">Giới thiệu</th>
+                            <th width="15%">Môn học</th>
                             <th width="10%">Trạng thái</th>
                             <th width="15%">Tùy chỉnh</th>
                           </tr>
@@ -68,7 +68,7 @@
                                     <td>{{ $course->code }}</td>
                                     <td>{{ $course->name }}</td>
                                     <td>{{ $course->teacher_name }}</td>
-                                    <td>{!! $course->introduce !!}</td>
+                                    <td>{!! $course->subject_name !!}</td>
                                     <td>
                                       @if ($course->is_enrol)
                                             <span class="badge bg-success">Mở</span>

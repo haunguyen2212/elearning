@@ -25,6 +25,7 @@
                         <div>{!! $course->introduce !!}</div>
                         <div><strong class="text-main">Mã lớp: </strong>{{ $course->code }}</div>
                         <div><strong class="text-main">Tên lớp: </strong>{{ $course->name }}</div>
+                        <div><strong class="text-main">Môn học: </strong>{{ $course->subject_name }}</div>
                         <div><strong class="text-main">Giáo viên: </strong>{{ $course->teacher_name }}</div>
                     </div>
                     @if (auth()->guard('student')->check())

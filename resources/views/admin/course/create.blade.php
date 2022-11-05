@@ -41,6 +41,19 @@
                         </div>
 
                         <div class="col-12 col-md-6">
+                          <label for="subject_id" class="form-label">Môn học (*)</label>
+                          <select name="subject_id" id="subject_id" class="form-select">
+                            <option value="">Chưa chọn môn học</option>
+                            @foreach ($subjects as $subject)
+                              <option value="{{ $subject->id }}" {{ old('subject_id') == $subject->id ? 'selected' : '' }}>{{ $subject->name }}</option>
+                            @endforeach
+                          </select>
+                          @error('subject_id')
+                            <div class="text-danger ps-1 pt-1">{!! $message !!}</div>
+                          @enderror
+                        </div>
+
+                        <div class="col-12 col-md-12">
                           <label for="name" class="form-label">Tên khóa học (*)</label>
                           <input type="text" class="form-control" name="name" id="name" value="{{ old('name') }}">
                           @error('name')

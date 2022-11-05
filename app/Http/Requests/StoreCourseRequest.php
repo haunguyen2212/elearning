@@ -27,6 +27,7 @@ class StoreCourseRequest extends FormRequest
             'code' => 'required|max:10|unique:courses,code',
             'name' => 'required|max:100',
             'teacher_id' => 'required|exists:teachers,id',
+            'subject_id' => 'required|exists:subjects,id',
             'is_enrol' => 'required|in:0,1',
             'introduce' => 'nullable|max:500',
         ];
@@ -42,6 +43,8 @@ class StoreCourseRequest extends FormRequest
             'name.max' => '<i class="bi bi-exclamation-circle"></i> Số ký tự vượt quá giới hạn (100)',
             'teacher_id.required' => '<i class="bi bi-exclamation-circle"></i> Chưa chọn giáo viên',
             'teacher_id.exists' => '<i class="bi bi-exclamation-circle"></i> Giáo viên không tồn tại',
+            'subject_id.required' => '<i class="bi bi-exclamation-circle"></i> Chưa chọn môn học',
+            'subject_id.exists' => '<i class="bi bi-exclamation-circle"></i> Môn học không tồn tại',
             'is_enrol.required' => '<i class="bi bi-exclamation-circle"></i> Vui lòng chọn 1 giá trị',
             'is_enrol.in' => '<i class="bi bi-exclamation-circle"></i> Giá trị không hợp lệ',
             'introduce.max' => '<i class="bi bi-exclamation-circle"></i> Số ký tự vượt quá giới hạn (1000)',
