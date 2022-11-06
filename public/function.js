@@ -107,3 +107,19 @@ function showFileUpload(input, result){
     }
     })
 }
+
+function showImageUpload(fileInput, selector){
+    if(fileInput.files && fileInput.files[0]){
+        var reader = new FileReader();
+
+        reader.onload = function(e){
+            $(selector).attr('src', e.target.result);
+            $(selector).show();
+        }
+        reader.readAsDataURL(fileInput.files[0]);
+    }
+}
+
+function uploadImage(selector){
+    document.querySelector(selector).click();
+}

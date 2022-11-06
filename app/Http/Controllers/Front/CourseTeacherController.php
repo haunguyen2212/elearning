@@ -140,6 +140,10 @@ class CourseTeacherController extends Controller
             if($documents){
                 foreach($documents as $document) {
                     $file = $document->getClientOriginalName();
+                    if($document->getSize() > 2000000){
+                        array_push($err, __('message.upload_file_too_big', ['name' => $file]));
+                        continue;
+                    }
                     $directory = 'frontend/upload/'.$course->code.'/document';
                     if(!(file_exists($directory) && is_dir($directory))){
                         mkdir($directory, 0775, true);

@@ -25,4 +25,5 @@ return [
     'not_found' => 'Không tìm thấy :name',
     'accept_enrol' => 'Khóa học hiện tại sẽ cho phép ghi danh',
     'deny_enrol' => 'Khóa học hiện tại sẽ không thể ghi danh',
+    'upload_file_too_big' => 'File :name kích thước vượt quá 2MB',
 ];

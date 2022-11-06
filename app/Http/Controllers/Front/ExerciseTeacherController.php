@@ -82,6 +82,10 @@ class ExerciseTeacherController extends Controller
             if($files){
                 foreach($files as $file) {
                     $fileName = $file->getClientOriginalName();
+                    if($file->getSize() > 2000000){
+                        array_push($err, __('message.upload_file_too_big', ['name' => $fileName]));
+                        continue;
+                    }
                     $directory = 'frontend/upload/'.$course->code.'/exercise';
                     if(!(file_exists($directory) && is_dir($directory))){
                         mkdir($directory, 0775, true);

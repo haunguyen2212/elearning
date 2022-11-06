@@ -19,7 +19,11 @@
                     </div>
                     <div class="col-12 col-md-6 pt-2">
                         <label for="image_edit" class="form-label fw-bold text-main">Hình ảnh</label>
-                        <input class="form-control" type="file" name="image" id="image_edit" accept="image/png, image/jpeg">
+                        <br><button type="button" class="btn btn-sm btn-main" onclick="uploadImage('#image_edit')">Chọn hình ảnh</button>
+                        <input class="form-control" type="file" name="image" id="image_edit" onchange="showImageUpload(this,'.image-question-edit')" accept="image/png, image/jpeg" style="display: none">
+                        <div class="mt-2">
+                          <img class="image-question-edit" alt="img" width="200px" style="display: none">
+                        </div>
                         <span class="text-danger mt-3 err-image"></span>
                     </div>
                     <div class="col-12 pt-2">

@@ -109,6 +109,10 @@ QUESTION.edit = function(){
                     });
                     $('#subject_edit').html(str);
                     var question = res.data.question;
+                    if(question.image != null){
+                        $('.image-question-edit').attr('src', 'assets/img/question/'+question.image);
+                        $('.image-question-edit').show();
+                    }
                     $('#subject_edit option[value='+question.subject_id+']').attr('selected','selected');
                     $('#correct_answer'+question.correct_answer).prop("checked", true);
                     $('#level'+question.level).prop("checked", true);

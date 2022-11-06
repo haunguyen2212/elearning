@@ -18,7 +18,11 @@
                     </div>
                     <div class="col-12 col-md-6 pt-2">
                         <label for="image_create" class="form-label fw-bold text-main">Hình ảnh</label>
-                        <input class="form-control" type="file" name="image" id="image_create" accept="image/png, image/jpeg">
+                        <input class="form-control" type="file" name="image" id="image_create" onchange="showImageUpload(this,'.image-question-create')" accept="image/png, image/jpeg" style="display: none">
+                        <br><button type="button" class="btn btn-sm btn-main" onclick="uploadImage('#image_create')">Chọn hình ảnh</button>
+                        <div>
+                          <img class="image-question-create" alt="img" width="200px" style="display: none">
+                        </div>
                         <span class="text-danger mt-3 err-image"></span>
                     </div>
                     <div class="col-12 pt-2">
