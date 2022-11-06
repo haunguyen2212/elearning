@@ -13,6 +13,7 @@ use App\Libraries\TeacherPolicy;
 use App\Repositories\Interfaces\CourseInvolvementRepositoryInterface;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
 use App\Repositories\Interfaces\ExerciseRepositoryInterface;
+use App\Repositories\Interfaces\QuizRepositoryInterface;
 use App\Repositories\Interfaces\StudentRepositoryInterface;
 use App\Repositories\Interfaces\TopicDocumentRepositoryInterface;
 use App\Repositories\Interfaces\TopicRepositoryInterface;
@@ -22,7 +23,7 @@ use Illuminate\Support\Facades\DB;
 class CourseTeacherController extends Controller
 {
 
-    private $myCourse, $course, $topic, $topicDocument, $student, $courseInvolvement, $policy, $exercise;
+    private $myCourse, $course, $topic, $topicDocument, $student, $courseInvolvement, $policy, $exercise, $quiz;
 
     public function __construct(
         CourseRepositoryInterface $courseRepository,
@@ -30,7 +31,8 @@ class CourseTeacherController extends Controller
         TopicDocumentRepositoryInterface $topicDocumentRepository,
         StudentRepositoryInterface $studentRepository,
         CourseInvolvementRepositoryInterface $courseInvolvementRepository,
-        ExerciseRepositoryInterface $exerciseRepository
+        ExerciseRepositoryInterface $exerciseRepository,
+        QuizRepositoryInterface $quizRepository
     )
     {
         $this->course = $courseRepository;
@@ -39,6 +41,7 @@ class CourseTeacherController extends Controller
         $this->student = $studentRepository;
         $this->courseInvolvement = $courseInvolvementRepository;
         $this->exercise = $exerciseRepository;
+        $this->quiz = $quizRepository;
         $this->myCourse = new MyCourse();
         $this->policy = new TeacherPolicy();
     }
@@ -49,9 +52,11 @@ class CourseTeacherController extends Controller
         $data['topics'] = $this->topic->getAll($id);
         $data['documents'] = [];
         $data['exercises'] = [];
+        $data['quizzes'] = [];
         foreach($data['topics'] as $key => $topic){
             $data['documents'][$key] = $this->topicDocument->getAll($topic->id);
             $data['exercises'][$key] = $this->exercise->getAll($topic->id);
+            $data['quizzes'][$key] = $this->quiz->getAll($topic->id);
         }
         $data['myTeacherCourses'] = $this->myCourse->getCourseOfTeacher();
         $data['listStudent'] = $this->course->getStudentOfCourse($id);

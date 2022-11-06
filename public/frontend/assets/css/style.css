@@ -595,3 +595,7 @@ a{
   .exercise-main p{
     margin-bottom: 0;
   }
+
+  .topic-hide{
+    opacity: 0.5;
+  }

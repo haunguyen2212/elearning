@@ -103,7 +103,7 @@
             <a href="" class="text-main fw-bold" data-bs-toggle="modal" data-bs-target="#ModalCreateTopic"><i class="bi bi-plus-circle"></i> Thêm chủ đề mới</a>
 
             @foreach ($topics as $key => $topic)
-                <div class="topic">
+                <div class="topic {{ $topic->is_show == 0 ? 'topic-hide' : '' }}">
                     <h5 class="topic-title">
                         <div class="d-flex justify-content-between">
                             <span>{!! $topic->title !!}</span>
@@ -203,9 +203,37 @@
                                             </span>
                                         @endif  
                                         <span class="ps-1 exercise-control edit-exercise" data-url="{{ route('teacher.exercise.edit', $exercise->id) }}" data-bs-toggle="modal" data-bs-target="#ModalEditExercise">
-                                            <i class="bi bi-pen" title="Đổi tên"></i>
+                                            <i class="bi bi-pen" title="Chỉnh sửa"></i>
                                         </span>
                                         <span class="ps-1 exercise-control delete-exercise" data-url="{{ route('teacher.exercise.delete', [$course->id, $exercise->id]) }}" data-bs-toggle="modal" data-bs-target="#ModalDeleteExercise">
+                                            <i class="bi bi-x-lg" title="Xóa"></i>
+                                        </span>
+                                    </div>
+                                </span>
+                            </div>            
+                        @endforeach
+
+                        @foreach ($quizzes[$key] as $quiz)
+                            <div class="quiz {{ $quiz->is_show == 0 ? 'hide' : '' }}">
+                                <a href="{{ route('teacher.quiz.index', ['course_id' => $course->id, 'id' => $quiz->id]) }}" class="{{ $quiz->is_show == 0 ? 'hide' : '' }}">
+                                    <i class="bi bi-question-circle"></i> {{ $quiz->name }}
+                                </a>
+                                <span class="d-flex align-items-center">
+                                    <span class="ps-1 quiz-setting" data-quiz="{{ $quiz->id }}"><i class="bi bi-gear" title="Tùy chỉnh"></i></span>
+                                    <div class="group-control-quiz-{{ $quiz->id }} ps-1" style="display: none">
+                                        @if ($quiz->is_show == 1)
+                                            <span class="ps-1 quiz-control hide-quiz" data-url="{{ route('teacher.quiz.hide', $quiz->id) }}">
+                                                <i class="bi bi-eye" title="Đang hiển thị"></i>
+                                            </span>
+                                        @else
+                                            <span class="ps-1 quiz-control show-quiz" data-url="{{ route('teacher.quiz.show', $quiz->id) }}">
+                                                <i class="bi bi-eye-slash" title="Đang ẩn"></i>
+                                            </span>
+                                        @endif  
+                                        <span class="ps-1 quiz-control edit-quiz" data-url="{{ route('teacher.quiz.edit', $quiz->id) }}" data-bs-toggle="modal" data-bs-target="#ModalEditQuiz">
+                                            <i class="bi bi-pen" title="Chỉnh sửa"></i>
+                                        </span>
+                                        <span class="ps-1 quiz-control delete-quiz" data-url="{{ route('teacher.quiz.delete', $quiz->id) }}" data-bs-toggle="modal" data-bs-target="#ModalDeleteQuiz">
                                             <i class="bi bi-x-lg" title="Xóa"></i>
                                         </span>
                                     </div>
@@ -266,6 +294,8 @@
     @include('front.teacher.modal.delete_exercise')
     @include('front.teacher.modal.edit_exercise')
     @include('front.teacher.modal.create_quiz')
+    @include('front.teacher.modal.delete_quiz')
+    @include('front.teacher.modal.edit_quiz')
 @endsection
 
 @section('script')
@@ -304,6 +334,11 @@
             var id = $(this).attr('data-exercise');
             $(this).hide();
             $('.group-control-exercise-'+id).toggle();
+        });
+        $('.quiz-setting').click(function(){
+            var id = $(this).attr('data-quiz');
+            $(this).hide();
+            $('.group-control-quiz-'+id).toggle();
         });
     </script>
 @endsection

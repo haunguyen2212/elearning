@@ -26,7 +26,7 @@ class UpdateExerciseRequest extends FormRequest
         return [
             'name' => 'required|max:200',
             'content' => 'required|max:1000',
-            'expiration_date' => 'required|date_format:d-m-Y H:i|after:now',
+            'expiration_date' => 'required|date_format:d-m-Y H:i',
         ];
     }
 
@@ -39,7 +39,6 @@ class UpdateExerciseRequest extends FormRequest
             'content.max' => '<i class="bi bi-exclamation-circle"></i> Nội dung không quá 1000 ký tự',
             'expiration_date.required' => '<i class="bi bi-exclamation-circle"></i> Chưa nhập ngày hết hạn',
             'expiration_date.date_format' => '<i class="bi bi-exclamation-circle"></i> Định dạng không hợp lệ',
-            'expiration_date.after' => '<i class="bi bi-exclamation-circle"></i> Thời gian không hợp lệ',
         ];
     }
 }
