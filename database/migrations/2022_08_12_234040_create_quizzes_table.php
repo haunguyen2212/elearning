@@ -21,6 +21,7 @@ class CreateQuizzesTable extends Migration
             $table->integer('duration')->default(0);
             $table->dateTime('start_time');
             $table->dateTime('end_time');
+            $table->integer('maximum')->default('1');
             $table->string('password', 50);
             $table->char('is_show', 1)->default('1');
             $table->timestamps();

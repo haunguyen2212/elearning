@@ -29,6 +29,7 @@ class StoreQuizRequest extends FormRequest
             'start_time' => 'required|date_format:d-m-Y H:i|after_or_equal:now',
             'end_time' => 'required|date_format:d-m-Y H:i|after:start_time',
             'password' => 'required|min:8',
+            'maximum' => 'required|min:1|integer',
         ];
     }
 
@@ -48,6 +49,9 @@ class StoreQuizRequest extends FormRequest
             'end_time.after' => '<i class="bi bi-exclamation-circle"></i> Thời gian đóng đề phải sau thời gian mở đề',
             'password.required' => '<i class="bi bi-exclamation-circle"></i> Chưa nhập mật khẩu',
             'password.min' => '<i class="bi bi-exclamation-circle"></i> Mật khẩu ít nhất 8 ký tự',
+            'maximum.required' => '<i class="bi bi-exclamation-circle"></i> Chưa nhập lượt thi tối đa',
+            'maximum.min' => '<i class="bi bi-exclamation-circle"></i> Vui lòng nhập số lớn hơn 0',
+            'maximum.integer' => '<i class="bi bi-exclamation-circle"></i> Vui lòng nhập 1 số nguyên',
         ];
     }
 }

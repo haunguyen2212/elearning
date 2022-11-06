@@ -33,6 +33,7 @@ QUIZ.store = function(){
         var end_time = $('#ModalCreateQuiz #end_time_quiz_create').val();
         var password = $('#ModalCreateQuiz #password_quiz_create').val();
         var is_show = $('#ModalCreateQuiz input[name="is_show"]').is(":checked") ? '1' : '0';
+        var maximum = $('#ModalCreateQuiz #maximum_quiz_create').val();
         $.ajax({
             type: 'post',
             url:url,
@@ -44,6 +45,7 @@ QUIZ.store = function(){
                 end_time:end_time,
                 password:password,
                 is_show:is_show,
+                maximum:maximum,
             },
             beforeSend: function(){
                 $('.txt_error').html('');
@@ -129,6 +131,7 @@ QUIZ.edit = function(){
                     $('#ModalEditQuiz #end_time_quiz_edit').val(formatDateTimeMinusSecond(res.data.end_time));
                     $('#ModalEditQuiz #duration_quiz_edit').val(res.data.duration);
                     $('#ModalEditQuiz #password_quiz_edit').val(res.data.password);
+                    $('#ModalEditQuiz #maximum_quiz_edit').val(res.data.maximum);
                 }
             },
             error: function(err){
@@ -147,6 +150,7 @@ QUIZ.update = function(){
         var end_time =  $('#ModalEditQuiz #end_time_quiz_edit').val();
         var duration =  $('#ModalEditQuiz #duration_quiz_edit').val();
         var password = $('#ModalEditQuiz #password_quiz_edit').val();
+        var maximum = $('#ModalEditQuiz #maximum_quiz_edit').val();
         $.ajax({
             type: 'post',
             url:url,
@@ -158,6 +162,7 @@ QUIZ.update = function(){
                 end_time:end_time,
                 duration:duration,
                 password:password,
+                maximum:maximum,
             },
             beforeSend: function(){
                 $('.txt_error').html('');

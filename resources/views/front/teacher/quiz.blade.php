@@ -56,7 +56,7 @@
                 <div class="col-12 col-md-12">
                     <div>
                         <strong class="text-main">Thời gian mở đề: </strong>
-                        <span>{{ date('d/m/Y H:i:s', strtotime($quiz->start_time)) }} - {{ date('d/m/Y H:i:s', strtotime($quiz->end_time)) }}</span>
+                        <span>{{ date('d/m/Y H:i', strtotime($quiz->start_time)) }} - {{ date('d/m/Y H:i', strtotime($quiz->end_time)) }}</span>
                     </div>
                     <div>
                         <strong class="text-main">Thời gian làm bài: </strong>
@@ -66,7 +66,10 @@
                         <strong class="text-main">Mật khẩu: </strong>
                         <span>{{ $quiz->password }}</span>
                     </div>
-                    
+                    <div>
+                        <strong class="text-main">Lượt thi tối đa: </strong>
+                        <span class="fw-bold">{{ $quiz->maximum }}</span>
+                    </div>
                 </div>
                 <div class="col-12 d-flex justify-content-center my-3">
                     <button class="btn-slide03 mx-1 delete-quiz" data-url="{{ route('teacher.quiz.delete', $quiz->id) }}" data-bs-toggle="modal" data-bs-target="#ModalDeleteQuiz">Xoá bài thi</button>

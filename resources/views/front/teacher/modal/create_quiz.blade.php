@@ -7,11 +7,16 @@
         </div>
         <div class="modal-body">
           <form action="" id="frm-create-quiz" method="post"  class="row g-3 px-2">
-                <div class="col-12 col-md-12">
+                <div class="col-12 col-md-6">
                     <label for="name_quiz_create" class="form-label">Tên bài thi (*)</label>
                     <input type="text" class="form-control" id="name_quiz_create" name="name">
                     <span class="text-danger txt_error txt_name mt-1"></span>
                 </div>
+                <div class="col-12 col-md-6">
+                  <label for="duration_quiz_create" class="form-label">Thời gian làm bài (phút) (*)</label>
+                  <input type="number" class="form-control" id="duration_quiz_create" name="duration">
+                  <span class="text-danger txt_error txt_duration mt-1"></span>
+              </div>
                 <div class="col-12 col-md-6">
                     <label for="start_time_quiz_create" class="form-label">Thời gian mở đề (*)</label>
                     <input class="form-control" id="start_time_quiz_create" name="start_time" autocomplete="off">
@@ -23,9 +28,9 @@
                     <span class="text-danger txt_error txt_end_time mt-1"></span>
                 </div>
                 <div class="col-12 col-md-6">
-                  <label for="duration_quiz_create" class="form-label">Thời gian làm bài (phút) (*)</label>
-                  <input type="number" class="form-control" id="duration_quiz_create" name="duration">
-                  <span class="text-danger txt_error txt_duration mt-1"></span>
+                  <label for="maximum_quiz_create" class="form-label">Lượt thi tối đa (*)</label>
+                  <input type="number" class="form-control" id="maximum_quiz_create" name="maximum" value="1">
+                  <span class="text-danger txt_error txt_maximum mt-1"></span>
               </div>
                 <div class="col-12 col-md-6">
                     <label for="password_quiz_create" class="form-label">Mật khẩu bài thi (*)</label>

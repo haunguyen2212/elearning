@@ -21,5 +21,6 @@ class Quiz extends Model
         'duration',
         'password',
         'is_show',
+        'maximum',
     ];
 }

@@ -43,6 +43,7 @@ class QuizRepository implements QuizRepositoryInterface{
             'end_time' => date('Y-m-d H:i:s', strtotime($collection['end_time'])),
             'password' => $collection['password'],
             'is_show' => $collection['is_show'] ?? 0,
+            'maximum' => $collection['maximum'] ?? 1,
         ]);
     }
 
@@ -73,6 +74,7 @@ class QuizRepository implements QuizRepositoryInterface{
             'start_time' => date('Y-m-d H:i:s', strtotime($collection['start_time'])),
             'end_time' => date('Y-m-d H:i:s', strtotime($collection['end_time'])),
             'password' => $collection['password'],
+            'maximum' => $collection['maximum'] ?? 1,
         ]);
     }
 }

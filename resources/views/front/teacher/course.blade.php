@@ -327,17 +327,14 @@
     <script>
         $('.document-setting').click(function(){
             var id = $(this).attr('data-doc');
-            $(this).hide();
             $('.group-control-document-'+id).toggle();
         });
         $('.exercise-setting').click(function(){
             var id = $(this).attr('data-exercise');
-            $(this).hide();
             $('.group-control-exercise-'+id).toggle();
         });
         $('.quiz-setting').click(function(){
             var id = $(this).attr('data-quiz');
-            $(this).hide();
             $('.group-control-quiz-'+id).toggle();
         });
     </script>

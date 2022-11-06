@@ -49,6 +49,7 @@ class QuizTeacherController extends Controller
                 'end_time' => $request->end_time,
                 'password' => $request->password,
                 'is_show' => $request->is_show ?? 0,
+                'maximum' => $request->maximum ?? 1,
             ];
             $store = $this->quiz->create($collection);
             $url = route('teacher.quiz.index', ['course_id' => $course->id, 'id' => $store->id]);

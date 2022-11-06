@@ -58,6 +58,11 @@
                                 <i class="bi bi-journal"></i> {{ $exercise->name }}
                             </a>
                         @endforeach
+                        @foreach ($quizzes[$key] as $quiz)         
+                            <a href="{{ route('student.quiz.index',['course_id' => $course->id, 'id' => $quiz->id]) }}">
+                                <i class="bi bi-question-circle"></i> {{ $quiz->name }}
+                            </a>
+                        @endforeach
                     </div>
                 </div>
             @endforeach
