@@ -77,4 +77,14 @@ class QuizRepository implements QuizRepositoryInterface{
             'maximum' => $collection['maximum'] ?? 1,
         ]);
     }
+
+    public function getAllQuestion($id)
+    {
+        return $this->quiz->join('quiz_details', 'quiz_id', 'quizzes.id')
+            ->join('questions', 'question_id', 'questions.id')
+            ->where('quizzes.id', $id)
+            ->select('questions.*')
+            ->orderBy('questions.id', 'asc')
+            ->get();
+    }
 }

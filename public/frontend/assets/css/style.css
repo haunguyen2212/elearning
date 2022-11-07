@@ -599,3 +599,11 @@ a{
   .topic-hide{
     opacity: 0.5;
   }
+
+  .custom-question p{
+    margin-bottom: 0;
+  }
+
+  table.custom-question td{
+    vertical-align: middle;
+  }

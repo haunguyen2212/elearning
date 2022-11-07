@@ -1,4 +1,4 @@
-@extends('template.master_layout')
+@extends('template.master')
 
 @section('title', 'Bài thi')
 
@@ -9,42 +9,6 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('backend/assets/vendor/jquery-ui/datetimepicker.css') }}" />
-@endsection
-
-@section('right')
-    @if (isset($listStudent))
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body pb-0">
-                <h5 class="card-title">Danh sách học sinh</h5>
-                <ul class="list-item ps-0 mb-0">
-                    @foreach ($listStudent as $student)
-                        <div class="d-flex justify-content-between student-name-wrap">
-                        <div class="student-name">
-                            <a href="{{ route('course.view.student_information', [$course->id, $student->id]) }}">
-                            @if ($student->active == 1)
-                                <i class="bi bi-person"></i>
-                            @else
-                                <i class="bi bi-person-x"></i>
-                            @endif
-                            {{ $student->username .' - '. $student->name }}
-                            </a>
-                        </div>
-                        <div class="student-control">
-                            <i class="bi bi-dash-circle delete-student" 
-                                data-bs-toggle="modal" 
-                                data-bs-target="#ModalDeleteStudent" 
-                                data-url="{{ route('course.teacher.delete_student', ['course_id' => $course->id, 'student_id' => $student->id]) }}"
-                                title="Xóa khỏi khóa học"></i>
-                        </div>
-                        </div>
-                    @endforeach
-                </ul> 
-            </div>
-        </div>
-    </div>
-    @include('front.teacher.modal.delete_student')            
-    @endif
 @endsection
 
 @section('content')
@@ -71,6 +35,72 @@
                         <span class="fw-bold">{{ $quiz->maximum }}</span>
                     </div>
                 </div>
+                <div class="col-12 mt-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="bd-highlight">
+                            <div class="text-main">
+                               <h5 class="fw-bold mb-0">Câu hỏi bài thi</h5> 
+                            </div>
+                         </div>
+                         <div class="bd-highlight">
+                            <div class="text-main mb-0">
+                               <button type="button" class="btn-slide02"><i class="bi bi-gear"></i>&nbsp; Thay đổi câu hỏi</button> 
+                            </div>
+                         </div>
+                    </div>
+                    @if (isset($questions) && $questions->count() > 0)
+                        <div class="table-responsive">
+                            <table class="table table-hover custom-question" style="min-width: 800px">
+                                <thead>
+                                    <tr>
+                                        <th width="5%">STT</th>
+                                        <th width="30%">Câu hỏi</th>
+                                        <th width="15%">Đáp án A</th>
+                                        <th width="15%">Đáp án B</th>
+                                        <th width="15%">Đáp án C</th>
+                                        <th width="15%">Đáp án D</th>
+                                        <th width="5%">Đáp án</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($questions as $key  => $question)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>
+                                                {!! $question->question !!}
+                                                @if (!empty($question->image))
+                                                    <img class="mt-2" src="{{ asset('backend/assets/img/question/'.$question->image) }}" alt="image" style="max-width: 120px">
+                                                @endif 
+                                            </td>
+                                            <td>{!! $question->answer_a !!}</td>
+                                            <td>{!! $question->answer_b !!}</td>
+                                            <td>{!! $question->answer_c !!}</td>
+                                            <td>{!! $question->answer_d !!}</td>
+                                            <td>
+                                                <span class="fw-bold">
+                                                    @switch($question->correct_answer)
+                                                        @case(1)
+                                                            A
+                                                            @break
+                                                        @case(2)
+                                                            B
+                                                            @break
+                                                        @case(3)
+                                                            C
+                                                            @break
+                                                        @case(4)
+                                                            D
+                                                            @break
+                                                    @endswitch
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @endif
+                </div>
                 <div class="col-12 d-flex justify-content-center my-3">
                     <button class="btn-slide03 mx-1 delete-quiz" data-url="{{ route('teacher.quiz.delete', $quiz->id) }}" data-bs-toggle="modal" data-bs-target="#ModalDeleteQuiz">Xoá bài thi</button>
                     <button class="btn-slide05 mx-1 edit-quiz" data-url="{{ route('teacher.quiz.edit', $quiz->id) }}" data-bs-toggle="modal" data-bs-target="#ModalEditQuiz">Sửa bài thi</button>
@@ -96,6 +126,5 @@
             step: 30
         });
     </script>
-    <script src="{{ asset('frontend/assets/js/course/teacher.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/quiz/teacher.js') }}"></script>
 @endsection

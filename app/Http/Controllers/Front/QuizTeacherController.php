@@ -30,9 +30,8 @@ class QuizTeacherController extends Controller
 
     public function index($course_id, $id){
         $data['course'] = $this->course->getFullById($course_id);
-        $data['listStudent'] = $this->course->getStudentOfCourse($course_id);
-        $data['myTeacherCourses'] = $this->myCourse->getCourseOfTeacher();
         $data['quiz'] = $this->quiz->getById($id);
+        $data['questions'] = $this->quiz->getAllQuestion($id);
         return view('front.teacher.quiz', $data);
     }
 
