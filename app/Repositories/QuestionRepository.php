@@ -119,4 +119,17 @@ class QuestionRepository implements QuestionRepositoryInterface{
         return $this->question->find($id)->delete();
     }
 
+    public function getAllQuestionCanUse($quiz_id, $subject_id, $teacher_id)
+    {
+        $questions = $this->question->where('subject_id', $subject_id)->where(function($q) use($teacher_id){
+            $q->orWhere('shared', 1)->orWhere('teacher_id', $teacher_id);
+        });
+
+        return $this->question->join('quiz_details', 'question_id', 'questions.id')
+            ->where('quiz_id', $quiz_id)
+            ->select('questions.*')
+            ->union($questions)
+            ->get();
+    }
+
 }

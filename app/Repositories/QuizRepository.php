@@ -84,7 +84,10 @@ class QuizRepository implements QuizRepositoryInterface{
             ->join('questions', 'question_id', 'questions.id')
             ->where('quizzes.id', $id)
             ->select('questions.*')
+            ->orderBy('questions.level', 'asc')
             ->orderBy('questions.id', 'asc')
             ->get();
     }
+
+
 }

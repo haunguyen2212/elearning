@@ -10,4 +10,5 @@ interface QuestionRepositoryInterface{
     public function create($collection = []);
     public function update($id, $collection);
     public function delete($id);
+    public function getAllQuestionCanUse($quiz_id, $subject_id, $teacher_id);
 }

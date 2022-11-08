@@ -7,6 +7,7 @@ use App\Http\Requests\StoreQuizRequest;
 use App\Http\Requests\UpdateQuizRequest;
 use App\Libraries\MyCourse;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
+use App\Repositories\Interfaces\QuestionRepositoryInterface;
 use App\Repositories\Interfaces\TopicRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Repositories\Interfaces\QuizRepositoryInterface;
@@ -14,17 +15,19 @@ use Illuminate\Support\Facades\DB;
 
 class QuizTeacherController extends Controller
 {
-    private $quiz, $topic, $course, $myCourse;
+    private $quiz, $topic, $course, $myCourse, $question;
 
     public function __construct(
         QuizRepositoryInterface $quizRepository,
         TopicRepositoryInterface $topicRepository,
-        CourseRepositoryInterface $courseRepository
+        CourseRepositoryInterface $courseRepository,
+        QuestionRepositoryInterface $questionRepository
     )
     {
         $this->quiz = $quizRepository;
         $this->topic = $topicRepository;
         $this->course = $courseRepository;
+        $this->question = $questionRepository;
         $this->myCourse = new MyCourse();
     }
 
@@ -120,5 +123,17 @@ class QuizTeacherController extends Controller
             DB::rollBack();
             return response()->json(['status' => 0]);
         }
+    }
+
+    public function editQuestion($course_id, $id){
+        $data['course'] = $this->course->getFullById($course_id);
+        $data['quiz'] = $this->quiz->getById($id);
+        $question_details = $this->quiz->getAllQuestion($id);
+        $data['question_details'] = [];
+        foreach($question_details as $question){
+            array_push($data['question_details'], $question->id);
+        }
+        $data['questions'] = $this->question->getAllQuestionCanUse($data['quiz']->id, $data['course']->subject_id, auth()->guard('teacher')->id());
+        return view('front.teacher.change_question', $data);
     }
 }

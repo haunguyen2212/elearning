@@ -44,22 +44,23 @@
                          </div>
                          <div class="bd-highlight">
                             <div class="text-main mb-0">
-                               <button type="button" class="btn-slide02"><i class="bi bi-gear"></i>&nbsp; Thay đổi câu hỏi</button> 
+                               <a href="{{ route('teacher.quiz.edit.question', [$course->id, $quiz->id]) }}" class="btn-slide02"><i class="bi bi-gear"></i>&nbsp; Thay đổi câu hỏi</a> 
                             </div>
                          </div>
                     </div>
                     @if (isset($questions) && $questions->count() > 0)
                         <div class="table-responsive">
-                            <table class="table table-hover custom-question" style="min-width: 800px">
+                            <table class="table table-hover custom-question" style="min-width: 1200px">
                                 <thead>
                                     <tr>
                                         <th width="5%">STT</th>
                                         <th width="30%">Câu hỏi</th>
-                                        <th width="15%">Đáp án A</th>
-                                        <th width="15%">Đáp án B</th>
-                                        <th width="15%">Đáp án C</th>
-                                        <th width="15%">Đáp án D</th>
-                                        <th width="5%">Đáp án</th>
+                                        <th width="12.5%">Đáp án A</th>
+                                        <th width="12.5%">Đáp án B</th>
+                                        <th width="12.5%">Đáp án C</th>
+                                        <th width="12.5%">Đáp án D</th>
+                                        <th width="7.5%">Đáp án</th>
+                                        <th width="7.5%">Độ khó</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -77,7 +78,7 @@
                                             <td>{!! $question->answer_c !!}</td>
                                             <td>{!! $question->answer_d !!}</td>
                                             <td>
-                                                <span class="fw-bold">
+                                                <span class="fw-bold ps-3">
                                                     @switch($question->correct_answer)
                                                         @case(1)
                                                             A
@@ -93,6 +94,19 @@
                                                             @break
                                                     @endswitch
                                                 </span>
+                                            </td>
+                                            <td>
+                                                @switch($question->level)
+                                                    @case(1)
+                                                        <span class="fw-bold" style="color: #f8c309">Dễ</span>
+                                                        @break
+                                                    @case(2)
+                                                        <span class="fw-bold" style="color: #117c47">Trung bình</span>
+                                                        @break
+                                                    @case(3)
+                                                        <span class="fw-bold" style="color: #ff3535">Khó</span>
+                                                        @break
+                                                @endswitch
                                             </td>
                                         </tr>
                                     @endforeach

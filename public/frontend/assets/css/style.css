@@ -607,3 +607,9 @@ a{
   table.custom-question td{
     vertical-align: middle;
   }
+
+  .public-status span {
+    border-radius: 16px;
+    padding: 8px 10px;
+    min-width: 40px;
+}
