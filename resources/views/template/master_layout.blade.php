@@ -27,14 +27,20 @@
                   <li class="nav-item">
                     <a class="nav-link " aria-current="page" href="{{ route('home') }}"><span>Trang chủ</span></a>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#"><span>Lớp học</span></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#"><span>Điểm số</span></a>
-                  </li>
+
+                  @if (auth()->guard('student')->check())
+                    <li class="nav-item">
+                      <a class="nav-link" href="#"><span>Điểm số</span></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#"><span>Thông báo</span></a>
+                    </li>
+                  @endif
 
                   @if (auth()->guard('teacher')->check())
+                    <li class="nav-item">
+                      <a class="nav-link" href="{{ route('teacher.question.index') }}"><span>Trắc nghiệm</span></a>
+                    </li>
                     <li class="nav-item">
                       <a class="nav-link" href="{{ route('teacher.registration.create') }}"><span>Đăng ký phòng</span></a>
                     </li>

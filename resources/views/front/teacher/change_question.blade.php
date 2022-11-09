@@ -11,9 +11,26 @@
 @section('content')
     <div class="card">
         <div class="card-body px-4">
-            <div class="card-title mb-0">Chọn câu hỏi cho “{{ $quiz->name }}”</div>
+            @if (session('message'))
+                <div class="alert alert-message alert-dismissible fade show" role="alert">
+                    <div class="text-main"><i class="bi bi-exclamation-circle"></i> {{ session('message') }}</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="bd-highlight">
+                    <div class="card-title mb-0">Chọn câu hỏi</div>
+                 </div>
+                 <div class="bd-highlight d-flex" style="gap: 10px">
+                    <div class="text-main mb-0">
+                       <a href="" class="btn-slide02"><i class="bi bi-gear"></i>&nbsp; Quản lý câu hỏi</a> 
+                    </div>
+                 </div>
+            </div>
+            
             <div class="card-content">
                 @if (isset($questions) && $questions->count() > 0)
+                <form id="frm-choose-question" action="">
                     <div class="table-responsive">
                         <table class="table table-hover custom-question" style="min-width: 800px">
                             <thead>
@@ -80,11 +97,16 @@
                             </tbody>
                         </table>
                     </div>
+                </form>
                 @endif
             </div>
             <div class="d-flex justify-content-center my-3">
-                <a href="{{ route('teacher.quiz.index', [$course->id, $quiz->id]) }}" class="btn-slide01">Về trang bài thi</a>
+                <button type="button" class="btn-slide01 save-change" data-url="{{ route('teacher.quiz.save.question', [$course->id, $quiz->id]) }}">Lưu kết quả (<span class="count-question">{{ count($question_details) }}</span>)</button> 
             </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script src="{{ asset('frontend/assets/js/quiz/question.js') }}"></script>
 @endsection

@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateQuizRequest;
 use App\Libraries\MyCourse;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
 use App\Repositories\Interfaces\QuestionRepositoryInterface;
+use App\Repositories\Interfaces\QuizDetailRepositoryInterface;
 use App\Repositories\Interfaces\TopicRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Repositories\Interfaces\QuizRepositoryInterface;
@@ -15,19 +16,21 @@ use Illuminate\Support\Facades\DB;
 
 class QuizTeacherController extends Controller
 {
-    private $quiz, $topic, $course, $myCourse, $question;
+    private $quiz, $topic, $course, $myCourse, $question, $quizDetail;
 
     public function __construct(
         QuizRepositoryInterface $quizRepository,
         TopicRepositoryInterface $topicRepository,
         CourseRepositoryInterface $courseRepository,
-        QuestionRepositoryInterface $questionRepository
+        QuestionRepositoryInterface $questionRepository,
+        QuizDetailRepositoryInterface $quizDetailRepository
     )
     {
         $this->quiz = $quizRepository;
         $this->topic = $topicRepository;
         $this->course = $courseRepository;
         $this->question = $questionRepository;
+        $this->quizDetail = $quizDetailRepository;
         $this->myCourse = new MyCourse();
     }
 
@@ -135,5 +138,31 @@ class QuizTeacherController extends Controller
         }
         $data['questions'] = $this->question->getAllQuestionCanUse($data['quiz']->id, $data['course']->subject_id, auth()->guard('teacher')->id());
         return view('front.teacher.change_question', $data);
+    }
+
+    public function saveQuestion($course_id, $id, Request $request){
+        $quiz = $this->quiz->getById($id);
+        $ids = $request->ids;
+        DB::beginTransaction();
+        try{
+            $this->quizDetail->deleteAll($quiz->id);
+            if(!empty($ids)){
+                foreach($ids as $question_id){
+                    $collection = [
+                        'quiz_id' => $quiz->id,
+                        'question_id' => $question_id,
+                    ];
+                    $this->quizDetail->create($collection);
+                }
+            }
+            DB::commit();
+            session()->flash('message', __('message.update_success', ['name' => 'câu hỏi của bài thi']));
+            return response()->json(['status' => 1]);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            session()->flash('message', __('message.update_error', ['name' => 'câu hỏi của bài thi']));
+            return response()->json(['status' => 0]);
+        }
     }
 }
