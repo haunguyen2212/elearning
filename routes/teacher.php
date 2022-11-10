@@ -56,8 +56,9 @@ Route::group(['prefix' => 'teacher', 'middleware' => 'isTeacher'], function(){
         Route::post('course-detail/{course_id}/quiz/{id}/save-question', [Front\QuizTeacherController::class, 'saveQuestion'])->name('save.question');
     });
 
-    Route::group(['as' => 'teacher.'], function(){
-        Route::resource('question', Front\QuestionController::class);
+    Route::group(['as' => 'teacher.question.'], function(){
+        Route::get('question', [Front\QuestionController::class, 'index'])->name('index');
+        Route::get('subject/{id}/question', [Front\QuestionController::class, 'view'])->name('view');
     });
     
     Route::delete('course-detail/{course_id}/exercise-document/{id}/delete', [Front\ExerciseTeacherController::class, 'deleteDocument'])->name('teacher.exercise_document.delete');

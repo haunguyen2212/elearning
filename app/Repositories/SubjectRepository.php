@@ -19,4 +19,9 @@ class SubjectRepository implements SubjectRepositoryInterface{
         return $this->subject->select('id', 'name')->get();
     }
 
+    public function getById($id)
+    {
+        return $this->subject->find($id);
+    }
+
 }

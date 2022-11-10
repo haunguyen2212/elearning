@@ -47,7 +47,7 @@
 @endsection
 
 @section('content')
-    <div class="card">
+    <div class="card main-card">
         <div class="card-body px-4">
             @if (session('err_exists_file'))
                 <div class="alert alert-message alert-dismissible fade show" role="alert">

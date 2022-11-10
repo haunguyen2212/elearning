@@ -118,4 +118,13 @@ class TeacherRepository implements TeacherRepositoryInterface{
     {
         return $this->teacher->select('id', 'name')->get();
     }
+
+    public function getSubject($id)
+    {
+        return $this->teacher->join('courses', 'teacher_id', 'teachers.id')
+            ->join('subjects','subject_id', 'subjects.id')
+            ->where('teachers.id', $id)
+            ->select(DB::raw('DISTINCT subjects.id, subjects.name'))
+            ->get();
+    }
 }

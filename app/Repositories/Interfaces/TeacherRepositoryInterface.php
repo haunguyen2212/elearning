@@ -18,5 +18,6 @@ interface TeacherRepositoryInterface{
     public function unlock($id);
     public function count();
     public function getDropdown();
+    public function getSubject($id);
 
 }

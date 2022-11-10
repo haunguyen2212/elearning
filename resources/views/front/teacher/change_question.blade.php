@@ -23,7 +23,7 @@
                  </div>
                  <div class="bd-highlight d-flex" style="gap: 10px">
                     <div class="text-main mb-0">
-                       <a href="" class="btn-slide02"><i class="bi bi-gear"></i>&nbsp; Quản lý câu hỏi</a> 
+                       <a href="{{ route('teacher.question.view', $course->subject_id) }}" class="btn-slide02"><i class="bi bi-gear"></i>&nbsp; Quản lý câu hỏi</a> 
                     </div>
                  </div>
             </div>

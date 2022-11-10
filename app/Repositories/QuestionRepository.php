@@ -132,4 +132,15 @@ class QuestionRepository implements QuestionRepositoryInterface{
             ->get();
     }
 
+    public function getQuestionOfTeacher($teacher_id, $subject_id, $is_paginate = 0, $offset = 10)
+    {
+       $query = $this->question->where('teacher_id', $teacher_id)->where('subject_id', $subject_id);
+       if($is_paginate){
+        return $query->paginate($offset);
+       }
+       else{
+        return $query->get();
+       }
+    }
+
 }

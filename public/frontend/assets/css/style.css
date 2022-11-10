@@ -613,3 +613,7 @@ a{
     padding: 8px 10px;
     min-width: 40px;
 }
+
+.card.main-card{
+    min-height: 80vh;
+}
