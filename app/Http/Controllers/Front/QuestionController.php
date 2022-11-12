@@ -8,6 +8,7 @@ use App\Repositories\Interfaces\QuestionRepositoryInterface;
 use App\Repositories\Interfaces\SubjectRepositoryInterface;
 use App\Repositories\Interfaces\TeacherRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class QuestionController extends Controller
 {
@@ -33,10 +34,28 @@ class QuestionController extends Controller
         return view('front.teacher.question', $data);
     }
 
-    public function view($subject_id){
+    public function getDataSearch($request){
+        $data = [];
+        if(isset($request->keyword)){
+            $data['keyword'] = $request->keyword;
+        }
+        if(isset($request->level)){
+            $data['level'] = explode(',', $request->level);
+        }
+        if(isset($request->shared)){
+            $data['shared'] = explode(',', $request->shared);
+        }
+        return $data;
+    }
+
+    public function view($subject_id, Request $request){
         $data['subject'] = $this->subject->getById($subject_id);
-        $data['questions'] = $this->question->getQuestionOfTeacher(auth()->guard('teacher')->id(), $subject_id, 1);
-        return view('front.teacher.question_detail', $data);
+        $search = $search = $this->getDataSearch($request);;
+        $data['questions'] = $this->question->getQuestionOfTeacher(auth()->guard('teacher')->id(), $subject_id, $search ,1);
+        if($search != []){
+            $data['questions']->appends($request->toArray());
+        }
+        return view('front.teacher.question_list', $data);
     }
 
 
@@ -45,37 +64,45 @@ class QuestionController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+
+    public function store($subject_id, Request $request)
     {
-        //
+        $collection = $request->except(['_token', 'image']);
+        $collection['subject_id'] = $subject_id;
+        $collection['teacher_id'] = auth()->guard('teacher')->id();
+        DB::beginTransaction();
+        try{
+            $image = $request->file('image');
+            if($image){
+                $new_name = rand().'.'.$image->getClientOriginalExtension();
+                $image->move(public_path('backend/assets/img/question'), $new_name);
+                $collection['image'] = $new_name;
+            }
+            $this->question->create($collection);
+            DB::commit();
+            return response()->json(['status' => 1]);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['status' => 0]);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show($subject_id, $id)
     {
-        //
+        $data['subject'] = $this->subject->getById($subject_id);
+        $data['question'] = $this->question->getFullById($id);
+        return view('front.teacher.question_detail', $data);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+
+    public function edit($subject_id, $id)
     {
-        //
+        $data['question'] = $this->question->getById($id);
+        if(empty($data['question'])){
+            return response()->json(['status' => 0]);
+        }
+        return response()->json(['data' => $data, 'status' => 1]);
     }
 
     /**
@@ -90,14 +117,24 @@ class QuestionController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy($subject_id, $id)
     {
-        //
+        DB::beginTransaction();
+        try{
+            $question = $this->question->getById($id);
+            if(!empty($question->image)){
+                $destinationPath = public_path('backend/assets/img/question/').$question->image;
+                if(file_exists($destinationPath)){
+                    unlink($destinationPath);
+                }
+            }
+            $this->question->delete($id);
+            DB::commit();
+            return response()->json(['status' => 1]);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['status' => 0]);
+        }
     }
 }

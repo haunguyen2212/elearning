@@ -59,6 +59,11 @@ Route::group(['prefix' => 'teacher', 'middleware' => 'isTeacher'], function(){
     Route::group(['as' => 'teacher.question.'], function(){
         Route::get('question', [Front\QuestionController::class, 'index'])->name('index');
         Route::get('subject/{id}/question', [Front\QuestionController::class, 'view'])->name('view');
+        Route::post('subject/{id}/question/create', [Front\QuestionController::class, 'store'])->name('store');
+        Route::get('subject/{subject_id}/question/{id}', [Front\QuestionController::class, 'show'])->name('show');
+        Route::delete('subject/{subject_id}/question/{id}/delete', [Front\QuestionController::class, 'destroy'])->name('destroy');
+        Route::get('subject/{subject_id}/question/{id}/edit', [Front\QuestionController::class, 'edit'])->name('edit');
+        Route::put('subject/{subject_id}/question/{id}/edit', [Front\QuestionController::class, 'update'])->name('update');
     });
     
     Route::delete('course-detail/{course_id}/exercise-document/{id}/delete', [Front\ExerciseTeacherController::class, 'deleteDocument'])->name('teacher.exercise_document.delete');

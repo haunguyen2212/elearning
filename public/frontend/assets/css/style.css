@@ -329,6 +329,10 @@ a{
     border-radius: 3px;
 }
 
+.btn-main:hover{
+    color: #fff;
+}
+
 .footer {
     padding: 20px 0;
     font-size: 14px;
@@ -616,4 +620,30 @@ a{
 
 .card.main-card{
     min-height: 80vh;
+}
+
+.question-content>span{
+    display: flex;
+}
+
+.question-content p, .question-style p {
+    margin-bottom: 0;
+}
+
+.question-text p{
+    display: inline;
+}
+
+.question-image{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.question-image img{
+    max-width: 200px;
+}
+
+.search-master input[type="checkbox"]:checked {
+    background-color: var(--main-color);
+    border-color: var(--main-color);
 }

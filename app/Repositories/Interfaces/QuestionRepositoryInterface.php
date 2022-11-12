@@ -11,5 +11,5 @@ interface QuestionRepositoryInterface{
     public function update($id, $collection);
     public function delete($id);
     public function getAllQuestionCanUse($quiz_id, $subject_id, $teacher_id);
-    public function getQuestionOfTeacher($teacher_id, $subject_id);
+    public function getQuestionOfTeacher($teacher_id, $subject_id, $search = [], $is_paginate = 0, $offset = 10);
 }

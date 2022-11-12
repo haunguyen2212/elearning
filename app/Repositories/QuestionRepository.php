@@ -132,9 +132,28 @@ class QuestionRepository implements QuestionRepositoryInterface{
             ->get();
     }
 
-    public function getQuestionOfTeacher($teacher_id, $subject_id, $is_paginate = 0, $offset = 10)
+    public function getQuestionOfTeacher($teacher_id, $subject_id, $search = [], $is_paginate = 0, $offset = 10)
     {
        $query = $this->question->where('teacher_id', $teacher_id)->where('subject_id', $subject_id);
+
+       if(isset($search['keyword'])){
+        $query->where(function($q) use ($search){
+            $q->orWhere('question', 'LIKE', '%'.$search['keyword'].'%')
+                ->orWhere('answer_a', 'LIKE', '%'.$search['keyword'].'%')
+                ->orWhere('answer_b', 'LIKE', '%'.$search['keyword'].'%')
+                ->orWhere('answer_c', 'LIKE', '%'.$search['keyword'].'%')
+                ->orWhere('answer_d', 'LIKE', '%'.$search['keyword'].'%');
+        });
+        }
+        if(isset($search['level'])){
+            $query->whereIn('level', $search['level']);
+        }
+        if(isset($search['shared'])){
+            $query->whereIn('shared', $search['shared']);
+        }
+
+        $query->orderBy('id', 'desc');
+
        if($is_paginate){
         return $query->paginate($offset);
        }
