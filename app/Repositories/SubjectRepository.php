@@ -24,4 +24,12 @@ class SubjectRepository implements SubjectRepositoryInterface{
         return $this->subject->find($id);
     }
 
+    public function checkSubjectOfTeacher($teacher_id, $subject_id)
+    {
+        return $this->subject->join('courses', 'courses.subject_id', 'subjects.id')
+                ->where('teacher_id', $teacher_id)
+                ->where('subjects.id', $subject_id)
+                ->count() > 0;
+    }
+
 }

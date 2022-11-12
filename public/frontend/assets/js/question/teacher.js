@@ -10,6 +10,7 @@ QUESTION.init = function(){
     QUESTION.store();
     QUESTION.delete();
     QUESTION.edit();
+    QUESTION.update();
 }
 
 QUESTION.search = function(){
@@ -102,6 +103,43 @@ QUESTION.edit = function(){
             },
             error: function(err){
 
+            }
+        })
+    })
+}
+
+QUESTION.update = function(){
+    $('.sm-edit').click(function(e){
+        e.preventDefault();
+        var url = $('#ModalEditQuestion').attr('data-url');
+        var formData = new FormData($('#frm-edit')[0]);
+        formData.set('question', CKEDITOR.instances['question_edit'].getData());
+        formData.set('answer_a', CKEDITOR.instances['answer_a_edit'].getData());
+        formData.set('answer_b', CKEDITOR.instances['answer_b_edit'].getData());
+        formData.set('answer_c', CKEDITOR.instances['answer_c_edit'].getData());
+        formData.set('answer_d', CKEDITOR.instances['answer_d_edit'].getData());
+        formData.set('explain', CKEDITOR.instances['explain_edit'].getData());
+        $.ajax({
+            type: 'post',
+            url:url,
+            data: formData,
+            contentType: false,
+            processData: false,
+            cache: false,
+            beforeSend: function(){
+                $('.text-danger').html('');
+            },
+            success: function(res){
+                console.log(res);
+                if(res.status == 1){
+                    window.location.reload();
+                }
+            },
+            error: function(err){
+                var errors = err.responseJSON.errors;
+                $.each(errors, function(prefix, val){
+                    $('#ModalEditQuestion .err-'+prefix).html(val);
+                });
             }
         })
     })

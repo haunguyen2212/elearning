@@ -93,6 +93,9 @@ class QuestionController extends Controller
     public function show($id)
     {
         $data['question'] = $this->question->getFullById($id);
+        if(empty($data['question'])){
+            abort(404);
+        }
         return view('admin.question.show', $data);
     }
 

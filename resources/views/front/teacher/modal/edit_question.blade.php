@@ -9,7 +9,7 @@
         <div class="modal-body">
             <form id="frm-edit" action="" method="post" enctype="multipart/form-data">
                 @csrf
-                @method('patch')
+                @method('put')
                 <div class="row p-2">
                     <div class="col-12 pt-2">
                         <label for="question_edit" class="form-label fw-bold text-main">Nội dung câu hỏi (*)</label>

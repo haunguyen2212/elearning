@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreQuestionTeacherRequest;
+use App\Http\Requests\UpdateQuestionTeacherRequest;
 use App\Libraries\MyCourse;
+use App\Libraries\TeacherPolicy;
 use App\Repositories\Interfaces\QuestionRepositoryInterface;
 use App\Repositories\Interfaces\SubjectRepositoryInterface;
 use App\Repositories\Interfaces\TeacherRepositoryInterface;
@@ -13,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 class QuestionController extends Controller
 {
 
-    private $teacher, $question, $subject, $myCourse;
+    private $teacher, $question, $subject, $myCourse, $policy;
 
     public function __construct(
         TeacherRepositoryInterface $teacherRepository,
@@ -25,6 +28,7 @@ class QuestionController extends Controller
         $this->question = $questionRepository;
         $this->subject = $subjectRepository;
         $this->myCourse = new MyCourse();
+        $this->policy = new TeacherPolicy();
     }
 
     public function index()
@@ -49,6 +53,7 @@ class QuestionController extends Controller
     }
 
     public function view($subject_id, Request $request){
+        $this->policy->subject($subject_id);
         $data['subject'] = $this->subject->getById($subject_id);
         $search = $search = $this->getDataSearch($request);;
         $data['questions'] = $this->question->getQuestionOfTeacher(auth()->guard('teacher')->id(), $subject_id, $search ,1);
@@ -65,13 +70,14 @@ class QuestionController extends Controller
     }
 
 
-    public function store($subject_id, Request $request)
+    public function store($subject_id, StoreQuestionTeacherRequest $request)
     {
         $collection = $request->except(['_token', 'image']);
         $collection['subject_id'] = $subject_id;
         $collection['teacher_id'] = auth()->guard('teacher')->id();
         DB::beginTransaction();
         try{
+            $this->policy->subject($subject_id);
             $image = $request->file('image');
             if($image){
                 $new_name = rand().'.'.$image->getClientOriginalExtension();
@@ -92,6 +98,10 @@ class QuestionController extends Controller
     {
         $data['subject'] = $this->subject->getById($subject_id);
         $data['question'] = $this->question->getFullById($id);
+        if(empty($data['subject']) || empty($data['question'])){
+            abort(404);
+        }
+        $this->policy->question($id);
         return view('front.teacher.question_detail', $data);
     }
 
@@ -102,25 +112,46 @@ class QuestionController extends Controller
         if(empty($data['question'])){
             return response()->json(['status' => 0]);
         }
+        $this->policy->question($id);
         return response()->json(['data' => $data, 'status' => 1]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+
+    public function update($subject_id, $id, UpdateQuestionTeacherRequest $request)
     {
-        //
+        $collection = $request->except(['_token', '_method', 'image']);
+        $collection['subject_id'] = $subject_id;
+        DB::beginTransaction();
+        try{
+            $this->policy->question($id);
+            $image = $request->file('image');
+            if($image){
+                $new_name = rand().'.'.$image->getClientOriginalExtension();
+                $image->move(public_path('backend/assets/img/question'), $new_name);
+                $old_img = $this->question->getById($id)->image;
+                if(!empty($old_img)){
+                    $destinationPath = public_path('backend/assets/img/question/').$old_img;
+                    if(file_exists($destinationPath)){
+                        unlink($destinationPath);
+                    }
+                }
+                $collection['image'] = $new_name;
+            }
+            $this->question->update($id, $collection);
+            DB::commit();
+            return response()->json(['status' => 1]);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['status' => 0]);
+        }
     }
 
     public function destroy($subject_id, $id)
     {
         DB::beginTransaction();
         try{
+            $this->policy->question($id);
             $question = $this->question->getById($id);
             if(!empty($question->image)){
                 $destinationPath = public_path('backend/assets/img/question/').$question->image;
