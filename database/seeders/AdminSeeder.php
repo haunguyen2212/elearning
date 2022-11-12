@@ -22,6 +22,15 @@ class AdminSeeder extends Seeder
             [
                 'username' => 'AD0001',
                 'name' => 'Nguyễn Trung Hậu',
+                'email' => 'haunt@gmail.com',
+                'password' => Hash::make('12345678'),
+                'created_at' => $dateTime,
+                'updated_at' => $dateTime,
+            ],
+            [
+                'username' => 'AD0002',
+                'name' => 'Nguyễn Trung Nam',
+                'email' => 'namnt@gmail.com',
                 'password' => Hash::make('12345678'),
                 'created_at' => $dateTime,
                 'updated_at' => $dateTime,

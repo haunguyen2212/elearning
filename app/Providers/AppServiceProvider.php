@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Notice;
+use App\Repositories\AdminRepository;
 use App\Repositories\Interfaces\StudentRepositoryInterface;
 use App\Repositories\StudentRepository;
 use App\Repositories\Interfaces\ClassRepositoryInterface;
@@ -17,6 +18,7 @@ use App\Repositories\ExerciseDocumentRepository;
 use App\Repositories\ExerciseRepository;
 use App\Repositories\ExerciseScoreRepository;
 use App\Repositories\HomeroomTeacherRepository;
+use App\Repositories\Interfaces\AdminRepositoryInterface;
 use App\Repositories\Interfaces\ClassroomRepositoryInterface;
 use App\Repositories\Interfaces\CourseInvolvementRepositoryInterface;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
@@ -86,6 +88,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(SubjectRepositoryInterface::class, SubjectRepository::class);
         $this->app->bind(QuizRepositoryInterface::class, QuizRepository::class);
         $this->app->bind(QuizDetailRepositoryInterface::class, QuizDetailRepository::class);
+        $this->app->bind(AdminRepositoryInterface::class, AdminRepository::class);
     }
 
     /**

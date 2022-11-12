@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [Front\HomeController::class, 'index'])->middleware('isLogin')->name('home');
-Route::get('detail/{id}', [Front\HomeController::class, 'detail'])->name('course.detail');
+Route::get('detail/{id}', [Front\HomeController::class, 'detail'])->middleware('isLogin')->name('course.detail');
+Route::get('contact', [Front\ContactController::class, 'index'])->middleware('isLogin')->name('contact.index');
 
 Route::get('login', [Front\LoginController::class, 'index'])->name('login');
 Route::post('login', [Front\LoginController::class, 'checkLogin'])->name('login.check');

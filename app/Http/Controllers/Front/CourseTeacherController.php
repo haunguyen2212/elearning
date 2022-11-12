@@ -66,6 +66,7 @@ class CourseTeacherController extends Controller
     public function pinTopic($id){
         DB::beginTransaction();
         try{
+            $this->policy->topic($id);
             $this->topic->pin($id);
             DB::commit();
             return response()->json(['status' => 1]);
@@ -79,6 +80,7 @@ class CourseTeacherController extends Controller
     public function unpinTopic($id){
         DB::beginTransaction();
         try{
+            $this->policy->topic($id);
             $this->topic->unpin($id);
             DB::commit();
             return response()->json(['status' => 1]);
@@ -92,6 +94,7 @@ class CourseTeacherController extends Controller
     public function showTopic($id){
         DB::beginTransaction();
         try{
+            $this->policy->topic($id);
             $this->topic->show($id);
             DB::commit();
             return response()->json(['status' => 1]);
@@ -105,6 +108,7 @@ class CourseTeacherController extends Controller
     public function hideTopic($id){
         DB::beginTransaction();
         try{
+            $this->policy->topic($id);
             $this->topic->hide($id);
             DB::commit();
             return response()->json(['status' => 1]);
@@ -116,11 +120,11 @@ class CourseTeacherController extends Controller
     }
 
     public function storeTopic($id, StoreTopicRequest $request){
-        $this->policy->course($id);
         $collection = $request->except(['_token']);
         $collection['course_id'] = $id;
         DB::beginTransaction();
         try{
+            $this->policy->course($id);
             $this->topic->create($collection);
             DB::commit();
             return response()->json(['data' => 1]);
@@ -137,6 +141,7 @@ class CourseTeacherController extends Controller
         $err = [];
         DB::beginTransaction();
         try{
+            $this->policy->topic($id);
             if($documents){
                 foreach($documents as $document) {
                     $file = $document->getClientOriginalName();
@@ -180,12 +185,14 @@ class CourseTeacherController extends Controller
             session()->flash('error', __('message.not_found', ['name' => 'chủ đề']));
             return response()->json(['status' => 0]);
         }
+        $this->policy->topic($id);
         return response()->json(['data' => $data, 'status' => 1]);
     }
 
     public function updateTopic($id, UpdateTopicRequest $request){
         DB::beginTransaction();
         try{
+            $this->policy->topic($id);
             $collection = $request->except(['_token', '_method']);
             $this->topic->update($id, $collection);
             DB::commit();
@@ -201,6 +208,7 @@ class CourseTeacherController extends Controller
     public function deleteTopic($id){
         DB::beginTransaction();
         try{
+            $this->policy->topic($id);
             $course = $this->topic->getCourse($id);
             $documents = $this->topic->getAllDocument($id);
             foreach($documents as $document){
@@ -222,6 +230,7 @@ class CourseTeacherController extends Controller
     public function storeLink($topic_id, StoreLinkDocumentRequest $request){
         DB::beginTransaction();
         try{
+            $this->policy->topic($topic_id);
             $collection = [
                 'topic_id' => $topic_id,
                 'name' => $request->name,
@@ -241,6 +250,7 @@ class CourseTeacherController extends Controller
     public function showDocument($id){
         DB::beginTransaction();
         try{
+            $this->policy->document($id);
             $this->topicDocument->show($id);
             DB::commit();
             return response()->json(['status' => 1]);
@@ -254,6 +264,7 @@ class CourseTeacherController extends Controller
     public function hideDocument($id){
         DB::beginTransaction();
         try{
+            $this->policy->document($id);
             $this->topicDocument->hide($id);
             DB::commit();
             return response()->json(['status' => 1]);
@@ -267,6 +278,7 @@ class CourseTeacherController extends Controller
     public function deleteDocument($id){
         DB::beginTransaction();
         try{
+            $this->policy->document($id);
             $document = $this->topicDocument->getById($id);
             $course = $this->topicDocument->getCourse($id);
             $file = 'frontend/upload/'.$course->code.'/document'.'/'.$document->link;
@@ -288,12 +300,14 @@ class CourseTeacherController extends Controller
         if(empty($data)){
             return response()->json(['status' => 0]);
         }
+        $this->policy->document($id);
         return response()->json(['data' => $data, 'status' => 1]);
     }
 
     public function updateRenameDocument($id, RenameTopicDocumentRequest $request){
         DB::beginTransaction();
         try{
+            $this->policy->document($id);
             $collection = $request->except(['_token', '_method']);
             $this->topicDocument->rename($id, $collection);
             DB::commit();
@@ -310,13 +324,14 @@ class CourseTeacherController extends Controller
         if(empty($data)){
             return response()->json(['status' => 0]);
         }
+        $this->policy->course($course_id);
         return response()->json(['data' => $data, 'status' => 1]);
     }
 
     public function deleteStudent($course_id, $student_id){
-        $this->policy->course($course_id);
         DB::beginTransaction();
         try{
+            $this->policy->course($course_id);
             $this->courseInvolvement->delete($course_id, $student_id);
             DB::commit();
             return response()->json(['status' => 1]);
@@ -328,9 +343,9 @@ class CourseTeacherController extends Controller
     }
 
     public function updateNotice($id, UpdateCourseNoticeRequest $request){
-        $this->policy->course($id);
         DB::beginTransaction();
         try{
+            $this->policy->course($id);
             $collection = $request->except(['_token', '_method']);
             $this->course->updateNotice($id, $collection);
             DB::commit();
@@ -343,10 +358,10 @@ class CourseTeacherController extends Controller
     }
 
     public function changeEnrol($id, $value){
-        $this->policy->course($id);
         $status = ($value == 1) ? 1 : 0;
         DB::beginTransaction();
         try{
+            $this->policy->course($id);
             $this->course->changeEnrol($id, $status);
             if($status == 1){
                 session()->flash('success', __('message.accept_enrol'));
