@@ -28,4 +28,8 @@ class QuizStudentController extends Controller
         $data['quiz'] = $this->quiz->getById($id);
         return view('front.student.quiz', $data);
     }
+
+    public function exam(){
+        return view('front.student.take_quiz');
+    }
 }
