@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [Front\HomeController::class, 'index'])->middleware('isLogin')->name('home');
 Route::get('detail/{id}', [Front\HomeController::class, 'detail'])->middleware('isLogin')->name('course.detail');
 Route::get('contact', [Front\ContactController::class, 'index'])->middleware('isLogin')->name('contact.index');
+Route::get('profile', [Front\ProfileController::class, 'index'])->middleware('isLogin')->name('profile.index');
 
 Route::get('login', [Front\LoginController::class, 'index'])->name('login');
 Route::post('login', [Front\LoginController::class, 'checkLogin'])->name('login.check');
@@ -25,5 +26,8 @@ Route::group(['middleware' => 'isStudent', 'as' => 'student.'], function(){
     Route::post('course-detail/{course_id}/exercise/{id}/upload', [Front\ExerciseStudentController::class, 'upload'])->name('exercise.upload');
     Route::delete('course-detail/{course_id}/exercise/{id}/delete', [Front\ExerciseStudentController::class, 'delete'])->name('exercise.delete');
     Route::get('course-detail/{course_id}/quiz/{id}', [Front\QuizStudentController::class, 'index'])->name('quiz.index');
+    Route::get('profile/student/edit', [Front\ProfileController::class, 'editProfileStudent'])->name('profile.edit');
+    Route::patch('profile/student/edit', [Front\ProfileController::class, 'updateProfileStudent'])->name('profile.update');
+    Route::patch('profile/student/password/update', [Front\ProfileController::class, 'changePasswordStudent'])->name('profile.change_password');
 });
 

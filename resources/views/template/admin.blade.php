@@ -186,7 +186,7 @@
 
       <li class="nav-item">
         <a id="quiz-link" class="nav-link collapsed" data-bs-target="#quiz-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Thi trắc nghiệm</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-question-circle"></i><span>Thi trắc nghiệm</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="quiz-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
           <li>
@@ -244,27 +244,6 @@
       </li>
 
       <li class="nav-heading">Pages</li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.html">
-          <i class="bi bi-person"></i>
-          <span>Profile</span>
-        </a>
-      </li><!-- End Profile Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-faq.html">
-          <i class="bi bi-question-circle"></i>
-          <span>F.A.Q</span>
-        </a>
-      </li><!-- End F.A.Q Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-contact.html">
-          <i class="bi bi-envelope"></i>
-          <span>Contact</span>
-        </a>
-      </li><!-- End Contact Page Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route('admin.logout') }}">

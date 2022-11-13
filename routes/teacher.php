@@ -69,4 +69,8 @@ Route::group(['prefix' => 'teacher', 'middleware' => 'isTeacher'], function(){
     Route::delete('course-detail/{course_id}/exercise-document/{id}/delete', [Front\ExerciseTeacherController::class, 'deleteDocument'])->name('teacher.exercise_document.delete');
     
     Route::get('course/{course_id}/student-information/{student_id}', [Front\StudentInformationController::class, 'index'])->name('course.view.student_information');
+
+    Route::get('profile/edit', [Front\ProfileController::class, 'editProfileTeacher'])->name('teacher.profile.edit');
+    Route::patch('profile/edit', [Front\ProfileController::class, 'updateProfileTeacher'])->name('teacher.profile.update');
+    Route::patch('profile/password/update', [Front\ProfileController::class, 'changePasswordTeacher'])->name('teacher.profile.change_password');
 });

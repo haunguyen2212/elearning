@@ -19,5 +19,6 @@ interface TeacherRepositoryInterface{
     public function count();
     public function getDropdown();
     public function getSubject($id);
+    public function updateProfile($id, $collection = []);
 
 }

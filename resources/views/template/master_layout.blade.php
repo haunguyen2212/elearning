@@ -50,7 +50,7 @@
                   </li>
                   
                 </ul>
-                <ul class="navbar-nav ms-auto dropdown">
+                <ul class="navbar-nav ms-auto dropdown" style="position: relative">
                   
                         <button class="btn dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                           <img class="rounded-circle" src="
@@ -77,8 +77,9 @@
                             @endif
                           </span> 
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="profileDropdown">
-                          <li><a class="dropdown-item" href="{{ route('logout') }}">Đăng xuất</a></li>
+                        <ul class="dropdown-menu" aria-labelledby="profileDropdown" style="width: 100%">
+                          <li><a class="dropdown-item fw-bold text-main py-2" href="{{ route('profile.index') }}"><i class="bi bi-person"></i>&ensp;Tài khoản</a></li>
+                          <li><a class="dropdown-item fw-bold text-main py-2" href="{{ route('logout') }}"><i class="bi bi-box-arrow-right"></i>&ensp;Đăng xuất</a></li>
                         </ul>
                 </ul>
               </div>

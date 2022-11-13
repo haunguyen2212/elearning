@@ -16,5 +16,6 @@ interface StudentRepositoryInterface{
     public function lock($id);
     public function unlock($id);
     public function getByIdOfCurrent($school_year, $id);
+    public function updateProfile($id, $collection = []);
 
 }

@@ -116,4 +116,17 @@ class StudentRepository implements StudentRepositoryInterface{
         }
             
     }
+
+    public function updateProfile($id, $collection = [])
+    {
+        return $this->student->find($id)->update([
+            'name' => $collection['name'],
+            'date_of_birth' => date('Y-m-d', strtotime($collection['date_of_birth'])),
+            'gender' => $collection['gender'],
+            'place_of_birth' => $collection['place_of_birth'],
+            'address' => $collection['address'],
+            'phone' => $collection['phone'],
+            'email' => $collection['email'],
+        ]);
+    }
 }

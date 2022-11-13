@@ -115,6 +115,10 @@ a{
     box-shadow: none !important;
 }
 
+.dropdown-item:active{
+    background-color: #e9ecef;
+}
+
 /* .navbar-nav .nav-link span:after {
     transition: all ease-in-out .2s;
     background: var(--main-color);

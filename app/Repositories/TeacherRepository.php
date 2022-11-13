@@ -127,4 +127,16 @@ class TeacherRepository implements TeacherRepositoryInterface{
             ->select(DB::raw('DISTINCT subjects.id, subjects.name'))
             ->get();
     }
+
+    public function updateProfile($id, $collection = [])
+    {
+        return $this->teacher->find($id)->update([
+            'name' => $collection['name'],
+            'date_of_birth' => date('Y-m-d', strtotime($collection['date_of_birth'])),
+            'gender' => $collection['gender'],
+            'address' => $collection['address'],
+            'phone' => $collection['phone'],
+            'email' => $collection['email'],
+        ]);
+    }
 }
