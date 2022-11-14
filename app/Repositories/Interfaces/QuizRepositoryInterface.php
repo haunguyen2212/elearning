@@ -13,4 +13,5 @@ interface QuizRepositoryInterface{
     public function show($id);
     public function update($id, $collection = []);
     public function getAllQuestion($id);
+    public function countQuestion($id);
 }

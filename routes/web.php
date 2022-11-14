@@ -30,5 +30,6 @@ Route::group(['middleware' => 'isStudent', 'as' => 'student.'], function(){
     Route::patch('profile/student/edit', [Front\ProfileController::class, 'updateProfileStudent'])->name('profile.update');
     Route::patch('profile/student/password/update', [Front\ProfileController::class, 'changePasswordStudent'])->name('profile.change_password');
     Route::get('exam/{id}', [Front\QuizStudentController::class, 'exam'])->name('exam.index');
+    Route::post('quiz/{id}/check-password', [Front\QuizStudentController::class, 'checkPassword'])->name('exam.check_password');
 });
 

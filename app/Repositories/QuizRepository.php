@@ -89,5 +89,10 @@ class QuizRepository implements QuizRepositoryInterface{
             ->get();
     }
 
+    public function countQuestion($id)
+    {
+        return $this->quiz->join('quiz_details', 'quiz_details.quiz_id', 'quizzes.id')->where('quizzes.id', $id)->count();
+    }
+
 
 }

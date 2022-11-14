@@ -1,10 +1,10 @@
 @extends('template.master_layout')
 
-@section('title', 'Bài tập')
+@section('title', 'Thi trắc nghiệm')
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('course.view.student', $course->id) }}">{{ $course->name }}</a></li>
-    <li class="breadcrumb-item active">Bài tập</li>
+    <li class="breadcrumb-item active">Thi trắc nghiệm</li>
 @endsection
 
 @section('content')
@@ -31,10 +31,41 @@
                             <span class="fw-bold">{{ $quiz->maximum }}</span>
                         </div>               
                     </div>
-                    <div class="col-12 d-flex justify-content-center my-3">
-                        <a href="{{ route('course.view.student', $course->id) }}" class="btn-slide02 mx-1">Về khóa học</a>
-                        <button type="button" class="btn-slide01 mx-1" data-bs-toggle="modal" data-bs-target="#ModalPassword">Làm bài thi</button>
-                </div>
+                    @if ($takesQuiz->count() > 0)
+                        <div class="col-12 col-md-12">
+                            <div class="table-responsive">
+                                <table class="table" style="min-width: 800px">
+                                    <thead>
+                                        <tr>
+                                            <th>Lần thi</th>
+                                            <th>Thời gian bắt đầu</th>
+                                            <th>Thời gian nộp</th>
+                                            <th>Điểm</th>
+                                            <th>Số câu đúng</th>
+                                            <th>Làm bài</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($takesQuiz as $key => $takeQuiz)
+                                            <tr>
+                                                <td>{{ $key + 1 }}</td>
+                                                <td>{{ date('d/m/Y H:i:s', strtotime($takeQuiz->start_time)) }}</td>
+                                                <td>{{ !empty($takeQuiz->submit_time) ?  date('d/m/Y H:i:s', strtotime($takeQuiz->submit_time)) : '' }}</td>
+                                                <td>{{ $takeQuiz->score }}</td>
+                                                <td>{{ $takeQuiz->number_correct }}/{{ $takeQuiz->total }}</td>
+                                                <td><a href="">Làm bài</a></td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    @endif
+                    @if ($num_take_quiz_remaining > 0)
+                        <div class="col-12 d-flex justify-content-center my-3">
+                            <button type="button" class="btn-slide01 mx-1" data-bs-toggle="modal" data-bs-target="#ModalPassword">Làm bài thi</button>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -48,7 +79,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form action="" id="frm-create-exercise" method="post" class="row g-3 px-2">
+              <form action="{{ route('student.exam.check_password', $quiz->id) }}" id="frm-create-exercise" method="post" class="row g-3 px-2">
                     <div class="col-12 col-md-12">
                         <label for="password-quiz" class="form-label">Mật khẩu bài thi (*)</label>
                         <input type="text" class="form-control" id="password-quiz" name="password">
@@ -63,4 +94,40 @@
           </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script>
+        $('.sm-password').click(function(){
+            var url = $('#frm-create-exercise').attr('action');
+            var password = $('#password-quiz').val();
+            $.ajax({
+                type: 'post',
+                url:url,
+                data:{
+                    _token:_token,
+                    password:password,
+                },
+                beforeSend: function(){
+                    $('.text-danger').html('');
+                },
+                success: function(res){
+                    if(res.status == 1){
+                        if(typeof res.message == 'undefined'){
+                            window.location.href = res.data.url_next;
+                        }
+                        else{
+                            $('.txt_password').html(res.message);
+                        }
+                    }
+                },
+                error: function(err){
+                    var errors = err.responseJSON.errors;
+                    $.each(errors, function(prefix, val){
+                        $('#ModalPassword .txt_'+prefix).html(val);
+                    });
+                }
+            })
+        });
+    </script>
 @endsection
