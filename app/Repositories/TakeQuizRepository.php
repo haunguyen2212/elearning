@@ -44,4 +44,23 @@ class TakeQuizRepository implements TakeQuizRepositoryInterface{
     {
         return $this->takeQuiz->where('quiz_id', $quiz_id)->where('student_id', $student_id)->get();
     }
+
+    public function getQuestionOfTakeQuiz($id, $offset = 10)
+    {
+        return $this->takeQuiz->join('take_quiz_details', 'take_quiz_id', 'take_quiz.id')
+            ->join('questions', 'question_id', 'questions.id')
+            ->where('take_quiz.id', $id)
+            ->select('questions.*', 'take_quiz_details.choose')
+            ->orderBy('take_quiz_details.id', 'asc')
+            ->paginate($offset);
+    }
+
+    public function getIdQuestionOfTakeQuiz($id)
+    {
+        return $this->takeQuiz->join('take_quiz_details', 'take_quiz_id', 'take_quiz.id')
+            ->where('take_quiz.id', $id)
+            ->select('take_quiz_details.*')
+            ->orderBy('take_quiz_details.id', 'asc')
+            ->get();
+    }
 }

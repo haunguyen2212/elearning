@@ -9,7 +9,7 @@
 
 #time-header {
     font-family: Comic Sans MS, sans-serif;
-    font-size: 16px;
+    font-size: 17px;
     margin-top: 10px;
     color: #4154f1;
     font-weight: bold;
@@ -25,10 +25,22 @@
     margin-bottom: 10px;
 }
 
+#list-answer .btn{
+    font-size: 16px;
+}
+
 .btn-answer{
     min-width: 32px;
     margin: 1.5px;
     margin-bottom: 5px;
-    padding: 5px;
     border: 1px solid #BEBEBE;
+}
+
+.form-question{
+    vertical-align: middle;
+    font-size: 16px !important;
+}
+
+.question-checked{
+    background-color: rgb(187, 187, 187);
 }

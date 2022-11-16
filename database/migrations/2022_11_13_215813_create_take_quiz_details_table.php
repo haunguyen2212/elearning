@@ -17,7 +17,7 @@ class CreateTakeQuizDetailsTable extends Migration
             $table->id();
             $table->bigInteger('take_quiz_id')->unsigned();
             $table->bigInteger('question_id')->unsigned()->nullable();
-            $table->char('choose', 1);
+            $table->char('choose', 1)->nullable();
             $table->char('correct', 1);
             $table->timestamps();
             $table->foreign('take_quiz_id')->references('id')->on('take_quiz')->onUpdate('cascade')->onDelete('cascade');

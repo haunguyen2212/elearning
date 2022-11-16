@@ -53,7 +53,7 @@
                                                 <td>{{ !empty($takeQuiz->submit_time) ?  date('d/m/Y H:i:s', strtotime($takeQuiz->submit_time)) : '' }}</td>
                                                 <td>{{ $takeQuiz->score }}</td>
                                                 <td>{{ $takeQuiz->number_correct }}/{{ $takeQuiz->total }}</td>
-                                                <td><a href="">Làm bài</a></td>
+                                                <td><a href="{{ route('student.exam.index', ['id' => $takeQuiz->id]) }}">Làm bài</a></td>
                                             </tr>
                                         @endforeach
                                     </tbody>

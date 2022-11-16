@@ -94,5 +94,15 @@ class QuizRepository implements QuizRepositoryInterface{
         return $this->quiz->join('quiz_details', 'quiz_details.quiz_id', 'quizzes.id')->where('quizzes.id', $id)->count();
     }
 
+    public function createQuizForStudent($id)
+    {
+        return $this->quiz->join('quiz_details', 'quiz_id', 'quizzes.id')
+            ->join('questions', 'question_id', 'questions.id')
+            ->where('quizzes.id', $id)
+            ->select('questions.*')
+            ->orderByRaw('RAND()')
+            ->get();
+    }
+
 
 }

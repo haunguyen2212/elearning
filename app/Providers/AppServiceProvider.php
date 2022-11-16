@@ -36,6 +36,7 @@ use App\Repositories\Interfaces\RoomRepositoryInterface;
 use App\Repositories\Interfaces\SchoolYearRepositoryInterface;
 use App\Repositories\Interfaces\SubjectRepositoryInterface;
 use App\Repositories\Interfaces\SubmitExerciseRepositoryInterface;
+use App\Repositories\Interfaces\TakeQuizDetailRepositoryInterface;
 use App\Repositories\Interfaces\TakeQuizRepositoryInterface;
 use App\Repositories\Interfaces\TopicDocumentRepositoryInterface;
 use App\Repositories\Interfaces\TopicRepositoryInterface;
@@ -49,6 +50,7 @@ use App\Repositories\RoomRepository;
 use App\Repositories\SchoolYearRepository;
 use App\Repositories\SubjectRepository;
 use App\Repositories\SubmitExerciseRepository;
+use App\Repositories\TakeQuizDetailRepository;
 use App\Repositories\TakeQuizRepository;
 use App\Repositories\TeacherRepository;
 use App\Repositories\TopicDocumentRepository;
@@ -92,6 +94,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(QuizDetailRepositoryInterface::class, QuizDetailRepository::class);
         $this->app->bind(AdminRepositoryInterface::class, AdminRepository::class);
         $this->app->bind(TakeQuizRepositoryInterface::class, TakeQuizRepository::class);
+        $this->app->bind(TakeQuizDetailRepositoryInterface::class, TakeQuizDetailRepository::class);
     }
 
     /**
