@@ -4,7 +4,7 @@
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('course.view.student', $course->id) }}">{{ $course->name }}</a></li>
-    <li class="breadcrumb-item active">Thi trắc nghiệm</li>
+    <li class="breadcrumb-item active">{{ $quiz->name }}</li>
 @endsection
 
 @section('content')

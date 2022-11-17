@@ -16,7 +16,7 @@
                 <div class="card-text">
                     <div id="tg">
                         <div id="time-header">THỜI GIAN LÀM BÀI</div>
-                        <div id="count-down" class="fw-bold text-danger">00:00:00</div>
+                        <div id="count-down" class="fw-bold text-danger"></div>
                         <div class="container-fluid px-5" id="list-answer">
                             @foreach($id_questions as $key => $value)
                                 <div id="ques-{{ $value->question_id }}" 
@@ -36,7 +36,7 @@
                 <div class="card-header bg-exam text-white fw-bold">{{ $quiz->name }}</div>
                 <div class="card-text mt-2">
                     @foreach ($questions as $key => $question)
-                    <form id="form-question-{{ $question->id }}">
+                    <form id="form-question-{{ $question->id }}" class="question-exam" data-id="{{ $question->id }}">
                         <div class="row form-question" style="margin: 0 50px 0 10px">
                             <div class="col-12 question-text">
                                 <span class="fw-bold text-danger">Câu {{ ($questions->currentPage() - 1) * $questions->perPage() +  $key + 1 }}: </span>&nbsp;{!! $question->question !!}
@@ -75,9 +75,12 @@
 
 @section('script')
 <script>
+    var url_submit_question = '{{ route('student.exam.choose_question', ['id' => $take_quiz->id]) }}';
     function goToQuestion(number){
         if(number == {{ $questions->currentPage() }}) return;
         window.location.href = window.location.origin + window.location.pathname+'?page='+number;
     }
+    countDown({{ $diff }});
 </script>
+<script src="{{ asset('frontend/assets/js/quiz/take_quiz.js') }}"></script>
 @endsection

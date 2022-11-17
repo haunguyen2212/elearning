@@ -44,10 +44,18 @@ class QuizStudentController extends Controller
     }
 
     public function exam($id){
+        $data['take_quiz'] = $this->takeQuiz->getById($id);
+        $now = \Carbon\Carbon::now();
+        $end_time = \Carbon\Carbon::parse($data['take_quiz']->end_time);
+        if($end_time < $now){
+            return redirect()->route('student.exam.result', ['id' => $id]);
+        }
+        $data['diff'] = $end_time->diffInSeconds($now);
         $data['exam'] = $this->takeQuiz->getById($id);
         $data['quiz'] = $this->quiz->getById($data['exam']->quiz_id);
         $data['topic'] = $this->topic->getById($data['quiz']->topic_id);
         $data['course'] = $this->course->getFullById($data['topic']->course_id);
+        
         $data['id_questions'] = $this->takeQuiz->getIdQuestionOfTakeQuiz($id);
         $data['questions'] = $this->takeQuiz->getQuestionOfTakeQuiz($id, 5);
         return view('front.student.take_quiz', $data);
@@ -94,5 +102,34 @@ class QuizStudentController extends Controller
             return response()->json(['status' => 1, 'message' => '<i class="bi bi-exclamation-circle"></i> Mật khẩu không chính xác']);
         }
         
+    }
+
+    public function chooseQuestion($id, Request $request){
+        $take_quiz = $this->takeQuiz->getById($id);
+        $now = \Carbon\Carbon::now();
+        $end_time = \Carbon\Carbon::parse($take_quiz->end_time);
+        if($end_time < $now){
+            abort(404);
+        }
+        DB::beginTransaction();
+        try{
+            $this->takeQuizDetail->chooseAnswer($id, $request->question_id, $request->answer);
+            DB::commit();
+            return response()->json(['status' => 1]);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['status' => 0]);
+        }
+    }
+
+    public function result($id){
+        $data['exam'] = $this->takeQuiz->getById($id);
+        $data['quiz'] = $this->quiz->getById($data['exam']->quiz_id);
+        $data['topic'] = $this->topic->getById($data['quiz']->topic_id);
+        $data['course'] = $this->course->getFullById($data['topic']->course_id);
+        $data['id_questions'] = $this->takeQuiz->getIdQuestionOfTakeQuiz($id);
+        $data['questions'] = $this->takeQuiz->getQuestionOfTakeQuiz($id, 5);
+        return view('front.student.quiz_result', $data);
     }
 }

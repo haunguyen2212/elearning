@@ -44,3 +44,51 @@
 .question-checked{
     background-color: rgb(187, 187, 187);
 }
+
+.page-link{
+    margin-right: 8px;
+    padding: .25rem .75rem;
+    border: solid 1px #dee5ec;
+    border-radius: 3px;
+    color: #4154f1;
+  }
+  
+  .page-link:hover{
+    color: #fff;
+    background-color: #4154f1;
+    border: 1px solid #4154f1;
+  }
+  
+  .page-link:focus{
+    box-shadow: none;
+  }
+  
+  .page-item.active .page-link {
+    background-color: #4154f1;
+    border: 1px solid #4154f1;
+  }
+
+  .correct-answer{
+    font-weight: bold;
+    color:  red;
+  }
+
+  .explain{
+    background-color: #FFFF99;
+  }
+
+  .btn-true{
+    background-color: #00EE00;
+    border: 1px solid #00EE00;
+    color: #fff;
+  }
+
+  .btn-false{
+    background-color: #FF4040;
+    border: 1px solid #FF4040;
+    color: #fff;
+  }
+
+  .btn-true:hover, .btn-false:hover{
+    color: #fff;
+  }

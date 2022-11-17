@@ -24,4 +24,13 @@ class TakeQuizDetailRepository implements TakeQuizDetailRepositoryInterface{
             'correct' => $collection['correct'],
         ]);
     }
+
+    public function chooseAnswer($take_quiz_id, $question_id, $answer)
+    {
+        return $this->takeQuizDetail->where('take_quiz_id', $take_quiz_id)
+            ->where('question_id', $question_id)
+            ->update([
+                'choose' => $answer,
+            ]);
+    }
 }
