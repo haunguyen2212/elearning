@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\TakeQuiz;
 use App\Repositories\Interfaces\TakeQuizRepositoryInterface;
+use Carbon\Carbon;
 
 class TakeQuizRepository implements TakeQuizRepositoryInterface{
 
@@ -62,5 +63,14 @@ class TakeQuizRepository implements TakeQuizRepositoryInterface{
             ->select('take_quiz_details.*')
             ->orderBy('take_quiz_details.id', 'asc')
             ->get();
+    }
+
+    public function submitExam($id, $collection = [])
+    {
+        return $this->takeQuiz->find($id)->update([
+            'score' => $collection['score'],
+            'number_correct' => $collection['number_correct'],
+            'submit_time' => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
     }
 }

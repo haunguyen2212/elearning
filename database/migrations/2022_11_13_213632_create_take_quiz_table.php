@@ -20,7 +20,7 @@ class CreateTakeQuizTable extends Migration
             $table->dateTime('start_time');
             $table->dateTime('end_time');
             $table->dateTime('submit_time')->nullable();
-            $table->tinyInteger('score')->nullable();
+            $table->double('score')->nullable();
             $table->integer('total');
             $table->integer('number_correct')->nullable();
             $table->timestamps();

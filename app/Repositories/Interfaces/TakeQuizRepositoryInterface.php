@@ -10,4 +10,5 @@ interface TakeQuizRepositoryInterface{
     public function getTakeQuiz($quiz_id, $student_id);
     public function getQuestionOfTakeQuiz($id, $offset = 10);
     public function getIdQuestionOfTakeQuiz($id);
+    public function submitExam($id, $collection = []);
 }

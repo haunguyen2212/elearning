@@ -78,17 +78,30 @@
   }
 
   .btn-true{
-    background-color: #00EE00;
-    border: 1px solid #00EE00;
+    background-color: #00CC66;
+    border: 1px solid #00CC66;
     color: #fff;
   }
 
   .btn-false{
-    background-color: #FF4040;
-    border: 1px solid #FF4040;
+    background-color: #FF0000;
+    border: 1px solid #FF0000;
     color: #fff;
   }
 
-  .btn-true:hover, .btn-false:hover{
+  .btn-true:hover, .btn-false:hover, .btn-quiz:hover{
+    color: #fff;
+  }
+
+  #score-quiz{
+    font-size: 30px;
+  }
+
+  #sub-score-quiz{
+    font-size: 15px;
+  }
+
+  .btn-quiz{
+    background-color: #4154f1;
     color: #fff;
   }

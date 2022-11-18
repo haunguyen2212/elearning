@@ -123,21 +123,3 @@ function showImageUpload(fileInput, selector){
 function uploadImage(selector){
     document.querySelector(selector).click();
 }
-
-function countDown(number){
-	number--;
-	var hour = Math.floor(number/3600);
-	var minute = Math.floor((number/60)%60);
-	var second = Math.floor(number%60);
-	if (hour<10) hour = '0'+hour;
-	if (minute<10) minute = '0'+minute;
-	if (second<10) second = '0'+second;
-	
-	$('#count-down').html(hour+":"+minute+":"+second);
-	myVar = setTimeout("countDown("+number+")",1000);
-	if (number<0) {
-		clearTimeout(myVar);
-		checkResult();
-	}
-
-}

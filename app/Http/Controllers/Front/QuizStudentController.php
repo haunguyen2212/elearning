@@ -48,7 +48,7 @@ class QuizStudentController extends Controller
         $now = \Carbon\Carbon::now();
         $end_time = \Carbon\Carbon::parse($data['take_quiz']->end_time);
         if($end_time < $now){
-            return redirect()->route('student.exam.result', ['id' => $id]);
+            return redirect()->route('student.exam.submit', ['id' => $id]);
         }
         $data['diff'] = $end_time->diffInSeconds($now);
         $data['exam'] = $this->takeQuiz->getById($id);
@@ -121,6 +121,46 @@ class QuizStudentController extends Controller
             DB::rollBack();
             return response()->json(['status' => 0]);
         }
+    }
+
+    public function review($id){
+        $data['exam'] = $this->takeQuiz->getById($id);
+        $now = \Carbon\Carbon::now();
+        $end_time = \Carbon\Carbon::parse($data['exam']->end_time);
+        if($end_time < $now){
+            return redirect()->route('student.exam.submit', ['id' => $id]);
+        }
+        $data['diff'] = $end_time->diffInSeconds($now);
+        $data['quiz'] = $this->quiz->getById($data['exam']->quiz_id);
+        $data['topic'] = $this->topic->getById($data['quiz']->topic_id);
+        $data['course'] = $this->course->getFullById($data['topic']->course_id);
+        $data['questions'] = $this->takeQuiz->getIdQuestionOfTakeQuiz($id);
+        return view('front.student.take_quiz_review', $data);
+    }
+
+    public function submit($id){
+        DB::beginTransaction();
+        try{
+            $take_quiz = $this->takeQuiz->getById($id);
+            $count = 0;
+            $questions = $this->takeQuiz->getIdQuestionOfTakeQuiz($id);
+            foreach($questions as $question){
+                if($question->choose == $question->correct){
+                    $count++;
+                }
+            }
+            $mark = round((10 / $take_quiz->total) * $count, 2);
+            $collection = [
+                'score' => $mark,
+                'number_correct' => $count,
+            ];
+            $this->takeQuiz->submitExam($id, $collection);
+            DB::commit();
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+        }
+        return redirect()->route('student.exam.result', ['id' => $id]);
     }
 
     public function result($id){

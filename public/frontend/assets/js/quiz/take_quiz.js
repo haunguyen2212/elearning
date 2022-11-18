@@ -5,6 +5,10 @@ $(document).ready(function(){
 })
 
 TAKE_QUIZ.init = function(){
+    TAKE_QUIZ.chooseQuestion();
+}
+
+TAKE_QUIZ.chooseQuestion = function(){
     $('.question-exam').change(function(e){
         e.preventDefault();
         var id = $(this).attr('data-id');

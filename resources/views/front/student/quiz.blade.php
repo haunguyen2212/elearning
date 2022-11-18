@@ -52,8 +52,14 @@
                                                 <td>{{ date('d/m/Y H:i:s', strtotime($takeQuiz->start_time)) }}</td>
                                                 <td>{{ !empty($takeQuiz->submit_time) ?  date('d/m/Y H:i:s', strtotime($takeQuiz->submit_time)) : '' }}</td>
                                                 <td>{{ $takeQuiz->score }}</td>
-                                                <td>{{ $takeQuiz->number_correct }}/{{ $takeQuiz->total }}</td>
-                                                <td><a href="{{ route('student.exam.index', ['id' => $takeQuiz->id]) }}">Làm bài</a></td>
+                                                <td>{{ $takeQuiz->number_correct != NULL ? $takeQuiz->number_correct.'/'.$takeQuiz->total : '' }}</td>
+                                                <td>
+                                                    @if (empty($takeQuiz->submit_time))
+                                                        <a href="{{ route('student.exam.index', ['id' => $takeQuiz->id]) }}">Làm bài</a>
+                                                    @else
+                                                        <a href="{{ route('student.exam.result', ['id' => $takeQuiz->id]) }}">Xem lại</a>
+                                                    @endif
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>

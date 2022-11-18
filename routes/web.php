@@ -33,5 +33,7 @@ Route::group(['middleware' => 'isStudent', 'as' => 'student.'], function(){
     Route::post('quiz/{id}/check-password', [Front\QuizStudentController::class, 'checkPassword'])->name('exam.check_password');
     Route::post('exam/{id}/choose_question', [Front\QuizStudentController::class, 'chooseQuestion'])->name('exam.choose_question');
     Route::get('exam/{id}/result', [Front\QuizStudentController::class, 'result'])->name('exam.result');
+    Route::get('exam/{id}/review', [Front\QuizStudentController::class, 'review'])->name('exam.review');
+    Route::get('exam/{id}/submit', [Front\QuizStudentController::class, 'submit'])->name('exam.submit');
 });
 

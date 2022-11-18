@@ -16,12 +16,17 @@
                 <div class="card-text">
                     <div id="tg">
                         <div id="time-header">Kết quả bài làm</div>
+                        <div id="score-quiz" class="fw-bold text-danger">{{ $exam->score }}</div>
+                        <div id="sub-score-quiz" class="fw-bold text-secondary">Số câu đúng: {{ $exam->number_correct.'/'.$exam->total }}</div>
                         <div class="container-fluid px-5" id="list-answer">
                             @foreach($id_questions as $key => $value)
-                                <div class="btn btn-sm btn-answer {{ $value->choose == $value->correct ? 'btn-true' : 'btn-false' }}">
+                                <div class="btn btn-sm btn-answer {{ $value->choose == $value->correct ? 'btn-true' : 'btn-false' }}" onclick="goToQuestion({{ ceil(($key+1) / $questions->perPage()) }})">
                                     {{ $key + 1 }}
                                 </div>
                             @endforeach					
+                        </div>
+                        <div class="d-flex justify-content-center mb-3">
+                            <a href="{{ route('student.quiz.index', ['course_id' => $course->id, 'id' => $quiz->id]) }}" class="btn btn-sm btn-quiz">Quay lại</a>
                         </div>
                     </div>
                 </div>
@@ -37,6 +42,11 @@
                             <div class="col-12 question-text">
                                 <span class="fw-bold text-main">Câu {{ ($questions->currentPage() - 1) * $questions->perPage() +  $key + 1 }}: </span>&nbsp;{!! $question->question !!}
                             </div>
+                            @if (!empty($question->image))
+                                <div class="question-image">
+                                    <img src="{{ asset('backend/assets/img/question/'.$question->image) }}" alt="image">
+                                </div>
+                            @endif
                             <div class="col-12 question-text {{ $question->correct_answer == 1 ? 'correct-answer' : '' }}">
                                 <label><input type="radio" name="question-{{ $question->id }}" value="1" {{ $question->choose == 1 ? 'checked' : '' }} style="vertical-align: middle" disabled>&nbsp;{!! $question->answer_a !!}</label>
                             </div>
@@ -72,4 +82,13 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/exam.css') }}">
+@endsection
+
+@section('script')
+    <script>
+        function goToQuestion(number){
+            if(number == {{ $questions->currentPage() }}) return;
+            window.location.href = window.location.origin + window.location.pathname+'?page='+number;
+        }
+    </script>
 @endsection

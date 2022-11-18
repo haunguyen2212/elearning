@@ -27,6 +27,9 @@
                                 </div>
                             @endforeach						
                         </div>
+                        <div class="d-flex justify-content-center mb-3">
+                            <a href="{{ route('student.exam.review', ['id' => $exam->id]) }}" class="btn btn-sm btn-quiz">Nộp bài</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -41,6 +44,11 @@
                             <div class="col-12 question-text">
                                 <span class="fw-bold text-danger">Câu {{ ($questions->currentPage() - 1) * $questions->perPage() +  $key + 1 }}: </span>&nbsp;{!! $question->question !!}
                             </div>
+                            @if (!empty($question->image))
+                                <div class="question-image">
+                                    <img src="{{ asset('backend/assets/img/question/'.$question->image) }}" alt="image">
+                                </div>
+                            @endif
                             <div class="col-12 question-text">
                                 <label><input type="radio" name="question-{{ $question->id }}" value="1" {{ $question->choose == 1 ? 'checked' : '' }} style="vertical-align: middle">&nbsp;{!! $question->answer_a !!}</label>
                             </div>
@@ -67,6 +75,7 @@
             </div>
         </div>
     </div>
+
 @endsection
 
 @section('style')
@@ -80,6 +89,29 @@
         if(number == {{ $questions->currentPage() }}) return;
         window.location.href = window.location.origin + window.location.pathname+'?page='+number;
     }
+
+    function countDown(number){
+        number--;
+        var hour = Math.floor(number/3600);
+        var minute = Math.floor((number/60)%60);
+        var second = Math.floor(number%60);
+        if (hour<10) hour = '0'+hour;
+        if (minute<10) minute = '0'+minute;
+        if (second<10) second = '0'+second;
+        
+        $('#count-down').html(hour+":"+minute+":"+second);
+        myVar = setTimeout("countDown("+number+")",1000);
+        if (number<1) {
+            clearTimeout(myVar);
+            checkResult();
+        }
+
+    }
+
+    function checkResult(){
+        window.location.href = '{{ route('student.exam.submit', ['id' => $exam->id]) }}';
+    }
+
     countDown({{ $diff }});
 </script>
 <script src="{{ asset('frontend/assets/js/quiz/take_quiz.js') }}"></script>
