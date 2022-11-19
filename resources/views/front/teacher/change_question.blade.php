@@ -4,7 +4,7 @@
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('course.view.teacher', $course->id) }}">{{ $course->name }}</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('teacher.quiz.index',[$course->id, $quiz->id]) }}">Thi trắc nghiệm</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('teacher.quiz.index',[$course->id, $quiz->id]) }}">{{ $quiz->name }}</a></li>
     <li class="breadcrumb-item active">Chọn câu hỏi</li>
 @endsection
 

@@ -26,7 +26,7 @@ class StoreQuizRequest extends FormRequest
         return [
             'name' => 'required|max:200',
             'duration' => 'required|integer|min:0',
-            'start_time' => 'required|date_format:d-m-Y H:i|after_or_equal:now',
+            'start_time' => 'required|date_format:d-m-Y H:i',
             'end_time' => 'required|date_format:d-m-Y H:i|after:start_time',
             'password' => 'required|min:8',
             'maximum' => 'required|min:1|integer',
@@ -43,7 +43,6 @@ class StoreQuizRequest extends FormRequest
             'duration.min' => '<i class="bi bi-exclamation-circle"></i> Thời gian phải lớn hơn 0',
             'start_time.required' => '<i class="bi bi-exclamation-circle"></i> Chưa nhập thời gian mở đề',
             'start_time.date_format' => '<i class="bi bi-exclamation-circle"></i> Định dạng thời gian không hợp lệ',
-            'start_time.after_or_equal' => '<i class="bi bi-exclamation-circle"></i> Thời gian mở đề phải sau thời gian hiện tại',
             'end_time.required' => '<i class="bi bi-exclamation-circle"></i> Chưa nhập thời gian đóng đề',
             'end_time.date_format' => '<i class="bi bi-exclamation-circle"></i> Định dạng thời gian không hợp lệ',
             'end_time.after' => '<i class="bi bi-exclamation-circle"></i> Thời gian đóng đề phải sau thời gian mở đề',

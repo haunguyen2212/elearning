@@ -104,5 +104,13 @@ class QuizRepository implements QuizRepositoryInterface{
             ->get();
     }
 
+    public function getScoreOfStudent($id, $student_id)
+    {
+        return $this->quiz->leftJoin('take_quiz', 'quiz_id', 'quizzes.id')
+            ->where('student_id', $student_id)
+            ->where('quiz_id', $id)
+            ->select('take_quiz.*')
+            ->get();
+    }
 
 }

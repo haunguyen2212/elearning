@@ -54,6 +54,8 @@ Route::group(['prefix' => 'teacher', 'middleware' => 'isTeacher'], function(){
         Route::patch('quiz/{id}/edit', [Front\QuizTeacherController::class, 'update'])->name('update');
         Route::get('course-detail/{course_id}/quiz/{id}/change-question', [Front\QuizTeacherController::class, 'editQuestion'])->name('edit.question');
         Route::post('course-detail/{course_id}/quiz/{id}/save-question', [Front\QuizTeacherController::class, 'saveQuestion'])->name('save.question');
+        Route::get('course-detail/{course_id}/quiz/{id}/score', [Front\QuizTeacherController::class, 'viewScore'])->name('score');
+        Route::get('course-detail/{course_id}/quiz/{id}/score/export', [Front\QuizTeacherController::class, 'exportScore'])->name('score.export');
     });
 
     Route::group(['as' => 'teacher.question.'], function(){

@@ -4,7 +4,7 @@
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('course.view.teacher', $course->id) }}">{{ $course->name }}</a></li>
-    <li class="breadcrumb-item active">Thi trắc nghiệm</li>
+    <li class="breadcrumb-item active">{{ $quiz->name }}</li>
 @endsection
 
 @section('style')
@@ -43,8 +43,9 @@
                             </div>
                          </div>
                          <div class="bd-highlight">
-                            <div class="text-main mb-0">
-                               <a href="{{ route('teacher.quiz.edit.question', [$course->id, $quiz->id]) }}" class="btn-slide02"><i class="bi bi-gear"></i>&nbsp; Thay đổi câu hỏi</a> 
+                            <div class="text-main mb-0 d-flex">
+                                <a href="{{ route('teacher.quiz.score', [$course->id, $quiz->id]) }}" class="btn-slide02 me-2"><i class="bi bi-eye"></i>&nbsp; Kết quả thi</a> 
+                               <a href="{{ route('teacher.quiz.edit.question', [$course->id, $quiz->id]) }}" class="btn-slide01"><i class="bi bi-gear"></i>&nbsp; Đổi câu hỏi</a> 
                             </div>
                          </div>
                     </div>

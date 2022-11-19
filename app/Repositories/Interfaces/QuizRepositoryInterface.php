@@ -15,4 +15,5 @@ interface QuizRepositoryInterface{
     public function getAllQuestion($id);
     public function countQuestion($id);
     public function createQuizForStudent($id);
+    public function getScoreOfStudent($id, $student_id);
 }

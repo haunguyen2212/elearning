@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Exports\ScoreExamExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreQuizRequest;
 use App\Http\Requests\UpdateQuizRequest;
@@ -13,6 +14,8 @@ use App\Repositories\Interfaces\TopicRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Repositories\Interfaces\QuizRepositoryInterface;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Str;
 
 class QuizTeacherController extends Controller
 {
@@ -38,7 +41,20 @@ class QuizTeacherController extends Controller
         $data['course'] = $this->course->getFullById($course_id);
         $data['quiz'] = $this->quiz->getById($id);
         $data['questions'] = $this->quiz->getAllQuestion($id);
+        $data['listStudent'] = $this->course->getStudentOfCourse($course_id);
         return view('front.teacher.quiz', $data);
+    }
+
+    public function viewScore($course_id, $id){
+        $data['course'] = $this->course->getFullById($course_id);
+        $data['quiz'] = $this->quiz->getById($id);
+        $data['questions'] = $this->quiz->getAllQuestion($id);
+        $data['listStudent'] = $this->course->getStudentOfCourse($course_id);
+        $data['scores'] = [];
+        foreach($data['listStudent'] as $student){
+            $data['scores'][$student->id] = $this->quiz->getScoreOfStudent($id, $student->id);
+        }
+        return view('front.teacher.score_quiz', $data);
     }
 
     public function store($topic_id, StoreQuizRequest $request){
@@ -164,5 +180,29 @@ class QuizTeacherController extends Controller
             session()->flash('message', __('message.update_error', ['name' => 'câu hỏi của bài thi']));
             return response()->json(['status' => 0]);
         }
+    }
+
+    public function exportScore($course_id, $id){
+        $quiz = $this->quiz->getById($id);
+        $listStudent = $this->course->getStudentOfCourse($course_id);
+        $score = [];
+        foreach($listStudent as $student){
+            $score[$student->id] = $this->quiz->getScoreOfStudent($id, $student->id);
+        }
+        $data[] = ['Mã số', 'Họ và tên', 'Thời gian bắt đầu', 'Thời gian nộp bài', 'Số câu đúng', 'Tổng số câu', 'Điểm'];
+        foreach($listStudent as $student){
+            $start_time = $submit_time = $number_correct = $total = $mark = ''; 
+            foreach($score[$student->id] as $value){
+                $start_time .= date('d/m/Y H:i:s', strtotime($value->start_time)).(($score[$student->id]->last() == $value) ? '' : "\r\n");
+                $submit_time .= date('d/m/Y H:i:s', strtotime($value->submit_time)).(($score[$student->id]->last() == $value) ? '' : "\r\n");
+                $number_correct .= $value->number_correct.(($score[$student->id]->last() == $value) ? '' : "\r\n");
+                $total .= $value->total.(($score[$student->id]->last() == $value) ? '' : "\r\n");
+                $mark .= $value->score.(($score[$student->id]->last() == $value) ? '' : "\r\n");
+            }
+            $data[] = [
+                $student->username, $student->name, $start_time, $submit_time, $number_correct, $total, $mark
+            ];
+        }
+        return Excel::download(new ScoreExamExport($data), 'ket-qua-thi-'. Str::slug($quiz->name) .'.xlsx');
     }
 }
