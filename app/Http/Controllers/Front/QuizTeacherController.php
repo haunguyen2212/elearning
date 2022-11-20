@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreQuizRequest;
 use App\Http\Requests\UpdateQuizRequest;
 use App\Libraries\MyCourse;
+use App\Libraries\TeacherPolicy;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
 use App\Repositories\Interfaces\QuestionRepositoryInterface;
 use App\Repositories\Interfaces\QuizDetailRepositoryInterface;
@@ -19,7 +20,7 @@ use Illuminate\Support\Str;
 
 class QuizTeacherController extends Controller
 {
-    private $quiz, $topic, $course, $myCourse, $question, $quizDetail;
+    private $quiz, $topic, $course, $myCourse, $question, $quizDetail, $policy;
 
     public function __construct(
         QuizRepositoryInterface $quizRepository,
@@ -35,11 +36,14 @@ class QuizTeacherController extends Controller
         $this->question = $questionRepository;
         $this->quizDetail = $quizDetailRepository;
         $this->myCourse = new MyCourse();
+        $this->policy = new TeacherPolicy();
     }
 
     public function index($course_id, $id){
         $data['course'] = $this->course->getFullById($course_id);
         $data['quiz'] = $this->quiz->getById($id);
+        $this->checkIssetQuiz($course_id, $data['quiz']);
+        $this->policy->quiz($id);
         $data['questions'] = $this->quiz->getAllQuestion($id);
         $data['listStudent'] = $this->course->getStudentOfCourse($course_id);
         return view('front.teacher.quiz', $data);
@@ -48,6 +52,8 @@ class QuizTeacherController extends Controller
     public function viewScore($course_id, $id){
         $data['course'] = $this->course->getFullById($course_id);
         $data['quiz'] = $this->quiz->getById($id);
+        $this->checkIssetQuiz($course_id, $data['quiz']);
+        $this->policy->quiz($id);
         $data['questions'] = $this->quiz->getAllQuestion($id);
         $data['listStudent'] = $this->course->getStudentOfCourse($course_id);
         $data['scores'] = [];
@@ -58,6 +64,7 @@ class QuizTeacherController extends Controller
     }
 
     public function store($topic_id, StoreQuizRequest $request){
+        $this->policy->topic($topic_id);
         DB::beginTransaction();
         try{
             $course = $this->topic->getCourse($topic_id);
@@ -84,6 +91,7 @@ class QuizTeacherController extends Controller
     }
 
     public function hide($id){
+        $this->policy->quiz($id);
         DB::beginTransaction();
         try{
             $this->quiz->hide($id);
@@ -97,6 +105,7 @@ class QuizTeacherController extends Controller
     }
 
     public function show($id){
+        $this->policy->quiz($id);
         DB::beginTransaction();
         try{
             $this->quiz->show($id);
@@ -110,6 +119,7 @@ class QuizTeacherController extends Controller
     }
 
     public function edit($id){
+        $this->policy->quiz($id);
         $data = $this->quiz->getById($id);
         if(empty($data)){
             return response()->json(['status' => 0]);
@@ -118,6 +128,7 @@ class QuizTeacherController extends Controller
     }
 
     public function update($id, UpdateQuizRequest $request){
+        $this->policy->quiz($id);
         $collection = $request->except(['_token', '_method']);
         DB::beginTransaction();
         try{
@@ -132,6 +143,7 @@ class QuizTeacherController extends Controller
     }
 
     public function delete($id){
+        $this->policy->quiz($id);
         DB::beginTransaction();
         try{
             $this->quiz->delete($id);
@@ -147,6 +159,8 @@ class QuizTeacherController extends Controller
     public function editQuestion($course_id, $id){
         $data['course'] = $this->course->getFullById($course_id);
         $data['quiz'] = $this->quiz->getById($id);
+        $this->checkIssetQuiz($course_id, $data['quiz']);
+        $this->policy->quiz($id);
         $question_details = $this->quiz->getAllQuestion($id);
         $data['question_details'] = [];
         foreach($question_details as $question){
@@ -158,6 +172,8 @@ class QuizTeacherController extends Controller
 
     public function saveQuestion($course_id, $id, Request $request){
         $quiz = $this->quiz->getById($id);
+        $this->checkIssetQuiz($course_id, $quiz);
+        $this->policy->quiz($id);
         $ids = $request->ids;
         DB::beginTransaction();
         try{
@@ -184,6 +200,8 @@ class QuizTeacherController extends Controller
 
     public function exportScore($course_id, $id){
         $quiz = $this->quiz->getById($id);
+        $this->checkIssetQuiz($course_id, $quiz);
+        $this->policy->quiz($id);
         $listStudent = $this->course->getStudentOfCourse($course_id);
         $score = [];
         foreach($listStudent as $student){
@@ -204,5 +222,18 @@ class QuizTeacherController extends Controller
             ];
         }
         return Excel::download(new ScoreExamExport($data), 'ket-qua-thi-'. Str::slug($quiz->name) .'.xlsx');
+    }
+
+    public function checkIssetQuiz($course_id, $quiz){
+        if(empty($quiz)){
+            abort(404);
+        }
+        else{
+            $topic = $this->topic->getById($quiz->topic_id);
+            if($topic->course_id != $course_id){
+                abort(404);
+            }
+        }
+        return true;
     }
 }

@@ -6,18 +6,20 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TeacherRegistrationRequest;
 use App\Http\Requests\TeacherUpdateRegistrationRequest;
 use App\Libraries\MyCourse;
+use App\Libraries\TeacherPolicy;
 use App\Repositories\Interfaces\RoomRegistrationRepositoryInterface;
 use Illuminate\Http\Request;
 
 class RoomRegistrationController extends Controller
 {
-    private $roomRegistration;
+    private $roomRegistration, $policy;
 
     public function __construct(
         RoomRegistrationRepositoryInterface $roomRegistrationRepository
     )
     {
         $this->roomRegistration = $roomRegistrationRepository;
+        $this->policy = new TeacherPolicy();
     }
 
      public function create(Request $request){
@@ -49,6 +51,7 @@ class RoomRegistrationController extends Controller
      }
 
      public function edit($id){
+        $this->policy->roomRegistration($id, auth()->guard('teacher')->id());
         $data = $this->roomRegistration->getById($id);
         if(!empty($data)){
             return response()->json(['data' => $data, 'status' => 1]);
@@ -59,6 +62,7 @@ class RoomRegistrationController extends Controller
      }
 
      public function update(TeacherUpdateRegistrationRequest $request, $id){
+        $this->policy->roomRegistration($id, auth()->guard('teacher')->id());
         $data = $this->roomRegistration->getById($id);
         if(!empty($data)){
             $collection = $request->except(['_token', '_method']);
@@ -76,6 +80,7 @@ class RoomRegistrationController extends Controller
      }
 
      public function destroy($id){
+        $this->policy->roomRegistration($id, auth()->guard('teacher')->id());
         $delete = $this->roomRegistration->delete($id);
         if($delete){
             return response()->json(['status' => 200]);

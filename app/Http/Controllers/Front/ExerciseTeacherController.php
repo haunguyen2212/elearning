@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreExerciseRequest;
 use App\Http\Requests\UpdateExerciseRequest;
 use App\Libraries\MyCourse;
+use App\Libraries\TeacherPolicy;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
 use App\Repositories\Interfaces\ExerciseDocumentRepositoryInterface;
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\DB;
 
 class ExerciseTeacherController extends Controller
 {
-    private $exercise, $course, $myCourse, $exerciseDocument, $topic, $submitExercise, $exerciseScore;
+    private $exercise, $course, $myCourse, $exerciseDocument, $topic, $submitExercise, $exerciseScore, $policy;
 
     public function __construct(
         ExerciseRepositoryInterface $exerciseRepository,
@@ -35,11 +36,14 @@ class ExerciseTeacherController extends Controller
         $this->submitExercise = $submitExerciseRepository;
         $this->exerciseScore = $exerciseScoreRepository;
         $this->myCourse = new MyCourse();
+        $this->policy = new TeacherPolicy();
     }
 
     public function index($course_id, $id){
         $data['course'] = $this->course->getFullById($course_id);
         $data['exercise'] = $this->exercise->getById($id);
+        $this->checkIssetExercise($course_id, $data['exercise']);
+        $this->policy->exercise($id);
         $data['exerciseDocuments'] = $this->exerciseDocument->getAll($id);
         $data['myTeacherCourses'] = $this->myCourse->getCourseOfTeacher();
         $data['listStudent'] = $this->course->getStudentOfCourse($course_id);
@@ -53,6 +57,7 @@ class ExerciseTeacherController extends Controller
     }
 
     public function store($topic_id, StoreExerciseRequest $request){
+        $this->policy->topic($topic_id);
         DB::beginTransaction();
         try{
             $collection = [
@@ -74,7 +79,10 @@ class ExerciseTeacherController extends Controller
     }
 
     public function upload($course_id, $id, Request $request){
+        $exercise = $this->exercise->getById($id);
         $course = $this->course->getFullById($course_id);
+        $this->checkIssetExercise($course_id, $exercise);
+        $this->policy->exercise($id);
         $files = $request->file('link');
         $err = [];
         DB::beginTransaction();
@@ -135,6 +143,7 @@ class ExerciseTeacherController extends Controller
     }
 
     public function hide($id){
+        $this->policy->exercise($id);
         DB::beginTransaction();
         try{
             $this->exercise->hide($id);
@@ -148,6 +157,7 @@ class ExerciseTeacherController extends Controller
     }
 
     public function show($id){
+        $this->policy->exercise($id);
         DB::beginTransaction();
         try{
             $this->exercise->show($id);
@@ -161,6 +171,7 @@ class ExerciseTeacherController extends Controller
     }
 
     public function edit($id){
+        $this->policy->exercise($id);
         $data = $this->exercise->getById($id);
         if(empty($data)){
             return response()->json(['status' => 0]);
@@ -169,6 +180,7 @@ class ExerciseTeacherController extends Controller
     }
 
     public function update($id, UpdateExerciseRequest $request){
+        $this->policy->exercise($id);
         DB::beginTransaction();
         try{
             $collection = $request->except(['_token', '_method']);
@@ -183,6 +195,9 @@ class ExerciseTeacherController extends Controller
     }
 
     public function delete($course_id, $id){
+        $exercise = $this->exercise->getById($id);
+        $this->checkIssetExercise($course_id, $exercise);
+        $this->policy->exercise($id);
         DB::beginTransaction();
         try{
             $course = $this->course->getFullById($course_id);
@@ -204,6 +219,7 @@ class ExerciseTeacherController extends Controller
     }
 
     public function updateScore($exercise_id, $student_id, Request $request){
+        $this->policy->exercise($exercise_id);
         if(!isset($request->score) || $request->score < 0 || $request->score > 10){
             return response()->json(['status' => 0]);
         }
@@ -228,5 +244,18 @@ class ExerciseTeacherController extends Controller
             DB::rollBack();
             return response()->json(['status' => 0]);
         }
+    }
+
+    public function checkIssetExercise($course_id, $exercise){
+        if(empty($exercise)){
+            abort(404);
+        }
+        else{
+            $topic = $this->topic->getById($exercise->topic_id);
+            if($topic->course_id != $course_id){
+                abort(404);
+            }
+        }
+        return true;
     }
 }
