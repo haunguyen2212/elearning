@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-    <div class="card">
+    <div class="card main-card">
         <div class="card-body px-4">
             <div class="card-title mb-0"><i class="bi bi-info-circle-fill"></i> Các thông báo</div>
             <div class="card-content">

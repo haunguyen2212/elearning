@@ -35,5 +35,6 @@ Route::group(['middleware' => 'isStudent', 'as' => 'student.'], function(){
     Route::get('exam/{id}/result', [Front\QuizStudentController::class, 'result'])->name('exam.result');
     Route::get('exam/{id}/review', [Front\QuizStudentController::class, 'review'])->name('exam.review');
     Route::get('exam/{id}/submit', [Front\QuizStudentController::class, 'submit'])->name('exam.submit');
+    Route::get('score', [Front\ScoreStudentController::class, 'index'])->name('score.index');
 });
 

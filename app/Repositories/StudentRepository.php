@@ -129,4 +129,28 @@ class StudentRepository implements StudentRepositoryInterface{
             'email' => $collection['email'],
         ]);
     }
+
+    public function getScoreExerciseOfCurrent($student_id, $school_year)
+    {
+        return $this->student->join('exercise_score', 'exercise_score.student_id', 'students.id')
+            ->join('exercises', 'exercise_score.exercise_id', 'exercises.id')
+            ->join('topics', 'exercises.topic_id', 'topics.id')
+            ->join('courses', 'topics.course_id', 'courses.id')
+            ->where('courses.school_year_id', $school_year)
+            ->where('students.id', $student_id)
+            ->select(DB::raw('courses.id as course_id, courses.name as course_name, exercises.id as exercise_id, exercises.name as exercise_name'), 'score')
+            ->get();
+    }
+
+    public function getScoreQuizOfCurrent($student_id, $school_year)
+    {
+        return $this->student->join('take_quiz', 'take_quiz.student_id', 'students.id')
+            ->join('quizzes', 'take_quiz.quiz_id', 'quizzes.id')
+            ->join('topics', 'quizzes.topic_id', 'topics.id')
+            ->join('courses', 'topics.course_id', 'courses.id')
+            ->where('courses.school_year_id', $school_year)
+            ->where('students.id', $student_id)
+            ->select(DB::raw('courses.id as course_id, courses.name as course_name, quizzes.id as quiz_id, quizzes.name as quiz_name'), 'score')
+            ->get();
+    }
 }

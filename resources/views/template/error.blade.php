@@ -39,7 +39,7 @@
 
                   @if (auth()->guard('student')->check())
                     <li class="nav-item">
-                      <a class="nav-link" href="#"><span>Điểm số</span></a>
+                      <a class="nav-link" href="{{ route('student.score.index') }}"><span>Điểm số</span></a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link" href="#"><span>Thông báo</span></a>
