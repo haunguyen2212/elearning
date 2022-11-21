@@ -13,6 +13,8 @@ use App\Libraries\TeacherPolicy;
 use App\Repositories\Interfaces\CourseInvolvementRepositoryInterface;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
 use App\Repositories\Interfaces\ExerciseRepositoryInterface;
+use App\Repositories\Interfaces\NotificationDetailRepositoryInterface;
+use App\Repositories\Interfaces\NotificationRepositoryInterface;
 use App\Repositories\Interfaces\QuizRepositoryInterface;
 use App\Repositories\Interfaces\StudentRepositoryInterface;
 use App\Repositories\Interfaces\TopicDocumentRepositoryInterface;
@@ -24,6 +26,7 @@ class CourseTeacherController extends Controller
 {
 
     private $myCourse, $course, $topic, $topicDocument, $student, $courseInvolvement, $policy, $exercise, $quiz;
+    private $notification, $notificationDetail;
 
     public function __construct(
         CourseRepositoryInterface $courseRepository,
@@ -32,7 +35,9 @@ class CourseTeacherController extends Controller
         StudentRepositoryInterface $studentRepository,
         CourseInvolvementRepositoryInterface $courseInvolvementRepository,
         ExerciseRepositoryInterface $exerciseRepository,
-        QuizRepositoryInterface $quizRepository
+        QuizRepositoryInterface $quizRepository,
+        NotificationRepositoryInterface $notificationRepository,
+        NotificationDetailRepositoryInterface $notificationDetailRepository
     )
     {
         $this->course = $courseRepository;
@@ -42,6 +47,8 @@ class CourseTeacherController extends Controller
         $this->courseInvolvement = $courseInvolvementRepository;
         $this->exercise = $exerciseRepository;
         $this->quiz = $quizRepository;
+        $this->notification = $notificationRepository;
+        $this->notificationDetail = $notificationDetailRepository;
         $this->myCourse = new MyCourse();
         $this->policy = new TeacherPolicy();
     }
@@ -120,12 +127,27 @@ class CourseTeacherController extends Controller
     }
 
     public function storeTopic($id, StoreTopicRequest $request){
+        $course = $this->course->getFullById($id);
+        $listStudent = $this->course->getStudentOfCourse($id);
         $collection = $request->except(['_token']);
         $collection['course_id'] = $id;
         DB::beginTransaction();
         try{
             $this->policy->course($id);
             $this->topic->create($collection);
+            $dataNotification = [
+                'content' => __('notification.create_topic', ['name' => $course->name]),
+                'link' => route('course.view.student', ['id' => $id]),
+                'active' => 1,
+            ];
+            $notification = $this->notification->create($dataNotification);
+            foreach($listStudent as $student){
+                $collectionDetail = [
+                    'student_id' => $student->id,
+                    'notification_id' => $notification->id,
+                ];
+                $this->notificationDetail->create($collectionDetail);
+            }
             DB::commit();
             return response()->json(['data' => 1]);
         }
@@ -346,8 +368,23 @@ class CourseTeacherController extends Controller
         DB::beginTransaction();
         try{
             $this->policy->course($id);
+            $course = $this->course->getFullById($id);
+            $listStudent = $this->course->getStudentOfCourse($id);
             $collection = $request->except(['_token', '_method']);
             $this->course->updateNotice($id, $collection);
+            $dataNotification = [
+                'content' => __('notification.update_notice', ['name' => $course->name]),
+                'link' => route('course.view.student', ['id' => $id]),
+                'active' => 1,
+            ];
+            $notification = $this->notification->create($dataNotification);
+            foreach($listStudent as $student){
+                $collectionDetail = [
+                    'student_id' => $student->id,
+                    'notification_id' => $notification->id,
+                ];
+                $this->notificationDetail->create($collectionDetail);
+            }
             DB::commit();
             return response()->json(['status' => 1]);
         }

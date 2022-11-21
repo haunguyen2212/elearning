@@ -9,6 +9,8 @@ use App\Http\Requests\UpdateQuizRequest;
 use App\Libraries\MyCourse;
 use App\Libraries\TeacherPolicy;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
+use App\Repositories\Interfaces\NotificationDetailRepositoryInterface;
+use App\Repositories\Interfaces\NotificationRepositoryInterface;
 use App\Repositories\Interfaces\QuestionRepositoryInterface;
 use App\Repositories\Interfaces\QuizDetailRepositoryInterface;
 use App\Repositories\Interfaces\TopicRepositoryInterface;
@@ -21,13 +23,16 @@ use Illuminate\Support\Str;
 class QuizTeacherController extends Controller
 {
     private $quiz, $topic, $course, $myCourse, $question, $quizDetail, $policy;
+    private $notification, $notificationDetail;
 
     public function __construct(
         QuizRepositoryInterface $quizRepository,
         TopicRepositoryInterface $topicRepository,
         CourseRepositoryInterface $courseRepository,
         QuestionRepositoryInterface $questionRepository,
-        QuizDetailRepositoryInterface $quizDetailRepository
+        QuizDetailRepositoryInterface $quizDetailRepository,
+        NotificationRepositoryInterface $notificationRepository,
+        NotificationDetailRepositoryInterface $notificationDetailRepository
     )
     {
         $this->quiz = $quizRepository;
@@ -35,6 +40,8 @@ class QuizTeacherController extends Controller
         $this->course = $courseRepository;
         $this->question = $questionRepository;
         $this->quizDetail = $quizDetailRepository;
+        $this->notification = $notificationRepository;
+        $this->notificationDetail = $notificationDetailRepository;
         $this->myCourse = new MyCourse();
         $this->policy = new TeacherPolicy();
     }
@@ -68,6 +75,7 @@ class QuizTeacherController extends Controller
         DB::beginTransaction();
         try{
             $course = $this->topic->getCourse($topic_id);
+            $listStudent = $this->course->getStudentOfCourse($course->id);
             $collection = [
                 'topic_id' => $topic_id,
                 'subject_id' => $course->subject_id,
@@ -81,6 +89,21 @@ class QuizTeacherController extends Controller
             ];
             $store = $this->quiz->create($collection);
             $url = route('teacher.quiz.index', ['course_id' => $course->id, 'id' => $store->id]);
+            if($request->is_show){
+                $dataNotification = [
+                    'content' => __('notification.create_quiz', ['name' => $course->name]),
+                    'link' => route('student.quiz.index', ['course_id' => $course->id, 'id' => $store->id]),
+                    'active' => 1,
+                ];
+                $notification = $this->notification->create($dataNotification);
+                foreach($listStudent as $student){
+                    $collectionDetail = [
+                        'notification_id' => $notification->id,
+                        'student_id' => $student->id,
+                    ];
+                    $this->notificationDetail->create($collectionDetail);
+                }
+            }
             DB::commit();
             return response()->json(['data' => $url,'status' => 1]);
         }

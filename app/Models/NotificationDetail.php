@@ -9,7 +9,7 @@ class NotificationDetail extends Model
 {
     use HasFactory;
 
-    protected $table = 'notification_detail';
+    protected $table = 'notification_details';
     protected $primaryKey = 'id';
     protected $fillable = [
         'notification_id',

@@ -12,6 +12,8 @@ use App\Repositories\Interfaces\ExerciseDocumentRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Repositories\Interfaces\ExerciseRepositoryInterface;
 use App\Repositories\Interfaces\ExerciseScoreRepositoryInterface;
+use App\Repositories\Interfaces\NotificationDetailRepositoryInterface;
+use App\Repositories\Interfaces\NotificationRepositoryInterface;
 use App\Repositories\Interfaces\SubmitExerciseRepositoryInterface;
 use App\Repositories\Interfaces\TopicRepositoryInterface;
 use Illuminate\Support\Facades\DB;
@@ -19,6 +21,7 @@ use Illuminate\Support\Facades\DB;
 class ExerciseTeacherController extends Controller
 {
     private $exercise, $course, $myCourse, $exerciseDocument, $topic, $submitExercise, $exerciseScore, $policy;
+    private $notification, $notificationDetail;
 
     public function __construct(
         ExerciseRepositoryInterface $exerciseRepository,
@@ -26,7 +29,9 @@ class ExerciseTeacherController extends Controller
         ExerciseDocumentRepositoryInterface $exerciseDocumentRepository,
         TopicRepositoryInterface $topicRepository,
         SubmitExerciseRepositoryInterface $submitExerciseRepository,
-        ExerciseScoreRepositoryInterface $exerciseScoreRepository
+        ExerciseScoreRepositoryInterface $exerciseScoreRepository,
+        NotificationRepositoryInterface $notificationRepository,
+        NotificationDetailRepositoryInterface $notificationDetailRepository
     )
     {
         $this->exercise = $exerciseRepository;
@@ -35,6 +40,8 @@ class ExerciseTeacherController extends Controller
         $this->topic = $topicRepository;
         $this->submitExercise = $submitExerciseRepository;
         $this->exerciseScore = $exerciseScoreRepository;
+        $this->notification = $notificationRepository;
+        $this->notificationDetail = $notificationDetailRepository;
         $this->myCourse = new MyCourse();
         $this->policy = new TeacherPolicy();
     }
@@ -67,8 +74,22 @@ class ExerciseTeacherController extends Controller
                 'expiration_date' => $request->expiration_date,
             ];
             $course = $this->topic->getCourse($topic_id);
+            $listStudent = $this->course->getStudentOfCourse($course->id);
             $store = $this->exercise->create($collection);
             $url = route('teacher.exercise.index', ['course_id' => $course->id, 'id' => $store->id]);
+            $dataNotification = [
+                'content' => __('notification.create_exercise', ['name' => $course->name]),
+                'link' => route('student.exercise.index',['course_id' => $course->id, 'id' => $store->id]),
+                'active' => 1,
+            ];
+            $notification = $this->notification->create($dataNotification);
+            foreach($listStudent as $student){
+                $collectionDetail = [
+                    'student_id' => $student->id,
+                    'notification_id' => $notification->id,
+                ];
+                $this->notificationDetail->create($collectionDetail);
+            }
             DB::commit();
             return response()->json(['data' => $url,'status' => 1]);
         }
@@ -233,6 +254,21 @@ class ExerciseTeacherController extends Controller
             $count = $this->exerciseScore->getById($exercise_id, $student_id);
             if(empty($count)){  
                 $this->exerciseScore->create($collection);
+                $exercise = $this->exercise->getById($exercise_id);
+                $topic = $this->topic->getById($exercise->topic_id);
+                $course = $this->course->getFullById($topic->course_id);
+                $dataNotification = [
+                    'content' => __('notification.create_score_exercise', ['name' => $exercise->name]),
+                    'link' => route('student.exercise.index', ['course_id' => $course->id, 'id' => $exercise_id]),
+                    'active' => 1,
+                ];
+                $notification = $this->notification->create($dataNotification);
+                
+                $collectionDetail = [
+                    'notification_id' => $notification->id,
+                    'student_id' => $student_id,
+                ];
+                $this->notificationDetail->create($collectionDetail);
             }
             else{
                 $this->exerciseScore->update($collection);

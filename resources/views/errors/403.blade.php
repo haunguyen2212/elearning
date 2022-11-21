@@ -7,7 +7,7 @@
     <h1 class="">403</h1>
     <h2 class="pt-2">Không thể truy cập đường dẫn này.</h2>
     <div class="d-flex justify-content-center">
-      <a class="btn" href="{{ route('home') }}" style="max-width: 200px">VỀ TRANG CHỦ</a>
+        <a class="btn" href="{{ route('home') }}" style="max-width: 200px">VỀ TRANG CHỦ</a>
     </div>
     
   </section>
