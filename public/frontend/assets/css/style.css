@@ -651,3 +651,115 @@ a{
     background-color: var(--main-color);
     border-color: var(--main-color);
 }
+
+.badge-number {
+    width: 10px;
+    height: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute !important;
+    right: -2px;
+    top: 2px;
+    font-weight: normal;
+    font-size: 11px;
+    padding: 3px 5px;
+    border-radius: 50%;
+    background-color: #f00 !important;
+}
+
+.badge-number:hover{
+    z-index: 0;
+    color: #fff !important;
+}
+
+.badge-number::after{
+    border-bottom: none !important;
+}
+
+.nav-icon {
+    font-size: 20px !important;
+    padding: .5rem 0 !important;
+    color: #012970;
+}
+
+.notifi-icon{
+    position: relative;
+}
+
+.notifi-icon::after{
+    border-bottom: none !important;
+}
+
+.notifications{
+    min-width: 350px;
+    position: absolute !important;
+    inset: 0px -18px auto auto !important;
+    margin: 0px !important;
+    transform: translate3d(0.1875px, 48px, 0px) !important;
+    box-shadow: 0 5px 30px 0 rgb(82 63 105 / 20%) !important;
+    border: none !important;
+}
+
+.notifications .dropdown-header, .dropdown-menu .dropdown-footer {
+    text-align: center;
+    font-size: 15px;
+    padding: 10px 25px;
+}
+
+.notifications .dropdown-header{
+    color: var(--main-color);
+    font-weight: bold;
+}
+
+.notifications hr{
+    margin: 0 !important;
+    color: #a5c5fe;
+}
+
+.notifications .notification-item{
+    display: flex;
+    align-items: center;
+    padding: 15px 10px;
+    transition: 0.3s;
+}
+
+.notifications .notification-item:hover {
+    background-color: #f6f9ff;
+}
+
+.notifications .notification-item i {
+    margin: 0 20px 0 10px;
+    font-size: 24px;
+}
+
+.notifications .notification-item h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.notifications .notification-item p {
+    font-size: 15px;
+    margin-bottom: 3px;
+    color: black;
+}
+
+.btn:focus{
+    box-shadow: none;
+}
+
+@media (min-width: 768px){
+    .dropdown-menu-arrow::before {
+        content: "";
+        width: 13px;
+        height: 13px;
+        background: #fff;
+        position: absolute;
+        top: -7px;
+        right: 20px;
+        transform: rotate(45deg);
+        border-top: 1px solid #eaedf1;
+        border-left: 1px solid #eaedf1;
+    }
+}

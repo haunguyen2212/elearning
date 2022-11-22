@@ -51,7 +51,6 @@
                   
                 </ul>
                 <ul class="navbar-nav ms-auto dropdown" style="position: relative">
-                  
                         <button class="btn dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                           <img class="rounded-circle" src="
                           @if (auth()->guard('student')->check())
@@ -81,8 +80,83 @@
                           <li><a class="dropdown-item fw-bold text-main py-2" href="{{ route('profile.index') }}"><i class="bi bi-person"></i>&ensp;Tài khoản</a></li>
                           <li><a class="dropdown-item fw-bold text-main py-2" href="{{ route('logout') }}"><i class="bi bi-box-arrow-right"></i>&ensp;Đăng xuất</a></li>
                         </ul>
+                        @if (auth()->guard('student')->check())
+                          <li class="nav-item dropdown" style="margin-right: 15px;">
+                            <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown" aria-expanded="true">
+                              <div class="notifi-icon">
+                                <i class="bi bi-bell"></i>
+                                <span class="badge bg-primary badge-number"> </span>
+                              </div>
+                              
+                            </a><!-- End Notification Icon -->
+                  
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications" data-popper-placement="bottom-end" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate3d(0.1875px, 48px, 0px);">
+                              <li class="dropdown-header">
+                                Bạn có 4 thông báo mới
+                              </li>
+                              <li>
+                                <hr class="dropdown-divider">
+                              </li>
+                  
+                              <li class="notification-item">
+                                <i class="bi bi-exclamation-circle text-warning"></i>
+                                <div>
+                                  <p>Quae dolorem earum veritatis oditseno</p>
+                                  <p>30 min. ago</p>
+                                </div>
+                              </li>
+                  
+                              <li>
+                                <hr class="dropdown-divider">
+                              </li>
+                  
+                              <li class="notification-item">
+                                <i class="bi bi-x-circle text-danger"></i>
+                                <div>
+                                  <p>Quae dolorem earum veritatis oditseno</p>
+                                  <p>1 hr. ago</p>
+                                </div>
+                              </li>
+                  
+                              <li>
+                                <hr class="dropdown-divider">
+                              </li>
+                  
+                              <li class="notification-item">
+                                <i class="bi bi-check-circle text-success"></i>
+                                <div>
+                                  <p>Quae dolorem earum veritatis oditseno</p>
+                                  <p>2 hrs. ago</p>
+                                </div>
+                              </li>
+                  
+                              <li>
+                                <hr class="dropdown-divider">
+                              </li>
+                  
+                              <li class="notification-item">
+                                <i class="bi bi-info-circle text-primary"></i>
+                                <div>
+                                  <p>Quae dolorem earum veritatis oditseno</p>
+                                  <p>4 hrs. ago</p>
+                                </div>
+                              </li>
+                  
+                              <li>
+                                <hr class="dropdown-divider">
+                              </li>
+                              <li class="dropdown-footer">
+                                <a href="#">Xem tất cả thông báo</a>
+                              </li>
+                  
+                            </ul><!-- End Notification Dropdown Items -->
+                  
+                          </li>
+                        @endif
+                        
                 </ul>
               </div>
+              
             </div>
           </nav>
     </header>
