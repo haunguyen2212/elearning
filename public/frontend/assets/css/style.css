@@ -653,18 +653,18 @@ a{
 }
 
 .badge-number {
-    width: 10px;
-    height: 10px;
-    display: flex;
+    width: 15px;
+    height: 15px;
+    display: flex !important;
     justify-content: center;
     align-items: center;
     position: absolute !important;
-    right: -2px;
-    top: 2px;
+    right: -6px;
+    top: -3px;
     font-weight: normal;
-    font-size: 11px;
-    padding: 3px 5px;
-    border-radius: 50%;
+    font-size: 10px;
+    padding: 3px 6px;
+    border-radius: .25rem;
     background-color: #f00 !important;
 }
 
@@ -742,11 +742,19 @@ a{
 .notifications .notification-item p {
     font-size: 15px;
     margin-bottom: 3px;
-    color: black;
+    color: rgb(70, 68, 68);
 }
 
 .btn:focus{
     box-shadow: none;
+}
+
+.hidden{
+    display: none !important;
+}
+
+.table-responsive table tbody tr td {
+    vertical-align: middle;
 }
 
 @media (min-width: 768px){

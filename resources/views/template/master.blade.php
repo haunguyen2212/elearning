@@ -33,7 +33,7 @@
                       <a class="nav-link" href="{{ route('student.score.index') }}"><span>Điểm số</span></a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="#"><span>Thông báo</span></a>
+                      <a class="nav-link" href="{{ route('student.notification.view') }}"><span>Thông báo</span></a>
                     </li>
                   @endif
 
@@ -81,72 +81,59 @@
                   </ul>
 
                   @if (auth()->guard('student')->check())
+                    @php
+                    $num_notification = \App\Models\NotificationDetail::where('student_id', auth()->guard('student')->id())
+                      ->where('watched', 0)
+                      ->count();
+
+                    $notifications = \App\Models\NotificationDetail::join('notifications', 'notification_id', 'notifications.id')
+                      ->where('student_id', auth()->guard('student')->id())
+                      ->select('notifications.*', 'watched')
+                      ->orderBy('watched', 'asc')
+                      ->take(5)
+                      ->get();
+                    @endphp
                           <li class="nav-item dropdown" style="margin-right: 15px;">
                             <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown" aria-expanded="true">
                               <div class="notifi-icon">
                                 <i class="bi bi-bell"></i>
-                                <span class="badge bg-primary badge-number"> </span>
+                                @if ($num_notification > 0)
+                                  <span class="badge bg-primary badge-number">{{ $num_notification < 10 ? $num_notification : '9+' }} </span>
+                                @endif
                               </div>
                               
                             </a><!-- End Notification Icon -->
                   
                             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications" data-popper-placement="bottom-end" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate3d(0.1875px, 48px, 0px);">
                               <li class="dropdown-header">
-                                Bạn có 4 thông báo mới
+                                {{ $num_notification > 0 ? 'Bạn có '.$num_notification.' thông báo mới' : 'Chưa có thông báo mới' }}
                               </li>
                               <li>
                                 <hr class="dropdown-divider">
                               </li>
-                  
-                              <li class="notification-item">
-                                <i class="bi bi-exclamation-circle text-warning"></i>
-                                <div>
-                                  <p>Quae dolorem earum veritatis oditseno</p>
-                                  <p>30 min. ago</p>
-                                </div>
-                              </li>
-                  
-                              <li>
-                                <hr class="dropdown-divider">
-                              </li>
-                  
-                              <li class="notification-item">
-                                <i class="bi bi-x-circle text-danger"></i>
-                                <div>
-                                  <p>Quae dolorem earum veritatis oditseno</p>
-                                  <p>1 hr. ago</p>
-                                </div>
-                              </li>
-                  
-                              <li>
-                                <hr class="dropdown-divider">
-                              </li>
-                  
-                              <li class="notification-item">
-                                <i class="bi bi-check-circle text-success"></i>
-                                <div>
-                                  <p>Quae dolorem earum veritatis oditseno</p>
-                                  <p>2 hrs. ago</p>
-                                </div>
-                              </li>
-                  
-                              <li>
-                                <hr class="dropdown-divider">
-                              </li>
-                  
-                              <li class="notification-item">
-                                <i class="bi bi-info-circle text-primary"></i>
-                                <div>
-                                  <p>Quae dolorem earum veritatis oditseno</p>
-                                  <p>4 hrs. ago</p>
-                                </div>
-                              </li>
-                  
-                              <li>
-                                <hr class="dropdown-divider">
-                              </li>
+
+                              @foreach ($notifications as $notification)
+                                <li class="notification-item" style="{{ $notification->watched == 0 ? 'background: #f6f9ff' : '' }}">
+                                  @if ($notification->watched == 0)
+                                    <i class="bi bi-exclamation-circle text-danger"></i>
+                                  @else
+                                    <i class="bi bi-check-circle text-success"></i>
+                                  @endif
+                                  <a href="{{ $notification->link }}">
+                                    <div>
+                                      <p>{!! $notification->content !!}</p>
+                                      <p>{{  \Carbon\Carbon::parse($notification->time)->diffForHumans() }}</p>
+                                    </div>
+                                  </a>
+                                </li>
+                    
+                                <li>
+                                  <hr class="dropdown-divider">
+                                </li>
+                              @endforeach
+
                               <li class="dropdown-footer">
-                                <a href="#">Xem tất cả thông báo</a>
+                                <a href="{{ route('student.notification.view') }}">Xem tất cả thông báo</a>
                               </li>
                   
                             </ul><!-- End Notification Dropdown Items -->
@@ -193,7 +180,9 @@
     <script src="../function.js"></script>
     <script>
       var _token = $('meta[name="csrf-token"]').attr('content');
+      var url_notifi = '{{ route('student.notification.watch') }}';
     </script>
+    <script src="{{ asset('frontend/assets/js/notification/student.js') }}"></script>
     @yield('script')
 </body>
 </html>

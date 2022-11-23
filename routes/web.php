@@ -36,5 +36,7 @@ Route::group(['middleware' => 'isStudent', 'as' => 'student.'], function(){
     Route::get('exam/{id}/review', [Front\QuizStudentController::class, 'review'])->name('exam.review');
     Route::get('exam/{id}/submit', [Front\QuizStudentController::class, 'submit'])->name('exam.submit');
     Route::get('score', [Front\ScoreStudentController::class, 'index'])->name('score.index');
+    Route::post('watch-notification', [Front\HomeController::class, 'watchNotification'])->name('notification.watch');
+    Route::get('notification/view', [Front\HomeController::class, 'viewNotification'])->name('notification.view');
 });
 
