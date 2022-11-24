@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CheckPasswordQuizRequest;
 use App\Libraries\MyCourse;
+use App\Libraries\StudentPolicy;
 use App\Repositories\Interfaces\CourseRepositoryInterface;
 use App\Repositories\Interfaces\QuizRepositoryInterface;
 use App\Repositories\Interfaces\TakeQuizDetailRepositoryInterface;
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\DB;
 
 class QuizStudentController extends Controller
 {
-    private $quiz, $course, $myCourse, $takeQuiz, $topic, $takeQuizDetail;
+    private $quiz, $course, $myCourse, $takeQuiz, $topic, $takeQuizDetail, $policy;
 
     public function __construct(
         QuizRepositoryInterface $quizRepository,
@@ -32,18 +33,22 @@ class QuizStudentController extends Controller
         $this->topic = $topicRepository;
         $this->takeQuizDetail = $takeQuizDetailRepository;
         $this->myCourse = new MyCourse();
+        $this->policy = new StudentPolicy();
     }
 
     public function index($course_id, $id){
+        $data['quiz'] = $this->quiz->getById($id);
+        $this->checkIssetQuiz($course_id, $data['quiz']);
+        $this->policy->quiz($id);
         $data['course'] = $this->course->getFullById($course_id);
         $data['myStudentCourses'] = $this->myCourse->getCourseOfStudent();
-        $data['quiz'] = $this->quiz->getById($id);
         $data['takesQuiz'] = $this->takeQuiz->getTakeQuiz($id, auth()->guard('student')->id());
         $data['num_take_quiz_remaining'] = $data['quiz']->maximum - $this->takeQuiz->countTakeQuiz($id, auth()->guard('student')->id());
         return view('front.student.quiz', $data);
     }
 
     public function exam($id){
+        $this->policy->exam($id);
         $data['take_quiz'] = $this->takeQuiz->getById($id);
         $now = \Carbon\Carbon::now();
         $end_time = \Carbon\Carbon::parse($data['take_quiz']->end_time);
@@ -124,6 +129,7 @@ class QuizStudentController extends Controller
     }
 
     public function review($id){
+        $this->policy->exam($id);
         $data['exam'] = $this->takeQuiz->getById($id);
         $now = \Carbon\Carbon::now();
         $end_time = \Carbon\Carbon::parse($data['exam']->end_time);
@@ -164,6 +170,7 @@ class QuizStudentController extends Controller
     }
 
     public function result($id){
+        $this->policy->exam($id);
         $data['exam'] = $this->takeQuiz->getById($id);
         $data['quiz'] = $this->quiz->getById($data['exam']->quiz_id);
         $data['topic'] = $this->topic->getById($data['quiz']->topic_id);
@@ -171,5 +178,18 @@ class QuizStudentController extends Controller
         $data['id_questions'] = $this->takeQuiz->getIdQuestionOfTakeQuiz($id);
         $data['questions'] = $this->takeQuiz->getQuestionOfTakeQuiz($id, 5);
         return view('front.student.quiz_result', $data);
+    }
+
+    public function checkIssetQuiz($course_id, $quiz){
+        if(empty($quiz)){
+            abort(404);
+        }
+        else{
+            $topic = $this->topic->getById($quiz->topic_id);
+            if($topic->course_id != $course_id){
+                abort(404);
+            }
+        }
+        return true;
     }
 }
