@@ -24,7 +24,7 @@ class TopicDocumentSeeder extends Seeder
             [
                 'topic_id' => 1,
                 'name' => 'Danh sách học sinh lớp 10A1',
-                'link' => 'Giới thiệu môn học.pdf',
+                'link' => 'Danh sach lop 10A1.pdf',
                 'type' => 1,
             ],
             [

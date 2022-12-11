@@ -13,7 +13,24 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Danh sách đăng ký</h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="bd-highlight">
+                            <h5 class="card-title">Danh sách đăng ký</h5>
+                        </div>
+                        <div class="bd-highlight">
+                            <form class="d-flex align-items-center">
+                                <span class="fw-bold" style="width: 150px">Hiển thị: </span>
+                                <select class="form-select-sm form-select" name="filter" id="filter" onchange="this.form.submit();">
+                                    <option value="all" {{ request('filter') == 'all' ? 'selected' : '' }}>Tất cả</option>
+                                    <option value="non" {{ request('filter') == 'non' ? 'selected' : '' }}>Chưa xếp</option>
+                                    <option value="current" {{ request('filter') == 'current' ? 'selected' : '' }}>Tuần này</option>
+                                    <option value="next" {{ request('filter') == 'next' ? 'selected' : '' }}>Tuần sau</option>
+                                </select>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead>

@@ -31,8 +31,15 @@ class ScheduleController extends Controller
         $this->schedule = new Schedule();
     }
 
-    public function index(){
-        $data['list_registration'] = $this->roomRegistration->getAll(20);
+    public function index(Request $request){
+        if(isset($request->filter)){
+            $data['list_registration'] = $this->roomRegistration->filter($request->filter, 20);
+            $data['list_registration']->appends(['filter' => $request->filter]);
+        }
+        else{
+            $data['list_registration'] = $this->roomRegistration->getAll(20);
+        }
+        
         return view('admin.room_registration.index', $data);
     }
 

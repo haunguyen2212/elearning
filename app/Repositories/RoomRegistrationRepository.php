@@ -206,5 +206,30 @@ class RoomRegistrationRepository implements RoomRegistrationRepositoryInterface{
             ->select('room_registrations.id', 'status', DB::raw('rooms.name as room_name'))
             ->get();
     }
+
+    public function filter($value, $offset)
+    {
+        $query = $this->room_registration->leftJoin('teachers', 'teacher_id', 'teachers.id')
+            ->select('room_registrations.*', DB::raw('teachers.name as teacher_name'));
+
+        switch($value){
+            case 'current':
+                $startOfWeek = Carbon::now()->startOfWeek()->format('Y-m-d H:i:s');
+                $endOfWeek = Carbon::now()->endOfWeek()->format('Y-m-d H:i:s');
+                $query->whereDate('date', '>=', $startOfWeek)->where('date', '<=', $endOfWeek);
+                break;
+            case 'next':
+                $startOfNextWeek = Carbon::now()->addWeek()->startOfWeek()->format('Y-m-d H:i:s');
+                $endOfNextWeek = Carbon::now()->addWeek()->endOfWeek()->format('Y-m-d H:i:s');
+                $query->whereDate('date', '>=', $startOfNextWeek)->where('date', '<=', $endOfNextWeek);
+                break;
+            case 'non':
+                $query->where('status', 0);
+        }
+
+        return $query->orderBy('date', 'desc')
+            ->orderBy('start_time', 'asc')
+            ->paginate($offset);
+    }
     
 }
